@@ -5,14 +5,14 @@ using UnityEngine;
 
 public static class WallGenerator
 {
-    public static void CreateWalls(HashSet<Vector2> floorPos, MapTileVisualizer tileMapVisualizer)
+    public static void CreateWalls(HashSet<Vector2> _floorPos, MapTileVisualizer _tileMapVisualizer)
     {
-        var basicWallPositions = FindWallsInDirections(floorPos,
+        var basicWallPositions = FindWallsInDirections(_floorPos,
             ProceduralGenerationAlgorithm.Direction2D.cardinalDirectionsList);//절차적맵생성 쪽에서 받아오는게 맞는지 확인 필요함..
 
         foreach(var position in basicWallPositions)
         {
-            tileMapVisualizer.PaintSingleBasicWall(position);
+            _tileMapVisualizer.PaintSingleBasicWall(position);
         }
     }
 
