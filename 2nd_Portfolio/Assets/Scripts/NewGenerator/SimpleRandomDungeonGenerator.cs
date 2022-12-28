@@ -7,28 +7,30 @@ using Random = UnityEngine.Random;
 
 public class SimpleRandomDungeonGenerator : AbstractDungeonGenerator
 {
-    [SerializeField] protected SimpleRandomWalkSo randomWalkParameters;
+
+    [SerializeField]
+    protected SimpleRandomWalkSo randomWalkParameters;
 
     protected override void RunProceduralGeneration()
     {
-        HashSet<Vector2> floorPos = RunRandomWalk(randomWalkParameters,startPos);
+        HashSet<Vector2Int> floorPositions = RunRandomWalk(randomWalkParameters, startPosition);
         tileMapVisualizer.Clear();
-        tileMapVisualizer.PaintFloorTiles(floorPos);
-        WallGenerator.CreateWalls(floorPos, tileMapVisualizer);
+        tileMapVisualizer.PaintFloorTiles(floorPositions);
+        WallGenerator.CreateWalls(floorPositions, tileMapVisualizer);
     }
-    protected HashSet<Vector2> RunRandomWalk(SimpleRandomWalkSo _parameters, Vector2 _position)
+
+    protected HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSo _parameters, Vector2Int _position)
     {
-        var currPos = _position;
-        HashSet<Vector2> floorPos = new HashSet<Vector2>();
-        for(int i=0; i< _parameters.iterations; i++)
+        var currentPosition = _position;
+        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+        for (int i = 0; i < _parameters.iterations; i++)
         {
-            var path = ProceduralGenerationAlgorithm.SimpleRandomWalk(currPos, _parameters.walkLength);
-            floorPos.UnionWith(path);
-            if(_parameters.startRandomlyEachIteration)
-            {
-                currPos = floorPos.ElementAt(Random.Range(0,floorPos.Count));
-            }
+            var path = ProceduralGenerationAlgorithm.SimpleRandomWalk(currentPosition, _parameters.walkLength);
+            floorPositions.UnionWith(path);
+            if (_parameters.startRandomlyEachIteration)
+                currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
         }
-        return floorPos;
+        return floorPositions;
     }
+
 }

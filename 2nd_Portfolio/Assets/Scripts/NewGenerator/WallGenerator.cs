@@ -5,29 +5,69 @@ using UnityEngine;
 
 public static class WallGenerator
 {
-    public static void CreateWalls(HashSet<Vector2> _floorPos, MapTileVisualizer _tileMapVisualizer)
+    public static void CreateWalls(HashSet<Vector2Int> _floorPositions, MapTileVisualizer _tileMapVisualizer)
     {
-        var basicWallPositions = FindWallsInDirections(_floorPos,
-            ProceduralGenerationAlgorithm.Direction2D.cardinalDirectionsList);//절차적맵생성 쪽에서 받아오는게 맞는지 확인 필요함..
+        var basicWallPositions = FindWallsInDirections(_floorPositions, Direction2D.cardinalDirectionsList);
+        var cornerWallPositions = FindWallsInDirections(_floorPositions, Direction2D.diagonalDirectionsList);
+        CreateBasicWall(_tileMapVisualizer, basicWallPositions, _floorPositions);
+        CreateCornerWalls(_tileMapVisualizer, cornerWallPositions, _floorPositions);
+    }
 
-        foreach(var position in basicWallPositions)
+    private static void CreateCornerWalls(MapTileVisualizer _tileMapVisualizer,
+        HashSet<Vector2Int> _cornerWallPositions, HashSet<Vector2Int> _floorPositions)
+    {
+        foreach (var position in _cornerWallPositions)
         {
-            _tileMapVisualizer.PaintSingleBasicWall(position);
+            string neighboursBinaryType = "";
+            foreach (var direction in Direction2D.eightDirectionsList)
+            {
+                var neighbourPosition = position + direction;
+                if (_floorPositions.Contains(neighbourPosition))
+                {
+                    neighboursBinaryType += "1";
+                }
+                else
+                {
+                    neighboursBinaryType += "0";
+                }
+            }
+            _tileMapVisualizer.PaintSingleCornerWall(position, neighboursBinaryType);
         }
     }
 
-    private static HashSet<Vector2> FindWallsInDirections(HashSet<Vector2> _floorPos, List<Vector2> _directionsList)
+    private static void CreateBasicWall(MapTileVisualizer _tileMapVisualizer,
+        HashSet<Vector2Int> _basicWallPositions, HashSet<Vector2Int> _floorPositions)
     {
-        HashSet<Vector2> wallPositions = new HashSet<Vector2>();
-        foreach (var position in _floorPos)
+        foreach (var position in _basicWallPositions)
         {
-            foreach(var direction in _directionsList)
+            string neighboursBinaryType = "";
+            foreach (var direction in Direction2D.cardinalDirectionsList)
             {
-                var neighborPos = position + direction;
-                if(_floorPos.Contains(neighborPos)==false)
+                var neighbourPosition = position + direction;
+                if (_floorPositions.Contains(neighbourPosition))
                 {
-                    wallPositions.Add(neighborPos);
+                    neighboursBinaryType += "1";
                 }
+                else
+                {
+                    neighboursBinaryType += "0";
+                }
+            }
+            _tileMapVisualizer.PaintSingleBasicWall(position, neighboursBinaryType);
+        }
+    }
+
+    private static HashSet<Vector2Int> FindWallsInDirections(HashSet<Vector2Int> _floorPositions,
+        List<Vector2Int> _directionList)
+    {
+        HashSet<Vector2Int> wallPositions = new HashSet<Vector2Int>();
+        foreach (var position in _floorPositions)
+        {
+            foreach (var direction in _directionList)
+            {
+                var neighbourPosition = position + direction;
+                if (_floorPositions.Contains(neighbourPosition) == false)
+                    wallPositions.Add(neighbourPosition);
             }
         }
         return wallPositions;

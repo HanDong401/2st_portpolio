@@ -6,89 +6,90 @@ using UnityEngine;
 
 public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
 {
-    [SerializeField]private int corriorLength = 14, corridorCnt = 5;
-    [SerializeField][Range(0.1f,1)]private float roomPercent = 0.8f;
+    [SerializeField] private int corridorLength = 14, corridorCount = 5;
+    [SerializeField, Range(0.1f, 1)] private float roomPercent = 0.8f;
+
     protected override void RunProceduralGeneration()
     {
         CorridorFirstGeneration();
     }
+
     private void CorridorFirstGeneration()
     {
-        HashSet<Vector2> floorPos = new HashSet<Vector2>();
-        HashSet<Vector2> potentialRoomPos = new HashSet<Vector2>();
+        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
 
-        CreateCorridors(floorPos, potentialRoomPos);
+        CreateCorridors(floorPositions, potentialRoomPositions);
 
-        HashSet<Vector2> roomPos = CreateRooms(potentialRoomPos);
+        HashSet<Vector2Int> roomPositions = CreateRooms(potentialRoomPositions);
 
-        List<Vector2> deadEnds = FindAllDeadEnds(floorPos);
-        CreateRoomsAtDeadEnds(deadEnds, roomPos);
+        List<Vector2Int> deadEnds = FindAllDeadEnds(floorPositions);
 
-        floorPos.UnionWith(roomPos);
+        CreateRoomsAtDeadEnd(deadEnds, roomPositions);
 
-        tileMapVisualizer.PaintFloorTiles(floorPos);
-        WallGenerator.CreateWalls(floorPos, tileMapVisualizer);
+        floorPositions.UnionWith(roomPositions);
+
+        tileMapVisualizer.PaintFloorTiles(floorPositions);
+        WallGenerator.CreateWalls(floorPositions, tileMapVisualizer);
+
     }
 
-    private void CreateRoomsAtDeadEnds(List<Vector2> _deadEnds, HashSet<Vector2> _roomFloors)
+    private void CreateRoomsAtDeadEnd(List<Vector2Int> _deadEnds, HashSet<Vector2Int> _roomFloors)
     {
-        foreach(var pos in _deadEnds)
+        foreach (var position in _deadEnds)
         {
-            if(_roomFloors.Contains(pos)==false)
+            if (_roomFloors.Contains(position) == false)
             {
-                var room = RunRandomWalk(randomWalkParameters, pos);
+                var room = RunRandomWalk(randomWalkParameters, position);
                 _roomFloors.UnionWith(room);
             }
         }
     }
 
-    private List<Vector2> FindAllDeadEnds(HashSet<Vector2> _floorPos)
+    private List<Vector2Int> FindAllDeadEnds(HashSet<Vector2Int> _floorPositions)
     {
-        List<Vector2> deadEnds = new List<Vector2>();
-        foreach(var position in _floorPos)
+        List<Vector2Int> deadEnds = new List<Vector2Int>();
+        foreach (var position in _floorPositions)
         {
-            int neighborsCount = 0;
-            foreach(var direction in ProceduralGenerationAlgorithm.Direction2D.cardinalDirectionsList)
+            int neighboursCount = 0;
+            foreach (var direction in Direction2D.cardinalDirectionsList)
             {
-                if(_floorPos.Contains(position+direction))
-                {
-                    neighborsCount++;
-                }
+                if (_floorPositions.Contains(position + direction))
+                    neighboursCount++;
+
             }
-            if(neighborsCount==1)
-            {
+            if (neighboursCount == 1)
                 deadEnds.Add(position);
-            }
         }
         return deadEnds;
     }
 
-    private HashSet<Vector2> CreateRooms(HashSet<Vector2> _potentialRoomPos)
+    private HashSet<Vector2Int> CreateRooms(HashSet<Vector2Int> _potentialRoomPositions)
     {
-        HashSet<Vector2> roomPositions = new HashSet<Vector2>();
-        int roomToCreateCount = Mathf.RoundToInt(_potentialRoomPos.Count*roomPercent);
+        HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
+        int roomToCreateCount = Mathf.RoundToInt(_potentialRoomPositions.Count * roomPercent);
 
-        List<Vector2> roomToCreate = _potentialRoomPos.OrderBy(x => Guid.NewGuid()).Take(roomToCreateCount).ToList();
+        List<Vector2Int> roomsToCreate = _potentialRoomPositions.OrderBy(x => Guid.NewGuid()).Take(roomToCreateCount).ToList();
 
-        foreach(var roomPos in roomToCreate)
+        foreach (var roomPosition in roomsToCreate)
         {
-            var roomFloor = RunRandomWalk(randomWalkParameters, roomPos);
+            var roomFloor = RunRandomWalk(randomWalkParameters, roomPosition);
             roomPositions.UnionWith(roomFloor);
         }
         return roomPositions;
     }
 
-    private void CreateCorridors(HashSet<Vector2> _floorPos, HashSet<Vector2> _potentialRoomPos)
+    private void CreateCorridors(HashSet<Vector2Int> _floorPositions, HashSet<Vector2Int> _potentialRoomPositions)
     {
-        var currentPos = startPos;
-        _potentialRoomPos.Add(currentPos);
-        for (int i = 0; i < corridorCnt; i++)
-        {
-            var corridor = ProceduralGenerationAlgorithm.RandomWalkCorrider(currentPos, corriorLength);
-            currentPos = corridor[corridor.Count-1];
-            _potentialRoomPos.Add(currentPos);
+        var currentPosition = startPosition;
+        _potentialRoomPositions.Add(currentPosition);
 
-            _floorPos.UnionWith(corridor);
+        for (int i = 0; i < corridorCount; i++)
+        {
+            var corridor = ProceduralGenerationAlgorithm.RandomWalkCorridor(currentPosition, corridorLength);
+            currentPosition = corridor[corridor.Count - 1];
+            _potentialRoomPositions.Add(currentPosition);
+            _floorPositions.UnionWith(corridor);
         }
     }
 }
