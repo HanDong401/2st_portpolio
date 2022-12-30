@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class AbstractDungeonGenerator : MonoBehaviour
 {
     [SerializeField] protected MapTileVisualizer tileMapVisualizer = null;
-    [SerializeField] protected Vector2 startPos = Vector2.zero;
+    [SerializeField]
+    protected Vector2Int startPosition = Vector2Int.zero;
 
     public void GenerateDungeon()
     {
