@@ -8,7 +8,7 @@ public class CameraSet : MonoBehaviour
     [SerializeField] float m_FollowSpeed = 0f;
     [SerializeField] private Vector3 m_TargetPos;
 
-    private void Update()
+    private void LateUpdate()
     {
         CameraMove();    
     }

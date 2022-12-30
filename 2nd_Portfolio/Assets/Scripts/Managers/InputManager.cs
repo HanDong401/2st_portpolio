@@ -28,9 +28,9 @@ public class InputManager : MonoBehaviour
     private InputEvent m_OnDashEvent = null;
     private InputEvent m_OnAction1Event = null;
     private InputEvent m_OnAction2Event = null;
-    private InputEvent m_OnInteractionEvent = null;
     private InputEvent m_InputManagerJoinEvent = null;
     private InputEvent m_InputManagerLeftEvent = null;
+    private Interaction m_Interaction = null;
 
     private void Update()
     {
@@ -70,9 +70,9 @@ public class InputManager : MonoBehaviour
         m_OnAction2Event = _callback;
     }
 
-    public void AddOnInteractionEvent(InputEvent _callback)
+    public void AddOnInteractionEvent(Interaction _callback)
     {
-        m_OnInteractionEvent = _callback;
+        m_Interaction = _callback;
     }
 
     public void AddInputManagerJoinEvent(InputEvent _callback)
@@ -128,19 +128,20 @@ public class InputManager : MonoBehaviour
 
     public void OnAction1(InputAction.CallbackContext _callback)
     {
-        //Debug.Log("InputManager OnAction1 실행!");
-        CheckInputAction(_callback, _started: m_OnAction1Event, _canceled: m_OnAction1Event);
+        Debug.Log("InputManager OnAction1 실행!");
+        CheckInputAction(_callback, _performed: m_OnAction1Event);
     }
 
     public void OnAction2(InputAction.CallbackContext _callback)
     {
         Debug.Log("InputManager OnAction2 실행!");
-        CheckInputAction(_callback, _started: m_OnAction2Event, _canceled: m_OnAction2Event);
+        CheckInputAction(_callback, _performed: m_OnAction2Event);
     }
 
     public void OnInteraction(InputAction.CallbackContext _callback)
     {
-        CheckInputAction(_callback, _performed: m_OnInteractionEvent);
+        if (m_Interaction != null)
+            CheckInputAction(_callback, _performed: m_Interaction.InteractionExecute);
     }
 
     public void InputManagerJoin()

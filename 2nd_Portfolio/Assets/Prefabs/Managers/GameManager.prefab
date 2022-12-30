@@ -47,3 +47,4 @@ MonoBehaviour:
   m_Player: {fileID: 0}
   m_InputManager: {fileID: 0}
   m_MapManager: {fileID: 0}
+  m_Inventory: {fileID: 0}

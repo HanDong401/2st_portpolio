@@ -43,6 +43,11 @@ public class PlayerMove : MonoBehaviour
         m_Rigid.velocity = m_MoveDir * (m_MoveSpeed + m_DashSpeed + m_DodgeSpeed) * Time.deltaTime;
     }
 
+    public void SetAnim(Animator _anim)
+    {
+        m_Anim = _anim;
+    }
+
     public bool OnMove(Vector2 _inputDir)
     {
         if (mbIsOnDodge == false)
@@ -69,15 +74,6 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(ReduceDashAccel());
         }
         return mbIsOnMove;
-    }
-
-    public void OnNotMove(bool _isNotMove)
-    {
-        mbIsOnDodge = _isNotMove;
-        if (_isNotMove)
-        {
-               
-        }
     }
 
     public void OnDash()
