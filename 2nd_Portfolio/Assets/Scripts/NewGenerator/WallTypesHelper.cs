@@ -82,7 +82,9 @@ public static class WallTypesHelper
         0b01111000,
         0b00111100,
         0b00111001,
-
+        0b01101001,
+        0b00111000,
+        0b01001101,
     };
     //김준우
 
@@ -93,6 +95,8 @@ public static class WallTypesHelper
         0b00011111,
         0b01011111,
         0b01001110,
+        0b01001110,
+        0b00001110,
 
     };//김준우
     public static HashSet<int> wallDiagonalCornerDownLeft = new HashSet<int>
