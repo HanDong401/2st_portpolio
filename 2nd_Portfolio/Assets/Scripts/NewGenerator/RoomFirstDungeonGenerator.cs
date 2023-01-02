@@ -31,7 +31,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         {
             floor = CreateSimpleRooms(roomsList);
         }
-
+        HashSet<Vector2Int> propsTile = new HashSet<Vector2Int>(floor);
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
@@ -44,6 +44,13 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
 
         tileMapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tileMapVisualizer);
+
+        //소품 타일 배치 하는 위치
+        Debug.Log("소품타일 배치 진입");
+        HashSet<Vector2Int> propsTiles = new HashSet<Vector2Int>();
+        propsTiles = props.SetPropRandomVector2Pos(propsTile);
+        tileMapVisualizer.PaintPropsTile(propsTiles);
+        Debug.Log("모든 공정 완료");
     }
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> _roomsList)
