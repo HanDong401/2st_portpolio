@@ -11,7 +11,7 @@ public class MapTileVisualizer : MonoBehaviour
     [SerializeField] private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
         wallInnerCornerDownLeft, wallInnerCornerDownRight, wallInnerCornerUpLeft, wallInnerCornerUpRight,
         wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft,
-        TeleportTile,RespawnTile;
+        TeleportTile, StartTile, ItemChestTile;
     [SerializeField] private TileBase[] propTiles;
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> _floorPositions)
@@ -28,11 +28,32 @@ public class MapTileVisualizer : MonoBehaviour
     }
     public void PaintPropsTile(IEnumerable<Vector2Int> _positions)//소품 타일 페인트 하는 위치
     {
-        Debug.Log("페인트 프롭스 타일 진입");
+        //Debug.Log("페인트 프롭스 타일 진입");
         foreach (var position in _positions)
         {
             //Debug.Log("페인트 프롭스 타일 포 이치 문 진입");
             PaintSingleTile(propsTileMap, propTiles[Random.Range(0, propTiles.Length)], position);
+        }
+    }
+    public void PaintTeleportTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, TeleportTile, position);
+        }
+    }
+    public void PaintStartTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, StartTile, position);
+        }
+    }
+    public void PaintChestTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, ItemChestTile, position);
         }
     }
     internal void PaintSingleBasicWall(Vector2Int _position, string _binaryType)
