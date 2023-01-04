@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class MapTileVisualizer : MonoBehaviour
 {
-    [SerializeField]
-    private Tilemap floorTilemap, wallTilemap;
-    [SerializeField]
-    private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
+    [SerializeField] private Tilemap floorTilemap, wallTilemap, propsTileMap;
+    [SerializeField] private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
         wallInnerCornerDownLeft, wallInnerCornerDownRight, wallInnerCornerUpLeft, wallInnerCornerUpRight,
-        wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft;
+        wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft,
+        TeleportTile, StartTile, ItemChestTile;
+    [SerializeField] private TileBase[] propTiles;
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> _floorPositions)
     {
@@ -25,7 +26,36 @@ public class MapTileVisualizer : MonoBehaviour
             PaintSingleTile(_tilemap, _tile, position);
         }
     }
-
+    public void PaintPropsTile(IEnumerable<Vector2Int> _positions)//소품 타일 페인트 하는 위치
+    {
+        //Debug.Log("페인트 프롭스 타일 진입");
+        foreach (var position in _positions)
+        {
+            //Debug.Log("페인트 프롭스 타일 포 이치 문 진입");
+            PaintSingleTile(propsTileMap, propTiles[Random.Range(0, propTiles.Length)], position);
+        }
+    }
+    public void PaintTeleportTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, TeleportTile, position);
+        }
+    }
+    public void PaintStartTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, StartTile, position);
+        }
+    }
+    public void PaintChestTile(HashSet<Vector2Int> _positions)
+    {
+        foreach (var position in _positions)
+        {
+            PaintSingleTile(propsTileMap, ItemChestTile, position);
+        }
+    }
     internal void PaintSingleBasicWall(Vector2Int _position, string _binaryType)
     {
         int typeAsInt = Convert.ToInt32(_binaryType, 2);
@@ -50,9 +80,7 @@ public class MapTileVisualizer : MonoBehaviour
         {
             tile = wallFull;
         }
-
-        if (tile != null)
-            PaintSingleTile(wallTilemap, tile, _position);
+        if (tile != null) PaintSingleTile(wallTilemap, tile, _position);
     }
 
     private void PaintSingleTile(Tilemap _tilemap, TileBase _tile, Vector2Int _position)
@@ -65,6 +93,7 @@ public class MapTileVisualizer : MonoBehaviour
     {
         floorTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
+        propsTileMap.ClearAllTiles();
     }
 
     internal void PaintSingleCornerWall(Vector2Int _position, string _binaryType)
@@ -82,12 +111,10 @@ public class MapTileVisualizer : MonoBehaviour
         }
         else if (WallTypesHelper.wallInnerCornerUpLeft.Contains(typeASInt))
         {
-            Debug.Log("aaa");
             tile = wallInnerCornerUpLeft;
         }
         else if (WallTypesHelper.wallInnerCornerUpRight.Contains(typeASInt))
         {
-            Debug.Log("bbb");
             tile = wallInnerCornerUpRight;
         }
         else if (WallTypesHelper.wallDiagonalCornerDownLeft.Contains(typeASInt))
