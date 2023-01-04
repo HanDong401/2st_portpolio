@@ -16,7 +16,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float m_DodgeRange = 0f;
     [SerializeField] private float m_DodgeSpeed;
     private Rigidbody2D m_Rigid = null;
-    private Animator m_Anim = null;
+    [SerializeField] private Animator m_Anim = null;
     private SpriteRenderer m_Sprite = null;
     private Vector2 m_MoveDir;
     private Vector2 m_CurrDir;
@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
     public void OnDodge()
     {
         mbIsOnDodge = true;
-        m_Anim.SetBool("IsOnDodge", mbIsOnDodge);
+        m_Anim.SetTrigger("IsRoll");
         //if (m_MoveDir != Vector2.zero)
         //{
         //    Vector2 prevDir = m_MoveDir;
@@ -117,7 +117,7 @@ public class PlayerMove : MonoBehaviour
         m_MoveDir = m_CurrDir;
         SetFlipX();
         mbIsOnDodge = false;
-        m_Anim.SetBool("IsOnDodge", mbIsOnDodge);
+        m_Anim.ResetTrigger("IsRoll");
         m_DodgeSpeed = 0;
     }
 

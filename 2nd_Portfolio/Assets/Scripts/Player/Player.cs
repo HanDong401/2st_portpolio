@@ -28,9 +28,22 @@ public class Player : Unit
         m_PlayerAction = this.GetComponent<PlayerAction>();
         m_PlayerEffect = this.GetComponent<PlayerEffect>();
         m_PlayerAnimation = this.GetComponent<PlayerAnimation>();
-        m_PlayerMove.SetAnim(m_PlayerAnimation.GetAnim());
+        //m_PlayerMove.SetAnim(m_PlayerAnimation.GetAnim());
+        StartCoroutine(SetInit());
     }
 
+    IEnumerator SetInit()
+    {
+        while(true)
+        {
+            if (m_PlayerAnimation.GetAnim() != null)
+            {
+                m_PlayerMove.SetAnim(m_PlayerAnimation.GetAnim());
+                yield break;
+            }
+            yield return null;
+        }
+    }
     private void Start()
     {
         SetMaxHp(100);

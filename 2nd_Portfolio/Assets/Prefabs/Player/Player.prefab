@@ -168,7 +168,7 @@ Transform:
   m_GameObject: {fileID: 6677950664103612132}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6677950664118763825}
@@ -237,7 +237,7 @@ Animator:
   m_GameObject: {fileID: 6677950664103612132}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7204f6d5e249d8044b6532b47c725d39, type: 2}
+  m_Controller: {fileID: 9100000, guid: ee091fca3017adf45a5a30faf93f26b6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -296,9 +296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be158fcb379c9d74fa73189340b85e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrHp: 100
-  m_MaxHp: 100
-  m_Defense: 10
+  <m_CurrHp>k__BackingField: 0
+  <m_MaxHp>k__BackingField: 0
+  <m_Defense>k__BackingField: 0
+  <m_CurrSp>k__BackingField: 3
+  <m_MaxSp>k__BackingField: 3
   m_Camera: {fileID: 7810536918144829412}
 --- !u!114 &6677950664103612060
 MonoBehaviour:
@@ -384,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 6677950664118763826}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6677950664103612129}
@@ -5216,7 +5218,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6677950664103612129}
   - {fileID: 2069624795449187433}
