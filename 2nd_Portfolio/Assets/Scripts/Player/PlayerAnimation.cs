@@ -1,37 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    enum eAnimType
-    {
-        Sword,
-        Bow,
-        Magic
-    }
-
-    AnimatorController m_CurrAnim = null;
-    [SerializeField] AnimatorController m_BaseAnim = null;
-    [SerializeField] AnimatorController m_SwordAnim = null;
-    [SerializeField] AnimatorController m_BowAnim = null;
-    [SerializeField] AnimatorController m_MagicAnim = null;
+    private Animator m_PlayerAnim = null;
 
     private void Awake()
     {
-        m_CurrAnim = m_BaseAnim;
+        m_PlayerAnim = this.GetComponent<Animator>();
     }
 
-    public void ResetAnim(Animator _anim)
+    public Animator GetAnim()
     {
-        _anim.ResetTrigger("IsOnSword");
-        _anim.ResetTrigger("IsOnBow");
-        _anim.ResetTrigger("IsOnMagic");
+        return m_PlayerAnim;
     }
 
-    public AnimatorController GetAnim()
+    public void ResetAnim()
     {
-        return m_CurrAnim;
+        m_PlayerAnim.ResetTrigger("IsOnSword");
+        m_PlayerAnim.ResetTrigger("IsOnBow");
+        m_PlayerAnim.ResetTrigger("IsOnMagic");
     }
 }

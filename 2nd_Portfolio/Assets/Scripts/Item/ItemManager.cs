@@ -10,6 +10,7 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private ActiveItem[] m_ActiveItem;
     [SerializeField] private PassiveItem[] m_PassiveItem;
     [SerializeField] Chest[] m_Chests = null;
+    [SerializeField] GameObject m_ChestPrefab = null;
     private void Awake()
     {
         m_Items = GetComponentsInChildren<Item>().ToList();
@@ -49,5 +50,11 @@ public class ItemManager : MonoBehaviour
         m_Items[randomIndex].mbIsPop = true;
         m_Items[randomIndex].SetItemActive(true);
         return m_Items[randomIndex];
+    }
+
+    public void PopChest(Vector2 _spawnPoint)
+    {
+        GameObject chest = Instantiate(m_ChestPrefab, this.transform);
+        chest.transform.position = _spawnPoint;
     }
 }

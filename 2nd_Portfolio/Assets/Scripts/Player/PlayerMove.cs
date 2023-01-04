@@ -23,13 +23,13 @@ public class PlayerMove : MonoBehaviour
     private bool mbIsOnMove = false;
     private bool mbIsOnDash = false;
     private bool mbIsOnDodge = false;
+    private bool mbIsFlipX = false;
 
     #endregion
 
     private void Awake()
     {
         m_Rigid = this.GetComponent<Rigidbody2D>();
-        m_Anim = this.GetComponent<Animator>();
         m_Sprite = this.GetComponent<SpriteRenderer>();
     }
 
@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
     public void OnDodge()
     {
         mbIsOnDodge = true;
-        m_Anim.SetTrigger("IsRoll");
+        m_Anim.SetBool("IsOnDodge", mbIsOnDodge);
         //if (m_MoveDir != Vector2.zero)
         //{
         //    Vector2 prevDir = m_MoveDir;
@@ -113,20 +113,31 @@ public class PlayerMove : MonoBehaviour
 
     private void OffDodge()
     {
-        Debug.Log("트리거 리셋");
+        Debug.Log("회피 종료");
         m_MoveDir = m_CurrDir;
         SetFlipX();
         mbIsOnDodge = false;
-        m_Anim.ResetTrigger("IsRoll");
+        m_Anim.SetBool("IsOnDodge", mbIsOnDodge);
         m_DodgeSpeed = 0;
+    }
+
+    public bool GetIsDodge()
+    {
+        return mbIsOnDodge;
     }
 
     void SetFlipX()
     {
-        if (m_MoveDir.x != 0)
-        {
-            m_Sprite.flipX = m_MoveDir.x < 0;
-        }
+        if (m_MoveDir.x < 0)
+            mbIsFlipX = true;
+        else if (m_MoveDir.x > 0)
+            mbIsFlipX = false;
+        m_Sprite.flipX = mbIsFlipX;
+    }
+
+    public bool GetBoolFlipX()
+    {
+        return mbIsFlipX;
     }
 
     public float GetSpeed()

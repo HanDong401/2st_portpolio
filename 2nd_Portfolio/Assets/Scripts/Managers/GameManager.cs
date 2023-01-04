@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InputManager m_InputManager = null;
     [SerializeField] private MapManager m_MapManager = null;
     [SerializeField] private Inventory m_Inventory = null;
+    [SerializeField] private UIManager m_UIManager = null;
+    [SerializeField] private ItemManager m_ItemManager = null;
 
     private int m_level = 3;
 
@@ -18,6 +20,16 @@ public class GameManager : MonoBehaviour
         InitGameManager();
         DontDestroyOnLoad(this.gameObject);
         //m_MapManager.SetUpScene(m_level);
+    }
+
+    private void Start()
+    {
+        //m_ItemManager.InitActive(m_Player);
+    }
+
+    private void Update()
+    {
+        m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
     }
 
     private void InitGameManager()

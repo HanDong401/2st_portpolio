@@ -48,3 +48,5 @@ MonoBehaviour:
   m_InputManager: {fileID: 0}
   m_MapManager: {fileID: 0}
   m_Inventory: {fileID: 0}
+  m_UIManager: {fileID: 0}
+  m_ItemManager: {fileID: 0}
