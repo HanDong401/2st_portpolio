@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bow : ActiveItem
 {
+    [SerializeField] GameObject m_ArrowPrefab = null;
+    private bool mbIsCanShot = true;
+
     protected override void InteractionItem()
     {
         InitBow();
@@ -16,6 +19,24 @@ public class Bow : ActiveItem
 
     protected override void Action()
     {
+        if (mbIsCanShot == true)
+        {
+            StartCoroutine(ShotBow());
+        }
+    }
+
+    IEnumerator ShotBow()
+    {
         m_Anim.SetTrigger("IsOnBow");
+        mbIsCanShot = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject go = Instantiate(m_ArrowPrefab);
+        go.transform.position = m_Player.GetTransform().position;
+        go.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+        mbIsCanShot = true;
     }
 }

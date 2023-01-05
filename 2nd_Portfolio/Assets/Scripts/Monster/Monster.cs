@@ -29,7 +29,10 @@ public class Monster : Unit
 
     public void Damaged(int _damage)
     {
-        m_CurrHp -= _damage;
+        int damage = _damage - m_Defense;
+        if (damage < 1)
+            damage = 1;
+        m_CurrHp -= damage;
         if (m_CurrHp <= 0)
         {
             Debug.Log("Á×À½");

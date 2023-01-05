@@ -839,6 +839,12 @@ PrefabInstance:
       propertyPath: m_Anim
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6564290812067741069, guid: 669d306c9120e0a4cbb53a4052aeeeee,
+        type: 3}
+      propertyPath: m_ArrowPrefab
+      value: 
+      objectReference: {fileID: 4853719146624990257, guid: 995dbfc28b82e6f4b9c74fef0af4e04c,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 669d306c9120e0a4cbb53a4052aeeeee, type: 3}
 --- !u!4 &601207211147453775 stripped
