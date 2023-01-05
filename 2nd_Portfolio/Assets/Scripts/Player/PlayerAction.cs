@@ -13,7 +13,6 @@ public class PlayerAction : MonoBehaviour
         // 기능 1 실행함수
         if (_action != null)
             _action.ActionExecute();
-        Debug.Log("PlayerAction1실행!!");
     }
 
     public void OnAction2(ActionCommand _action)
@@ -21,6 +20,5 @@ public class PlayerAction : MonoBehaviour
         // 기능 2 실행함수
         if (_action != null)
             _action.ActionExecute();
-        Debug.Log("PlayerAction2실행!!");
     }
 }

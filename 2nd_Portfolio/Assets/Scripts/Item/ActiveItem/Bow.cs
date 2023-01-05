@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bow : ActiveItem
 {
-    private void OnEnable()
+    protected override void InteractionItem()
     {
         InitBow();
     }
@@ -16,7 +16,6 @@ public class Bow : ActiveItem
 
     protected override void Action()
     {
-        Debug.Log("È° ½ÇÇà!!");
         m_Anim.SetTrigger("IsOnBow");
     }
 }

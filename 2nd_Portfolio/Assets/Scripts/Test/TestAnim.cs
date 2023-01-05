@@ -43,4 +43,9 @@ public class TestAnim : MonoBehaviour
 
         }
     }
+
+    public void Test()
+    {
+        Debug.Log("TestAnim");
+    }
 }

@@ -105,7 +105,6 @@ public class InputManager : MonoBehaviour
 
     public void OnInputMove(InputAction.CallbackContext _callback)
     {
-        Debug.Log("InputMove 角青!");
         Vector2 inputDir = _callback.ReadValue<Vector2>();
 
         if (m_OnInputEvent != null)
@@ -116,25 +115,21 @@ public class InputManager : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext _callback)
     {
-        Debug.Log("InputManager OnSpace 角青!");
         CheckInputAction(_callback, _started: m_OnDodgeEvent);
     }
 
     public void OnDash(InputAction.CallbackContext _callback)
     {
-        Debug.Log("InputManager OnDash 角青!");
         CheckInputAction(_callback, _started: m_OnDashEvent, _canceled: m_OnDashEvent);
     }
 
     public void OnAction1(InputAction.CallbackContext _callback)
     {
-        Debug.Log("InputManager OnAction1 角青!");
         CheckInputAction(_callback, _performed: m_OnAction1Event);
     }
 
     public void OnAction2(InputAction.CallbackContext _callback)
     {
-        Debug.Log("InputManager OnAction2 角青!");
         CheckInputAction(_callback, _performed: m_OnAction2Event);
     }
 
@@ -146,13 +141,11 @@ public class InputManager : MonoBehaviour
 
     public void InputManagerJoin()
     {
-        Debug.Log("InputManager Join 角青!");
         m_InputManagerJoinEvent?.Invoke();
     }
 
     public void InputManagerLeft()
     {
-        Debug.Log("InputManager Left 角青!");
         m_InputManagerLeftEvent?.Invoke();
     }
 
@@ -163,15 +156,12 @@ public class InputManager : MonoBehaviour
         switch(_callback.phase)
         {
             case InputActionPhase.Started:
-                Debug.Log("started 角青!");
                 _started?.Invoke();
                 break;
             case InputActionPhase.Performed:
-                Debug.Log("performed 角青!");
                 _performed?.Invoke();
                 break;
             case InputActionPhase.Canceled:
-                Debug.Log("canceled 角青!");
                 _canceled?.Invoke();
                 break;
         }

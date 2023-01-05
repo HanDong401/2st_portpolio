@@ -37,6 +37,7 @@ public class Item : MonoBehaviour, Interaction
     {
         PickUp();
         SetInven(Inventory.Instance);
+        Interaction();
     }
 
     protected virtual void Interaction()

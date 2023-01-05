@@ -62,7 +62,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -215,7 +215,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -1133976429, guid: fa3db5da36487844db5b4d6ed1273a07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -314,13 +314,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6f08fcd9b50e742bce81091cedc531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AccelSpeed: 7.5
+  m_AccelSpeed: 15
   m_DashSpeed: 0
   m_MoveSpeed: 0
-  m_MaxMoveSpeed: 75
-  m_MaxDashSpeed: 70
-  m_DodgeRange: 150
+  m_MaxMoveSpeed: 150
+  m_MaxDashSpeed: 140
+  m_DodgeRange: 300
   m_DodgeSpeed: 0
+  m_Anim: {fileID: 0}
 --- !u!114 &6677950664103612058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,7 +434,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

@@ -18,6 +18,7 @@ public class Player : Unit
     private Animator m_PlayerAnim = null;
     private PlayerAnimation m_PlayerAnimation = null;
     private bool mbIsInterac = false;
+    private bool mbIsMove = false;
     [field : SerializeField] private int m_CurrSp { get; set; }
     [field : SerializeField] private int m_MaxSp { get; set; }
     [SerializeField] private CameraSet m_Camera = null;
@@ -28,7 +29,8 @@ public class Player : Unit
         m_PlayerAction = this.GetComponent<PlayerAction>();
         m_PlayerEffect = this.GetComponent<PlayerEffect>();
         m_PlayerAnimation = this.GetComponent<PlayerAnimation>();
-        //m_PlayerMove.SetAnim(m_PlayerAnimation.GetAnim());
+        m_PlayerAnim = this.GetComponent<Animator>();
+        m_PlayerMove.SetAnim(m_PlayerAnim);
         StartCoroutine(SetInit());
     }
 
@@ -156,6 +158,8 @@ public class Player : Unit
 
     public Animator GetAnim()
     {
+        if (m_PlayerAnimation == null)
+            return null;
         return m_PlayerAnimation.GetAnim();
     }
 

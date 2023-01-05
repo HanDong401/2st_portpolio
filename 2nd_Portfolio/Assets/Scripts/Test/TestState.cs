@@ -5,31 +5,33 @@ using UnityEngine;
 
 public class TestState : StateMachineBehaviour
 {
-    
-    static int enterCount = 0;
-    static int exitCount = 0;
-    float time = 0f;
+    [SerializeField] TestAnim test = null;
+
+    public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
+    {
+        Debug.Log("OnStateMachineEnter");
+    }
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateEnter");
-        animator.ResetTrigger("EnterState");
-        enterCount++;
-        time = 0f;
-        Debug.Log(name);
-        Debug.Log(GetInstanceID());
-        Debug.Log(ToString());
+        if (test == null)
+            animator.gameObject.GetComponent<TestAnim>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        time += Time.deltaTime;
-        if (time > 3f)
-            animator.SetTrigger("ExitState");
+        if (test != null)
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                test.Test();
+            }
+        }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateEixt");
-        exitCount++;
     }
 }

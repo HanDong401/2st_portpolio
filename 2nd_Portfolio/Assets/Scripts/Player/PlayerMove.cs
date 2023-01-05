@@ -60,7 +60,6 @@ public class PlayerMove : MonoBehaviour
 
         if (_inputDir != Vector2.zero)
         {
-            Debug.Log("이동시작");
             mbIsOnMove = true;
             StartCoroutine(AddMoveAccel());
             if (mbIsOnDash == true)
@@ -68,7 +67,6 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            Debug.Log("이동종료");
             mbIsOnMove = false;
             StartCoroutine(ReduceMoveAccel());
             StartCoroutine(ReduceDashAccel());
@@ -80,13 +78,11 @@ public class PlayerMove : MonoBehaviour
     {
         if (mbIsOnDash == false)
         {
-            Debug.Log("대쉬!");
             mbIsOnDash = true;
             StartCoroutine(AddDashAccel());
         }
         else
         {
-            Debug.Log("대쉬 취소");
             mbIsOnDash = false;
             StartCoroutine(ReduceDashAccel());
         }
@@ -113,7 +109,6 @@ public class PlayerMove : MonoBehaviour
 
     private void OffDodge()
     {
-        Debug.Log("회피 종료");
         m_MoveDir = m_CurrDir;
         SetFlipX();
         mbIsOnDodge = false;
@@ -150,7 +145,6 @@ public class PlayerMove : MonoBehaviour
     {
         while (true)
         {
-            //Debug.Log("캐릭터 속도: " + m_MoveSpeed);
             m_Anim.SetFloat("Speed", ((m_MoveSpeed + m_DashSpeed) / (m_MaxMoveSpeed + m_MaxDashSpeed)) * 1.5f);
             yield return new WaitForSeconds(0.01f);
         }
@@ -158,7 +152,6 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator AddMoveAccel()
     {
-        Debug.Log("가속중");
         while (mbIsOnMove == true)
         {
             m_MoveSpeed += m_AccelSpeed;
@@ -188,7 +181,6 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator ReduceMoveAccel()
     {
-        Debug.Log("감속중");
         while (mbIsOnMove == false)
         {
             m_MoveSpeed -= m_AccelSpeed * 2f;

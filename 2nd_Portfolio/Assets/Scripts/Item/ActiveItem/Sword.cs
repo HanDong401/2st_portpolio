@@ -4,36 +4,25 @@ using UnityEngine;
 
 public class Sword : ActiveItem
 {
-    [SerializeField] private Vector3 m_PointVec = Vector3.zero;
+    [SerializeField] private Vector3 m_ControlPointVec = Vector3.zero;
     [SerializeField] private Vector3 m_SizeVec = Vector3.zero;
     [SerializeField] private int m_Damage = 10;
+    private Vector3 m_PointVec = Vector3.zero;
     private Coroutine m_DelayCoroutine = null;
     private Transform m_TargetTransform = null;
     private int m_SwordAttackCount = 0;
+    private Collider2D m_HitColl = null;
 
-    private void OnEnable()
+    protected override void InteractionItem()
     {
         InitSword();
     }
 
     private void InitSword()
     {
-        base.InitActiveItem();
         m_TargetTransform = m_Player.GetTransform();
-        m_SizeVec = new Vector2(0.3f, 0.5f);
-    }
-
-
-    private void Update()
-    {
-        if (m_Player.GetIsFlipX() == true)
-        {
-            m_PointVec = m_TargetTransform.position + new Vector3(-0.4f, -0.15f);
-        }
-        else
-        {
-            m_PointVec = m_TargetTransform.position + new Vector3(0.4f, -0.15f);
-        }
+        StartCoroutine(SetPointVec());
+        StartCoroutine(SetControlPointVec());
     }
 
     protected override void Action()
@@ -69,8 +58,6 @@ public class Sword : ActiveItem
 
         if (hit != null)
         {
-            Debug.Log("충돌판정 있음");
-            Debug.Log(hit.name);
             if (hit.CompareTag("Monster"))
             {
                 hit.GetComponent<Monster>().Damaged(m_Damage);
@@ -83,5 +70,26 @@ public class Sword : ActiveItem
         yield return new WaitForSeconds(1f);
 
         m_SwordAttackCount = 0;
+    }
+
+    IEnumerator SetPointVec()
+    {
+        while(true)
+        {
+            m_PointVec = m_TargetTransform.position + m_ControlPointVec;
+            yield return null;
+        }
+    }
+
+    IEnumerator SetControlPointVec()
+    {
+        while(true)
+        {
+            if (m_Player.GetIsFlipX() == true)
+                m_ControlPointVec.x = -1;
+            else
+                m_ControlPointVec.x = 1;
+            yield return null;
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Magic : ActiveItem
 {
-    private void OnEnable()
+    protected override void InteractionItem()
     {
         InitMagic();
     }
@@ -16,7 +16,6 @@ public class Magic : ActiveItem
 
     protected override void Action()
     {
-        Debug.Log("마법 실행!!");
         m_Anim.SetTrigger("IsOnMagic");
     }
 }

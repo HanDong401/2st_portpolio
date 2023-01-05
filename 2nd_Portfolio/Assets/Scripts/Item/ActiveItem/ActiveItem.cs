@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ActiveItem : Item, ActionCommand
 {
-    protected Player m_Player = null;
-    protected Animator m_Anim = null;
+    [SerializeField] protected Player m_Player = null;
+    [SerializeField] protected Animator m_Anim = null;
 
     protected void InitActiveItem()
     {
@@ -14,12 +14,8 @@ public class ActiveItem : Item, ActionCommand
     }
     protected override void Interaction()
     {
-        // 플레이어에 이것의 정보를 전달해야함 
-        // 전달해야 하는 정보
-        // ActionCommand타입 클래스 전체
-        // 받아야하는 정보
-        // PlayerAnimator
-        Debug.Log("ActiveItemInteraction!!");
+        InitActiveItem();
+        InteractionItem();
     }
 
     public void SetPlayer(Player _player)
@@ -38,8 +34,14 @@ public class ActiveItem : Item, ActionCommand
         Action();
     }
 
+    protected virtual void InteractionItem()
+    {
+
+    }
+
     protected virtual void Action()
     {
-        Debug.Log("BaseActionItem Action");
+
     }
+
 }

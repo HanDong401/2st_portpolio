@@ -37,12 +37,10 @@ public class Inventory : MonoBehaviour
     {
         if (_item is PassiveItem)
         {
-            Debug.Log("패시브아이템 들어감");
             m_PassiveItems.Add((PassiveItem)_item);
         }
         else if (_item is ActiveItem)
         {
-            Debug.Log("액티브아이템 들어감");
             SetActionItem(_item as ActionCommand);
         }
     }
