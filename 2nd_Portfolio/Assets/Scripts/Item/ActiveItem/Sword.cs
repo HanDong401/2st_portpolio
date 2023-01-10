@@ -60,7 +60,7 @@ public class Sword : ActiveItem
         {
             if (hit.CompareTag("Monster"))
             {
-                hit.GetComponent<Monster>().Damaged(m_Damage);
+                hit.GetComponent<Monster>().OnDamaged(m_Damage);
             }
         }
     }

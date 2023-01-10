@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class ActiveItem : Item, ActionCommand
 {
-    [SerializeField] protected Player m_Player = null;
     [SerializeField] protected Animator m_Anim = null;
 
     protected void InitActiveItem()
     {
-        m_Player = FindObjectOfType<Player>().GetComponent<Player>();
         m_Anim = m_Player.GetAnim();
     }
     protected override void Interaction()

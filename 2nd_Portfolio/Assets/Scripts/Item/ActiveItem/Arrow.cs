@@ -7,11 +7,9 @@ public class Arrow : MonoBehaviour
 {
     private Rigidbody2D m_Rigid2D = null;
     private Vector2 m_MoveDir;
-    private bool mbIsShot = false;
     private int m_Damage = 5;
-    [SerializeField] float m_ArrowSpeed = 0f;
+    [SerializeField] private float m_ArrowSpeed = 0f;
     [SerializeField] private int m_ReflectCount = 3;
-    [SerializeField] GameObject m_target;
 
     private void Awake()
     {
@@ -21,17 +19,9 @@ public class Arrow : MonoBehaviour
         ShotArrow(m_MoveDir);
     }
 
-
-    //private void OnEnable()
-    //{
-    //    ShotArrow(m_MoveDir);
-    //    mbIsShot = true;
-    //}
-
     private void ShotArrow(Vector2 _vector)
     {
         m_Rigid2D.AddForce(_vector * m_ArrowSpeed, ForceMode2D.Impulse);
-        mbIsShot = true;
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -39,7 +29,9 @@ public class Arrow : MonoBehaviour
         --m_ReflectCount;
         if (m_ReflectCount <= 0)
         {
-            Destroy(this.gameObject);
+            m_Rigid2D.velocity = Vector2.zero;
+            m_Rigid2D.isKinematic = true;
+            Destroy(this.gameObject, 2f);
             return;
         }
         m_MoveDir = Vector2.Reflect(m_MoveDir, coll.contacts[0].normal);
@@ -50,7 +42,7 @@ public class Arrow : MonoBehaviour
 
         if (coll.transform.CompareTag("Monster"))
         {
-            coll.transform.GetComponent<Monster>().Damaged(m_Damage);
+            coll.transform.GetComponent<Monster>().OnDamaged(m_Damage);
         }
     }
 }

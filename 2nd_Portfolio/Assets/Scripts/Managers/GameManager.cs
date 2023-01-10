@@ -8,23 +8,17 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player m_Player = null;
     [SerializeField] private InputManager m_InputManager = null;
-    [SerializeField] private MapManager m_MapManager = null;
     [SerializeField] private Inventory m_Inventory = null;
     [SerializeField] private UIManager m_UIManager = null;
     [SerializeField] private ItemManager m_ItemManager = null;
+    [SerializeField] private MonsterManager m_MonsterManager = null;
 
     private int m_level = 3;
 
     private void Awake()
     {
-        InitGameManager();
+        InitConectEvent();
         DontDestroyOnLoad(this.gameObject);
-        //m_MapManager.SetUpScene(m_level);
-    }
-
-    private void Start()
-    {
-        //m_ItemManager.InitActive(m_Player);
     }
 
     private void Update()
@@ -32,7 +26,7 @@ public class GameManager : MonoBehaviour
         m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
     }
 
-    private void InitGameManager()
+    private void InitConectEvent()
     {
         m_InputManager.AddOnInputEvent(m_Player.OnMoveCallback);
         m_InputManager.AddOnDashEvent(m_Player.OnDashCallback);

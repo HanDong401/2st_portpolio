@@ -131,14 +131,14 @@ public class Player : Unit
         return m_CurrSp;
     }
 
-    public void SetCurrSp(int _currSp)
-    {
-        this.m_CurrSp = _currSp;
-    }
-
     public int GetMaxSp()
     {
         return m_MaxSp;
+    }
+
+    public void SetCurrSp(int _currSp)
+    {
+        this.m_CurrSp = _currSp;
     }
 
     public void SetMaxSp(int _maxSp)

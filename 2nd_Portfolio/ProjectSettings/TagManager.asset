@@ -11,6 +11,7 @@ TagManager:
   - NoMask
   - Monster
   - SpawnPoint
+  - Skill
   layers:
   - Default
   - TransparentFX
@@ -18,12 +19,12 @@ TagManager:
   - 
   - Water
   - UI
-  - Arrow
-  - 
+  - Skill
+  - Wall
   - Obstacles
   - Ground
   - Player
-  - ObstaclesDoors
+  - Monster
   - NoPathfinding
   - Enemies
   - NoCollisions

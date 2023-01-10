@@ -8,6 +8,14 @@ public class Item : MonoBehaviour, Interaction
     public bool mbIsPickUp = false;
     public bool mbIsPop = false;
 
+    [SerializeField] protected Player m_Player = null;
+
+    protected void InitItem()
+    {
+        m_Player = FindObjectOfType<Player>().GetComponent<Player>();
+    }
+
+
     public void SetInven(Inventory _inven)
     {
         Transform invenTrans = _inven.transform;
@@ -37,6 +45,7 @@ public class Item : MonoBehaviour, Interaction
     {
         PickUp();
         SetInven(Inventory.Instance);
+        InitItem();
         Interaction();
     }
 

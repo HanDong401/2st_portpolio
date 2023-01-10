@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6557881710550514328}
   m_Layer: 6
   m_Name: Arrow
-  m_TagString: Untagged
+  m_TagString: Skill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ArrowSpeed: 15
   m_ReflectCount: 3
-  m_target: {fileID: 0}
 --- !u!58 &6557881710550514328
 CircleCollider2D:
   m_ObjectHideFlags: 0

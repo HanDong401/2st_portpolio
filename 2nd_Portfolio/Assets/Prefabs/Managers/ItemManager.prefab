@@ -663,6 +663,12 @@ PrefabInstance:
       propertyPath: m_Anim
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4194713550209585950, guid: 19978ec47b6df464098af1b8b3201e0f,
+        type: 3}
+      propertyPath: m_MagicPrefab
+      value: 
+      objectReference: {fileID: 620781418934237742, guid: 899d3dc86a74c564b830c3b864b17d14,
+        type: 3}
     - target: {fileID: 4194713550209585951, guid: 19978ec47b6df464098af1b8b3201e0f,
         type: 3}
       propertyPath: m_RootOrder

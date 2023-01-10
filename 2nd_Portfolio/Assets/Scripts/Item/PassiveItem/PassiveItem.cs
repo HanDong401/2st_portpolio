@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PassiveItem : Item
 {
+    protected override void Interaction()
+    {
+        PassiveEffect();
+    }
+
     protected virtual void PassiveEffect()
     {
 
