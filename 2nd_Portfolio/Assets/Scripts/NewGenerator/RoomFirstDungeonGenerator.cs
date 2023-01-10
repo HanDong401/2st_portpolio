@@ -10,6 +10,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     [SerializeField,Range(0, 10)] private int offset = 1;
     [SerializeField] private bool randomWalkRooms = false;
+    public delegate void RoomEvent();
+    private RoomEvent roomEvent = null;
 
     protected override void RunProceduralGeneration()
     {
@@ -40,7 +42,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
-
+        #region 생성 코드
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
 
@@ -50,21 +52,38 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         //Debug.Log("소품타일 배치 진입");
         HashSet<Vector2Int> propsTiles = new HashSet<Vector2Int>();
         propsTiles = props.SetPropRandomVector2Pos(propsTile);
-        HashSet<Vector2Int>  UsingChestTilePos = new HashSet<Vector2Int>(propsTiles);//chest에서 쓸거
+        HashSet<Vector2Int> UsingChestTilePos = new HashSet<Vector2Int>(propsTiles);//chest에서 쓸거
         tileMapVisualizer.PaintPropsTile(propsTiles);
+
         //여기다가 텔레포트위치, 층이동 등등 할 함수 호출
         HashSet<Vector2Int> teleportTilePos = new HashSet<Vector2Int>();//텔레포트 위치 잡는 함수 호출
         teleportTilePos = props.SetTeleportTilePos(UsingTeleportTilePos, propsTile);
         HashSet<Vector2Int> forChestTiletoTeleport = new HashSet<Vector2Int>(teleportTilePos);//chest에서 쓸거
-        tileMapVisualizer.PaintTeleportTile(teleportTilePos);
+                                                                                              //tileMapVisualizer.PaintTeleportTile(teleportTilePos);
+        specialTileInstantiator.DeleteTeleport();
+        specialTileInstantiator.InstatntiateTeleport(teleportTilePos);
+
         //스타트 위치 함수 호출
         HashSet<Vector2Int> startTilePos = new HashSet<Vector2Int>();//위치 잡는 함수 호출
         startTilePos = props.SetStartTilePosition(teleportTilePos, UsingStartTilePos);
-        tileMapVisualizer.PaintStartTile(startTilePos);
+        specialTileInstantiator.DeleteStart();//기존 위치 삭제
+        specialTileInstantiator.InstatntiateStart(startTilePos);
+
         //아이템 상자 위치 함수
         HashSet<Vector2Int> chestTiles = new HashSet<Vector2Int>();
         chestTiles = props.SetItemChestTile(forChestTiletoTeleport, startTilePos, UsingChestTilePos);
-        tileMapVisualizer.PaintChestTile(chestTiles);
+        //tileMapVisualizer.PaintChestTile(chestTiles);//테스트 때문에 일단 주석처리
+        specialTileInstantiator.DeleteChestItem();
+        specialTileInstantiator.InstatntiateChestItem(chestTiles);
+        #endregion
+        //여기서 길찾기 델리게이트 호출
+        if (roomEvent != null)
+            roomEvent();
+    }
+
+    public void AddRoomEvent(RoomEvent _callback)
+    {
+        roomEvent = _callback;
     }
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> _roomsList)

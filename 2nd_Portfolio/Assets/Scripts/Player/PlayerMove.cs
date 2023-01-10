@@ -16,20 +16,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float m_DodgeRange = 0f;
     [SerializeField] private float m_DodgeSpeed;
     private Rigidbody2D m_Rigid = null;
-    private Animator m_Anim = null;
+    [SerializeField] private Animator m_Anim = null;
     private SpriteRenderer m_Sprite = null;
     private Vector2 m_MoveDir;
     private Vector2 m_CurrDir;
     private bool mbIsOnMove = false;
     private bool mbIsOnDash = false;
     private bool mbIsOnDodge = false;
+    private bool mbIsFlipX = false;
 
     #endregion
 
     private void Awake()
     {
         m_Rigid = this.GetComponent<Rigidbody2D>();
-        m_Anim = this.GetComponent<Animator>();
         m_Sprite = this.GetComponent<SpriteRenderer>();
     }
 
@@ -41,6 +41,11 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         m_Rigid.velocity = m_MoveDir * (m_MoveSpeed + m_DashSpeed + m_DodgeSpeed) * Time.deltaTime;
+    }
+
+    public void SetAnim(Animator _anim)
+    {
+        m_Anim = _anim;
     }
 
     public bool OnMove(Vector2 _inputDir)
@@ -69,15 +74,6 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(ReduceDashAccel());
         }
         return mbIsOnMove;
-    }
-
-    public void OnNotMove(bool _isNotMove)
-    {
-        mbIsOnDodge = _isNotMove;
-        if (_isNotMove)
-        {
-               
-        }
     }
 
     public void OnDash()
@@ -117,7 +113,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OffDodge()
     {
-        Debug.Log("트리거 리셋");
+        Debug.Log("회피 종료");
         m_MoveDir = m_CurrDir;
         SetFlipX();
         mbIsOnDodge = false;
@@ -125,12 +121,23 @@ public class PlayerMove : MonoBehaviour
         m_DodgeSpeed = 0;
     }
 
+    public bool GetIsDodge()
+    {
+        return mbIsOnDodge;
+    }
+
     void SetFlipX()
     {
-        if (m_MoveDir.x != 0)
-        {
-            m_Sprite.flipX = m_MoveDir.x < 0;
-        }
+        if (m_MoveDir.x < 0)
+            mbIsFlipX = true;
+        else if (m_MoveDir.x > 0)
+            mbIsFlipX = false;
+        m_Sprite.flipX = mbIsFlipX;
+    }
+
+    public bool GetBoolFlipX()
+    {
+        return mbIsFlipX;
     }
 
     public float GetSpeed()

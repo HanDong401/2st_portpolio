@@ -9,6 +9,11 @@ TagManager:
   - Enemy
   - World
   - NoMask
+  - CHEST
+  - ROOMS
+  - SPAWNPOINT
+  - TELEPORT
+  - START
   layers:
   - Default
   - TransparentFX

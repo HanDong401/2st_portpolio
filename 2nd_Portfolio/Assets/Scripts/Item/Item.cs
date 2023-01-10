@@ -3,42 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, Interaction
 {
-    protected int m_ItemID;
-    public int ItemID
-    {
-        get { return m_ItemID; }
-    }
-    private bool mbIsCanPickUp = false;
+    public bool mbIsPickUp = false;
+    public bool mbIsPop = false;
 
-    [SerializeField] Text m_PickUpText = null;
-
-    private void Start()
+    public void SetInven(Inventory _inven)
     {
-        m_PickUpText.gameObject.SetActive(false);
-    }
-    public void OnPickUp()
-    {
-        if (mbIsCanPickUp == true)
-            Destroy(this.gameObject);
+        Transform invenTrans = _inven.transform;
+        this.transform.SetParent(invenTrans);
+        this.transform.position = invenTrans.position;
+        _inven.GetItem(this);
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    public void SetItemActive(bool _isActive)
     {
-        if (coll.CompareTag("Player"))
-        {
-            mbIsCanPickUp = true;
-            m_PickUpText.gameObject.SetActive(mbIsCanPickUp);
-        }
+        this.gameObject.SetActive(_isActive);
     }
 
-    private void OnTriggerExit2D(Collider2D coll)
+    public void SetPosition(Vector2 _targetPos)
     {
-        if (coll.CompareTag("Player"))
-        {
-            mbIsCanPickUp = false;
-            m_PickUpText.gameObject.SetActive(mbIsCanPickUp);
-        }
+        this.transform.position = _targetPos;
+    }
+
+    private void PickUp()
+    {
+        mbIsPickUp = true;
+        this.GetComponent<Renderer>().enabled = false;
+        this.GetComponent<Collider2D>().enabled = false;
+    }
+
+    public void InteractionExecute()
+    {
+        PickUp();
+        SetInven(Inventory.Instance);
+    }
+
+    protected virtual void Interaction()
+    {
+
     }
 }
