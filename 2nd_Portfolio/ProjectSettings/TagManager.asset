@@ -9,9 +9,11 @@ TagManager:
   - Enemy
   - World
   - NoMask
-  - Monster
-  - SpawnPoint
-  - Skill
+  - CHEST
+  - ROOMS
+  - SPAWNPOINT
+  - TELEPORT
+  - START
   layers:
   - Default
   - TransparentFX
@@ -19,12 +21,12 @@ TagManager:
   - 
   - Water
   - UI
-  - Skill
-  - Wall
+  - 
+  - 
   - Obstacles
   - Ground
   - Player
-  - Monster
+  - ObstaclesDoors
   - NoPathfinding
   - Enemies
   - NoCollisions

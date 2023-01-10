@@ -8,10 +8,10 @@ using Random = UnityEngine.Random;
 public class MapTileVisualizer : MonoBehaviour
 {
     [SerializeField] private Tilemap floorTilemap, wallTilemap, propsTileMap;
-    [SerializeField] private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
+    [SerializeField]
+    private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
         wallInnerCornerDownLeft, wallInnerCornerDownRight, wallInnerCornerUpLeft, wallInnerCornerUpRight,
-        wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft,
-        TeleportTile, StartTile, ItemChestTile;
+        wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft, wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft;
     [SerializeField] private TileBase[] propTiles;
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> _floorPositions)
@@ -35,27 +35,8 @@ public class MapTileVisualizer : MonoBehaviour
             PaintSingleTile(propsTileMap, propTiles[Random.Range(0, propTiles.Length)], position);
         }
     }
-    public void PaintTeleportTile(HashSet<Vector2Int> _positions)
-    {
-        foreach (var position in _positions)
-        {
-            PaintSingleTile(propsTileMap, TeleportTile, position);
-        }
-    }
-    public void PaintStartTile(HashSet<Vector2Int> _positions)
-    {
-        foreach (var position in _positions)
-        {
-            PaintSingleTile(propsTileMap, StartTile, position);
-        }
-    }
-    public void PaintChestTile(HashSet<Vector2Int> _positions)
-    {
-        foreach (var position in _positions)
-        {
-            PaintSingleTile(propsTileMap, ItemChestTile, position);
-        }
-    }
+    
+    
     internal void PaintSingleBasicWall(Vector2Int _position, string _binaryType)
     {
         int typeAsInt = Convert.ToInt32(_binaryType, 2);
@@ -94,6 +75,7 @@ public class MapTileVisualizer : MonoBehaviour
         floorTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
         propsTileMap.ClearAllTiles();
+        
     }
 
     internal void PaintSingleCornerWall(Vector2Int _position, string _binaryType)
