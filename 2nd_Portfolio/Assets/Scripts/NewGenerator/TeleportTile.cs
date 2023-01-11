@@ -30,4 +30,5 @@ public class TeleportTile : MonoBehaviour
         RoomFirstDungeonGenerator.GenerateDungeon();
     }
     //여기에 콜라이더 검출하는 함수 만들기
+
 }
