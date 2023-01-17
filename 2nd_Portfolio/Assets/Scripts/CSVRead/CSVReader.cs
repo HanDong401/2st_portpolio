@@ -19,11 +19,10 @@ public class CSVReader
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
 
         if (lines.Length <= 1) return list;
-
+        //System.Text.Encoding.UTF8
         var header = Regex.Split(lines[0], SPLIT_RE);
         for (var i = 1; i < lines.Length; i++)
         {
-
             var values = Regex.Split(lines[i], SPLIT_RE);
             if (values.Length == 0 || values[0] == "") continue;
 
