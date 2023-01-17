@@ -33,13 +33,6 @@ public class InputManager : MonoBehaviour
     private InputEvent m_InputManagerLeftEvent = null;
     private Interaction m_Interaction = null;
 
-    private void Update()
-    {
-        //m_AxisX = Input.GetAxis("Horizontal");
-        //m_AxisY = Input.GetAxis("Vertical");
-        //OnMove();
-    }
-
     public void AddOnMoveEvent(MoveEvent _callback)
     {
         //m_OnMoveEvent = _callback;

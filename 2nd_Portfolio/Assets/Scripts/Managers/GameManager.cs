@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    private void Update()
+    private void Start()
     {
-        m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
+        StartCoroutine(InitGameManager());
     }
 
     private void InitConectEvent()
@@ -39,5 +39,14 @@ public class GameManager : MonoBehaviour
     public void SetInetraction(Interaction _interac)
     {
         m_InputManager.AddOnInteractionEvent(_interac);
+    }
+
+    IEnumerator InitGameManager()
+    {
+        while(true)
+        {
+            m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
+            yield return null;
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : Unit
+public abstract class Monster : Unit
 {
     private MonsterBaseState m_CurrState = null;
 
@@ -13,62 +13,112 @@ public class Monster : Unit
     protected Rigidbody2D m_Rigid2D = null;
     public Rigidbody2D Rigid2D { get { return m_Rigid2D; } }
 
-    protected Transform m_Target;
-    public Transform Target { get { return m_Target; } set { m_Target = value; } }
+    protected Player m_Target;
+    public Player Target { get { return m_Target; } set { m_Target = value; } }
 
     protected SpriteRenderer m_Renderer = null;
     public SpriteRenderer Renderer { get { return m_Renderer; } }
 
-    [SerializeField] protected LayerMask m_TargetLayer;
-    public LayerMask TargetLayer { get { return m_TargetLayer; } }
+    protected Collider2D m_Collider2D = null;
+    public Collider2D Collider { get { return m_Collider2D; } }
 
-    [SerializeField] protected float m_DetectRange = 0f;
-    public float DetectRange { get { return m_DetectRange; } }
-
-    [SerializeField] protected float m_Attack1Range = 0f;
-    public float Attack1Range { get { return m_Attack1Range; } }
-
-    [SerializeField] protected float m_Attack2Range = 0f;
-    public float Attack2Range { get { return m_Attack2Range; } }
-
-    [SerializeField] protected float m_Attack3Range = 0f;
-    public float Attack3Range { get { return m_Attack3Range; } }
-
+    #region 인스펙터
+    [Space (10f)]
+    [Tooltip("유닛의 이동속도")]
     [SerializeField] protected float m_MoveSpeed = 0f;
     public float MoveSpeed { get { return m_MoveSpeed; } set { m_MoveSpeed = value; } }
 
-    [SerializeField] protected int m_Damage = 0;
-    public int Damage { get { return m_Damage; } set { m_Damage = value; } }
+    [Header ("몬스터 고유 스테이터스")]
+    [Space (10f)]
+    [Tooltip ("몬스터가 플레이어를 감지 가능한 거리")]
+    [SerializeField] protected float m_DetectRange = 0f;
+    public float DetectRange { get { return m_DetectRange; } }
+
+    [Space (10f)]
+    [Tooltip("공격 1 의 데미지")]
+    [SerializeField] protected int m_Attack1Damage = 0;
+    public int Attack1Damage { get { return m_Attack1Damage; } set { m_Attack1Damage = value; } }
+    [Tooltip ("공격 1 의 사거리 *존재하지 않으면 0")]
+    [SerializeField] protected float m_Attack1Range = 0f;
+    public float Attack1Range { get { return m_Attack1Range; } }
+    [Tooltip("공격 1 의 딜레이")]
+    [SerializeField] protected float m_Attack1Delay = 0f;
+    public float Attack1Delay { get { return m_Attack1Delay; } }
+    [Space (10f)]
+    [Tooltip("공격 2 의 데미지")]
+    [SerializeField] protected int m_Attack2Damage = 0;
+    public int Attack2Damage { get { return m_Attack2Damage; } set { m_Attack2Damage = value; } }
+    [Tooltip("공격 2 의 사거리 *존재하지 않으면 0")]
+    [SerializeField] protected float m_Attack2Range = 0f;
+    public float Attack2Range { get { return m_Attack2Range; } }
+    [Tooltip("공격 2 의 딜레이")]
+    [SerializeField] protected float m_Attack2Delay = 0f;
+    public float Attack2Delay { get { return m_Attack2Delay; } }
+    [Space(10f)]
+    [Tooltip("공격 3 의 데미지")]
+    [SerializeField] protected int m_Attack3Damage = 0;
+    public int Attack3Damage { get { return m_Attack3Damage; } set { m_Attack3Damage = value; } }
+    [Tooltip("공격 3 의 사거리 *존재하지 않으면 0")]
+    [SerializeField] protected float m_Attack3Range = 0f;
+    public float Attack3Range { get { return m_Attack3Range; } }
+    [Tooltip("공격 3 의 딜레이")]
+    [SerializeField] protected float m_Attack3Delay = 0f;
+    public float Attack3Delay { get { return m_Attack3Delay; } }
+    [Space(10f)]
+    [Tooltip("어빌리티 의 딜레이")]
+    [SerializeField] protected float m_AbilityDelay = 0f;
+    public float AbilityDelay { get { return m_AbilityDelay; } }
+
+    [Space (10f)]
+    [Tooltip("몬스터가 감지할 대상의 레이어 설정")]
+    [SerializeField] protected LayerMask m_TargetLayer;
+    public LayerMask TargetLayer { get { return m_TargetLayer; } }
+    [Tooltip("몬스터가 무시할 대상의 레이어 설정")]
+    [SerializeField] protected LayerMask m_IgnoreLayer;
+    public LayerMask IgnoreLayer { get { return m_IgnoreLayer; } }
+    [Space (10f)]
+    [Tooltip("어빌리티 발동 가능 유무")]
+    [SerializeField] protected bool mbIsCanAbility = true;
+    [Space(10f)]
+    [Header("프리팹")]
+    [Space(10f)]
+    [Tooltip("공격 볌위 표시 프리팹")]
+    [SerializeField] protected AttackRange m_AttackRangePrefab = null;
+    public AttackRange AttackRangePrefab { get { return m_AttackRangePrefab; } }
+    #endregion
 
     public delegate List<Node> MonsterEvent(Vector2 _startPos, Vector2 _endPos);
     public MonsterEvent m_MonsterEvent = null;
-
-    public List<Node> PathList;
+    public delegate Monster MonsterSummonEvent(string _monster, Vector2 _pos);
+    public MonsterSummonEvent m_MonsterSummonEvent = null;
 
     private void Awake()
     {
-        m_Anim = this.GetComponent<Animator>();
-        m_Rigid2D = this.GetComponent<Rigidbody2D>();
-        m_Renderer = this.GetComponent<SpriteRenderer>();
-        ChangeState("Idle");
         InitMonster();
+        SubAwake();
     }
 
-    private void Update()
+    private void Start()
     {
-        m_CurrState.UpdateState();
-        m_CurrState.CheckState();
+        StartCoroutine(RunUpdateCoroutine());
     }
 
-    protected void InitMonster()
+    public void InitMonster()
     {
-        SubExcute();
+        m_Renderer = this.GetComponentInChildren<SpriteRenderer>();
+        m_Anim = this.GetComponentInChildren<Animator>();
+        m_Rigid2D = this.GetComponent<Rigidbody2D>();
+        m_Collider2D = this.GetComponent<Collider2D>();
+        ChangeState("Idle");
+        SetCurrHp(m_MaxHp);
     }
 
-    protected virtual void SubExcute()
-    {
-
-    }
+    public abstract bool SubCheckState();
+    public abstract void Attack1();
+    public abstract void Attack2();
+    public abstract void Attack3();
+    public abstract void Ability();
+    public abstract void SubAwake();
 
     public void ChangeState(string _state)
     {
@@ -106,9 +156,19 @@ public class Monster : Unit
         m_MonsterEvent = _callback;
     }
 
+    public void AddMonsterSummonEvent(MonsterSummonEvent _callback)
+    {
+        m_MonsterSummonEvent = _callback;
+    }
+
     public Vector2 GetPosition()
     {
         return transform.position;
+    }
+
+    public Vector2 GetTargetPosition()
+    {
+        return Target.GetPosition();
     }
 
     public void OnDamaged(int _damage)
@@ -120,5 +180,26 @@ public class Monster : Unit
             Debug.Log("죽음");
             Destroy(this.gameObject, 2f);
         }
+    }
+
+    public void StartDelay(string _state, float _delay)
+    {
+        StartCoroutine(ChangeStateDelayCoroutine(_state, _delay));
+    }
+
+    IEnumerator RunUpdateCoroutine()
+    {
+        while(true)
+        {
+            m_CurrState.UpdateState();
+            m_CurrState.CheckState();
+            yield return null;
+        }
+    }
+
+    IEnumerator ChangeStateDelayCoroutine(string _state, float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        ChangeState(_state);
     }
 }

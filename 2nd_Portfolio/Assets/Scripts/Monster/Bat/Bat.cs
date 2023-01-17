@@ -4,8 +4,41 @@ using UnityEngine;
 
 public class Bat : Monster
 {
-    protected override void SubExcute()
+    public override void SubAwake()
     {
-        m_Damage = 10;
+        
+    }
+
+    public override void Attack1()
+    {
+        Anim.SetTrigger("IsAttack");
+        StartDelay("Idle", Attack1Delay);
+    }
+
+    public override void Ability()
+    {
+        
+    }
+
+
+    public override void Attack2()
+    {
+        
+    }
+
+    public override void Attack3()
+    {
+        
+    }
+
+    public override bool SubCheckState()
+    {
+        return false;
+    }
+
+    private void BatAttack1()
+    {
+        Target.OnDamage(Attack1Damage);
+        Target.Knockback((Vector2)transform.position, Attack1Damage);
     }
 }

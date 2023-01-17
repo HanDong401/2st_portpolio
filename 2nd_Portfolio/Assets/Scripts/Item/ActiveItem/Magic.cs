@@ -33,7 +33,7 @@ public class Magic : ActiveItem
         yield return new WaitForSeconds(0.2f);
 
         GameObject go = Instantiate(m_MagicPrefab);
-        go.transform.position = m_Player.GetTransform().position;
+        go.transform.position = m_Player.GetPosition();
         go.SetActive(true);
 
         yield return new WaitForSeconds(1f);

@@ -12,11 +12,13 @@ public abstract class MonsterBaseState
         m_CurrState = this;
         m_CurrState.EnterState();
 }
-    protected static MonsterBaseState m_CurrState = null;
 
+    protected static MonsterBaseState m_CurrState = null;
     // EnterState 와 ExitState 를 자동으로 실행하게 하기위해서는
     // 각 State의 생성자에 전 State의 Exit와 현 State의 Enter를 실행시킬 필요가 있다
     protected Monster m_Monster = null;
+    protected Vector2 m_CurrPos;
+    protected Vector2 m_CurrTargetPos;
 
 
     public abstract void EnterState();

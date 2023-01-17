@@ -11,13 +11,16 @@ GameObject:
   - component: {fileID: 6612431948493115058}
   - component: {fileID: 6612431948493115068}
   - component: {fileID: 6612431948493115059}
-  m_Layer: 0
+  - component: {fileID: 910620884}
+  - component: {fileID: 910620883}
+  - component: {fileID: 910620882}
+  m_Layer: 6
   m_Name: Golem Phase 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6612431948493115058
 Transform:
   m_ObjectHideFlags: 0
@@ -25,10 +28,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6612431948493115057}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,8 +76,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 3454012281710444138, guid: 6946cd59d8c7e234f851a23d8ce98454, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 3454012281710444138, guid: 6946cd59d8c7e234f851a23d8ce98454,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,3 +109,75 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &910620884
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612431948493115057}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &910620883
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612431948493115057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0016139984, y: -0.026632298}
+  m_Size: {x: 0.14063092, y: 0.22775482}
+  m_Direction: 0
+--- !u!114 &910620882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612431948493115057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb671ead1fe637419b77c4ae3141e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxHp: 100
+  m_Defense: 5
+  m_MoveSpeed: 1
+  m_DetectRange: 10
+  m_Attack1Damage: 0
+  m_Attack1Range: 0
+  m_Attack1Delay: 0
+  m_Attack2Damage: 10
+  m_Attack2Range: 2
+  m_Attack2Delay: 3
+  m_Attack3Damage: 10
+  m_Attack3Range: 0
+  m_Attack3Delay: 2
+  m_AbilityDelay: 0
+  m_TargetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_IgnoreLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  mbIsCanAbility: 0
+  m_AttackRangePrefab: {fileID: 5568817509302794785, guid: ffa831a5fc33e4646aef09cfb1b0f17b,
+    type: 3}

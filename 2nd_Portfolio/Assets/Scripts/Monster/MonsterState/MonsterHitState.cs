@@ -9,8 +9,6 @@ public class MonsterHitState : MonsterBaseState
     public override void EnterState()
     {
         Debug.Log("Enter Hit");
-        m_Monster.Rigid2D.isKinematic = true;
-        m_Monster.Rigid2D.velocity = Vector2.zero;
         m_Monster.Anim.SetTrigger("IsHit");
         m_Delay = 0f;
     }
@@ -23,7 +21,6 @@ public class MonsterHitState : MonsterBaseState
     public override void ExitState()
     {
         m_Monster.Anim.ResetTrigger("IsHit");
-        m_Monster.Rigid2D.isKinematic = false;
     }
 
     public override void CheckState()

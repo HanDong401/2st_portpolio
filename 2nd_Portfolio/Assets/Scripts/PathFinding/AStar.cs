@@ -59,18 +59,23 @@ public class AStar
         }
     }
 
+    // 길찾기 함수
     public List<Node> PathFinding(Vector2 _startPos, Vector2 _endPos)
     {
+        // 시작위치와 도착위치를 Vector2Int형식으로 변환
         m_StartPos = Vector2Int.RoundToInt(_startPos);
         m_EndPos = Vector2Int.RoundToInt(_endPos);
 
+        // 위치를 노드방식으로 저장
         m_StartNode = m_NodePos[m_StartPos.x, m_StartPos.y];
         m_EndNode = m_NodePos[m_EndPos.x, m_EndPos.y];
 
+        // 각 리스틀을 초기화
         m_OpenList = new List<Node> { m_StartNode };
         m_EndList = new List<Node>();
         m_FinalNodeList = new List<Node>();
 
+        // 현재 저장중인 노드들을 검사하고 새로운 노드들을 추가
         while(m_OpenList.Count > 0)
         {
             m_CurrNode = m_OpenList[0];
@@ -93,9 +98,6 @@ public class AStar
                 }
                 m_FinalNodeList.Add(m_StartNode);
                 m_FinalNodeList.Reverse();
-
-                // 마지막 경로 리스트 구하기 완료
-                // 이동 스크립트 짜야함
             }
 
             AddOpneList(m_CurrNode.x + 1, m_CurrNode.y + 1);

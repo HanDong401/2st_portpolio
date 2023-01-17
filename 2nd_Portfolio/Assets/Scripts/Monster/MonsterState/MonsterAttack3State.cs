@@ -8,7 +8,8 @@ public class MonsterAttack3State : MonsterBaseState
 
     public override void EnterState()
     {
-
+        Debug.Log("Attack3 ¿‘¿Â!!");
+        m_Monster.Attack3();
     }
 
     public override void UpdateState()
@@ -18,7 +19,9 @@ public class MonsterAttack3State : MonsterBaseState
 
     public override void ExitState()
     {
-
+        m_Monster.Anim.ResetTrigger("IsAttack3");
+        if (m_Monster.Collider.enabled == false)
+            m_Monster.Collider.enabled = true;
     }
 
     public override void CheckState()

@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator m_PlayerAnim = null;
+    Animator m_Anim = null;
 
-    private void Awake()
+    public void SetAnim(Animator _anim)
     {
-        m_PlayerAnim = this.GetComponent<Animator>();
+        m_Anim = _anim;
     }
 
-    public Animator GetAnim()
+    private void ResetAction()
     {
-        return m_PlayerAnim;
-    }
-
-    public void ResetAnim()
-    {
-        m_PlayerAnim.ResetTrigger("IsOnSword");
-        m_PlayerAnim.ResetTrigger("IsOnBow");
-        m_PlayerAnim.ResetTrigger("IsOnMagic");
+        m_Anim.ResetTrigger("IsOnSword");
+        m_Anim.ResetTrigger("IsOnBow");
+        m_Anim.ResetTrigger("IsOnMagic");
     }
 }

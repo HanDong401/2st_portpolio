@@ -33,7 +33,7 @@ public class Bow : ActiveItem
         yield return new WaitForSeconds(0.5f);
 
         GameObject go = Instantiate(m_ArrowPrefab);
-        go.transform.position = m_Player.GetTransform().position;
+        go.transform.position = m_Player.GetPosition();
         go.SetActive(true);
 
         yield return new WaitForSeconds(0.1f);

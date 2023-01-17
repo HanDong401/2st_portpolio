@@ -29,7 +29,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        m_Rigid = this.GetComponent<Rigidbody2D>();
         m_Sprite = this.GetComponent<SpriteRenderer>();
     }
 
@@ -38,7 +37,7 @@ public class PlayerMove : MonoBehaviour
         StartCoroutine(CheckSpeed());
     }
 
-    private void FixedUpdate()
+    public void UpdateVelocity()
     {
         m_Rigid.velocity = m_MoveDir * (m_MoveSpeed + m_DashSpeed + m_DodgeSpeed) * Time.deltaTime;
     }
@@ -46,6 +45,11 @@ public class PlayerMove : MonoBehaviour
     public void SetAnim(Animator _anim)
     {
         m_Anim = _anim;
+    }
+
+    public void SetRigid(Rigidbody2D _rigid)
+    {
+        m_Rigid = _rigid;
     }
 
     public bool OnMove(Vector2 _inputDir)
@@ -109,9 +113,9 @@ public class PlayerMove : MonoBehaviour
 
     private void OffDodge()
     {
+        StartCoroutine(IsOnDodgeDelay());
         m_MoveDir = m_CurrDir;
         SetFlipX();
-        mbIsOnDodge = false;
         m_Anim.ResetTrigger("IsRoll");
         m_DodgeSpeed = 0;
     }
@@ -205,5 +209,11 @@ public class PlayerMove : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
+    }
+
+    IEnumerator IsOnDodgeDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        mbIsOnDodge = !mbIsOnDodge;
     }
 }

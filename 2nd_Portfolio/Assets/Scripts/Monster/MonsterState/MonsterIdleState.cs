@@ -5,30 +5,41 @@ using UnityEngine;
 public class MonsterIdleState : MonsterBaseState
 {
     public MonsterIdleState(Monster _monster) : base(_monster) { }
-
     public override void EnterState()
     {
-        Debug.Log("Idel Enter");
-        m_Monster.Anim.SetTrigger("IsIdle");
+        Debug.Log("Idle ¿‘¿Â!!");
+        m_CurrPos = m_Monster.GetPosition();
     }
 
     public override void UpdateState()
     {
-        Collider2D target = Physics2D.OverlapCircle(m_Monster.GetPosition(), m_Monster.DetectRange, m_Monster.TargetLayer);
-        if (target != null)
+        if (m_Monster.Target == null)
         {
-            m_Monster.Target = target.GetComponent<Player>().GetTransform();
+            Collider2D target = Physics2D.OverlapCircle(m_CurrPos, m_Monster.DetectRange, m_Monster.TargetLayer);
+            if (target != null)
+            {
+                m_Monster.Target = target.GetComponent<Player>();
+            }
         }
+        else
+        {
+            m_CurrTargetPos = m_Monster.GetTargetPosition();
+        }
+        
     }
 
     public override void ExitState()
     {
-        m_Monster.Anim.ResetTrigger("IsIdle");
+
     }
 
     public override void CheckState()
     {
-        if (m_Monster.Target != null && Vector2.Distance(m_Monster.GetPosition(), m_Monster.Target.position) < m_Monster.DetectRange)
+        if (m_Monster.SubCheckState().Equals(true)) return;
+        if (m_Monster.Target == null) return;
+        Vector2 dir = m_CurrTargetPos - m_CurrPos;
+        float sqr = dir.sqrMagnitude;
+        if (sqr < m_Monster.DetectRange * m_Monster.DetectRange)
             m_Monster.ChangeState("Run");
     }
 }

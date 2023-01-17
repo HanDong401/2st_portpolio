@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 620781418934237740}
   - component: {fileID: 620781418934237743}
   - component: {fileID: -2052017849714323922}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: MagicSkill
   m_TagString: Skill
   m_Icon: {fileID: 0}
@@ -162,4 +162,4 @@ MonoBehaviour:
   m_DamageRange: 1
   m_MonsterLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 64

@@ -9,24 +9,25 @@ public class MonsterAttack1State : MonsterBaseState
 
     public override void EnterState()
     {
-        m_Monster.Anim.SetTrigger("IsAttack");
-        m_Monster.Target.GetComponent<Player>().OnDamage(m_Monster.Damage);
-        m_Delay = 0f;
+        Debug.Log("Attack1 ÀÔÀå!!");
+        m_Monster.Attack1();
     }
 
     public override void UpdateState()
     {
-        m_Delay += Time.deltaTime;
+
     }
 
     public override void ExitState()
     {
         m_Monster.Anim.ResetTrigger("IsAttack");
+        if (m_Monster.Collider.enabled == false)
+            m_Monster.Collider.enabled = true;
+
     }
 
     public override void CheckState()
     {
-        if (m_Delay > 1f)
-            m_Monster.ChangeState("Idle");
+
     }
 }

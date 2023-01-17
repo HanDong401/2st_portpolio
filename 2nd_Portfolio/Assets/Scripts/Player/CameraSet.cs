@@ -8,17 +8,12 @@ public class CameraSet : MonoBehaviour
     [SerializeField] float m_FollowSpeed = 0f;
     [SerializeField] private Vector3 m_TargetPos;
 
-    private void LateUpdate()
-    {
-        CameraMove();    
-    }
-
     public void GetTarget(Vector3 _targetPos)
     {
         m_TargetPos = _targetPos;
     }
 
-    void CameraMove()
+    public void CameraMove()
     {
         transform.position = Vector2.Lerp(transform.position, m_TargetPos, m_FollowSpeed * Time.deltaTime);
         transform.Translate(0f, 0f, m_AxisZ);

@@ -15,22 +15,28 @@ public class Player : Unit
     private PlayerMove m_PlayerMove = null;
     private PlayerAction m_PlayerAction = null;
     private PlayerEffect m_PlayerEffect = null;
-    private Animator m_PlayerAnim = null;
     private PlayerAnimation m_PlayerAnimation = null;
+    private Animator m_PlayerAnim = null;
+    private Rigidbody2D m_PlayerRigid = null;
+    private Collider2D m_PlayerColl = null;
     private bool mbIsInterac = false;
-    private bool mbIsMove = false;
-    [field : SerializeField] private int m_CurrSp { get; set; }
-    [field : SerializeField] private int m_MaxSp { get; set; }
+    private bool mbIsCanMove = false;
+    private Coroutine m_PlayerUpdateCoroutine = null;
+    private Coroutine m_PlayerMoveCoroutine = null;
+    [SerializeField] private int m_CurrSp { get; set; }
+    [SerializeField] private int m_MaxSp { get; set; }
     [SerializeField] private CameraSet m_Camera = null;
+    //private PlayerBaseState m_CurrState = null;
 
     private void Awake()
     {
-        m_PlayerMove = this.GetComponent<PlayerMove>();
+        m_PlayerMove = this.GetComponentInChildren<PlayerMove>();
+        m_PlayerAnim = this.GetComponentInChildren<Animator>();
+        m_PlayerAnimation = this.GetComponentInChildren<PlayerAnimation>();
         m_PlayerAction = this.GetComponent<PlayerAction>();
         m_PlayerEffect = this.GetComponent<PlayerEffect>();
-        m_PlayerAnimation = this.GetComponent<PlayerAnimation>();
-        m_PlayerAnim = this.GetComponent<Animator>();
-        m_PlayerMove.SetAnim(m_PlayerAnim);
+        m_PlayerRigid = this.GetComponent<Rigidbody2D>();
+        m_PlayerColl = this.GetComponent<Collider2D>();
         StartCoroutine(SetInit());
     }
 
@@ -38,9 +44,11 @@ public class Player : Unit
     {
         while(true)
         {
-            if (m_PlayerAnimation.GetAnim() != null)
+            if (m_PlayerAnim != null && m_PlayerRigid != null)
             {
-                m_PlayerMove.SetAnim(m_PlayerAnimation.GetAnim());
+                m_PlayerMove.SetAnim(m_PlayerAnim);
+                m_PlayerMove.SetRigid(m_PlayerRigid);
+                m_PlayerAnimation.SetAnim(m_PlayerAnim);
                 yield break;
             }
             yield return null;
@@ -52,15 +60,18 @@ public class Player : Unit
         SetCurrHp(m_MaxHp);
         SetMaxSp(3);
         SetCurrSp(m_MaxSp);
+        m_PlayerUpdateCoroutine = StartCoroutine(PlayerUpdate());
+        mbIsCanMove = true;
+        //m_PlayerMoveCoroutine = StartCoroutine(PlayerMoveUpdate());
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        m_PlayerEffect.InitDust(m_PlayerMove.GetSpeed());
-        m_Camera.GetTarget(transform.position);
-        Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(1, 1), 0);
+        if (mbIsCanMove.Equals(true))
+        {
+            m_PlayerMove.UpdateVelocity();
+        }
     }
-
     #region 콜백함수들
     public void OnMoveCallback(Vector2 _inputDir)
     {
@@ -118,12 +129,6 @@ public class Player : Unit
 
     #endregion
 
-    private void ResetAction()
-    {
-        m_PlayerAnimation.ResetAnim();
-    }
-
-
     #region 값 전달 함수들
 
     public int GetCurrSp()
@@ -151,21 +156,64 @@ public class Player : Unit
         return m_PlayerMove.GetBoolFlipX();
     }
 
-    public Transform GetTransform()
+    public Vector2 GetPosition()
     {
-        return this.transform;
+        return this.transform.position;
     }
 
     public Animator GetAnim()
     {
-        if (m_PlayerAnimation == null)
-            return null;
-        return m_PlayerAnimation.GetAnim();
+        return m_PlayerAnim;
     }
 
     #endregion
 
+    public void Knockback(Vector2 _dir, int _damage)
+    {
+        if (m_PlayerMove.GetIsDodge().Equals(true)) return;
+        if (m_PlayerMoveCoroutine != null)
+            StopCoroutine(m_PlayerMoveCoroutine);
+        Vector2 moveDir = ((Vector2)transform.position - _dir).normalized;
+        m_PlayerRigid.AddForce(moveDir * _damage, ForceMode2D.Impulse);
+        m_PlayerMoveCoroutine = StartCoroutine(PlayerMoveUpdate());
+    }
 
+    public void PlayerDamage(int _damage)
+    {
+        if (m_PlayerMove.GetIsDodge().Equals(true)) return;
+        base.OnDamage(_damage);
+    }
+
+    //public void ChangeState(string _state)
+    //{
+    //    switch (_state)
+    //    {
+    //        case "Idle":
+    //            m_CurrState = new PlayerIdleState(this);
+    //            break;
+    //        case "Move":
+    //            m_CurrState = new PlayerMoveState(this);
+    //            break;
+    //        case "Dash":
+    //            m_CurrState = new PlayerDashState(this);
+    //            break;
+    //        case "Dodge":
+    //            m_CurrState = new PlayerDodgeState(this);
+    //            break;
+    //        case "Hit":
+    //            m_CurrState = new PlayerHitState(this);
+    //            break;
+    //        case "Action1":
+    //            m_CurrState = new PlayerAction1State(this);
+    //            break;
+    //        case "Action2":
+    //            m_CurrState = new PlayerAction2State(this);
+    //            break;
+    //        case "Death":
+    //            m_CurrState = new PlayerDeathState(this);
+    //            break;
+    //    }
+    //}
 
 
     // 캐릭터가 상호작용 가능한 오브젝트에 닿으면 그 오브젝트의 실행함수를 InputManager의 상호작용 키와 연결
@@ -202,5 +250,29 @@ public class Player : Unit
             else if (m_CurrSp == m_MaxSp)
                 break;
         }
+    }
+
+    IEnumerator PlayerUpdate()
+    {
+        while(true)
+        {
+            m_PlayerEffect.InitDust(m_PlayerMove.GetSpeed());
+            m_Camera.GetTarget(transform.position);
+            Collider2D hit = Physics2D.OverlapBox(transform.position, new Vector2(1, 1), 0);
+            m_Camera.CameraMove();
+            yield return null;
+        }
+    }
+
+    IEnumerator PlayerMoveUpdate()
+    {
+        mbIsCanMove = false;
+        yield return new WaitForSeconds(0.5f);
+        mbIsCanMove = true;
+        //while(true)
+        //{
+        //    m_PlayerMove.UpdateVelocity();
+        //    yield return null;
+        //}
     }
 }

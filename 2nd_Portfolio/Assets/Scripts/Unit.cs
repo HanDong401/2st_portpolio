@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] protected int m_CurrHp;
+    protected int m_CurrHp;
+    [Header ("스테이터스")]
+    [Space (10f)]
+    [Tooltip ("현재 유닛의 최대체력")]
     [SerializeField] protected int m_MaxHp;
+    [Space (10f)]
+    [Tooltip ("현재 유닛의 방어력")]
     [SerializeField] protected int m_Defense;
 
     public int GetCurrHp()

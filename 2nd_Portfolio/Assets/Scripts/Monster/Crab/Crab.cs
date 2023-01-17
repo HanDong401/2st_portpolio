@@ -4,8 +4,34 @@ using UnityEngine;
 
 public class Crab : Monster
 {
-    protected override void SubExcute()
+    public override void SubAwake()
     {
-        m_Damage = 10;
+
     }
+
+    public override void Ability()
+    {
+
+    }
+
+    public override void Attack1()
+    {
+
+    }
+
+    public override void Attack2()
+    {
+
+    }
+
+    public override void Attack3()
+    {
+
+    }
+
+    public override bool SubCheckState()
+    {
+        return false;
+    }
+
 }
