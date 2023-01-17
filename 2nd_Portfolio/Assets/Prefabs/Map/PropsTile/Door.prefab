@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1444569179073516332}
   - component: {fileID: 1444569179073516333}
-  - component: {fileID: 5833440830123070735}
-  - component: {fileID: -8000848310889285616}
+  - component: {fileID: 3505417779121286628}
+  - component: {fileID: 3572398008077236069}
   m_Layer: 0
   m_Name: Door
   m_TagString: TELEPORT
@@ -86,21 +86,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!64 &5833440830123070735
-MeshCollider:
+--- !u!61 &3505417779121286628
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444569179073516335}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
---- !u!114 &-8000848310889285616
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2.625}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2.625}
+  m_EdgeRadius: 0
+--- !u!114 &3572398008077236069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,6 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1444569179073516335}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc278bc9eeaa64247b82532f8da0175f, type: 3}
+  m_Script: {fileID: 11500000, guid: e4d44cd2bd43ae54b865856e1ec4c29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

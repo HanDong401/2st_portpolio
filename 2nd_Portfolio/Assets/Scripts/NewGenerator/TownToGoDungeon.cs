@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TownToGoDungeon : MonoBehaviour
+public class TownToGoDungeon : MonoBehaviour, Interaction
 {
-    public void TownToGoDungeonSceneChange()
+    public void InteractionExecute()
     {
-        SceneManager.LoadScene("");//이동할 씬 이름
+        Debug.Log("이동성공");
+        //SceneManager.LoadScene("");//이동할 씬 이름
     }
-
-
 }
