@@ -5074,7 +5074,7 @@ MonoBehaviour:
   m_MoveSpeed: 0
   m_MaxMoveSpeed: 150
   m_MaxDashSpeed: 140
-  m_DodgeRange: 300
+  m_DodgeRange: 200
   m_DodgeSpeed: 0
   m_Anim: {fileID: 0}
 --- !u!114 &3037530354450649413

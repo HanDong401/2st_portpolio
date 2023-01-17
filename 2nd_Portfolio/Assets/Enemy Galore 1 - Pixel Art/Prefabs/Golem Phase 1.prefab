@@ -165,11 +165,11 @@ MonoBehaviour:
   m_Attack1Damage: 0
   m_Attack1Range: 0
   m_Attack1Delay: 0
-  m_Attack2Damage: 10
+  m_Attack2Damage: 20
   m_Attack2Range: 2
   m_Attack2Delay: 3
   m_Attack3Damage: 10
-  m_Attack3Range: 0
+  m_Attack3Range: 5
   m_Attack3Delay: 2
   m_AbilityDelay: 0
   m_TargetLayer:
