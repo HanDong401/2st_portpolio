@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1444569179073516332}
   - component: {fileID: 1444569179073516333}
   - component: {fileID: 3505417779121286628}
-  - component: {fileID: 3572398008077236069}
+  - component: {fileID: -4761501815468199404}
   m_Layer: 0
   m_Name: Door
   m_TagString: TELEPORT
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.343921, y: 3.5715873}
   m_EdgeRadius: 0
---- !u!114 &3572398008077236069
+--- !u!114 &-4761501815468199404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,6 +121,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1444569179073516335}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d44cd2bd43ae54b865856e1ec4c29b, type: 3}
+  m_Script: {fileID: 11500000, guid: 97d12edb2f494db4c9212e6368da9275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomFirstDungeonGenerator: {fileID: 5907511561751061422, guid: a9c3ab9a4e5479049a8803453685d1c4,
+    type: 3}

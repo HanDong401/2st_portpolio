@@ -157,8 +157,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.moremountains.topdownengine
-    Standalone: unity.MoreMountains.TopDown
+    Android: com.DefaultCompany.2nd_Portfolio
+    Standalone: com.DefaultCompany.2nd-Portfolio
     Tizen: com.Company.ProductName
     iPhone: com.moremountains.topdownengine
     tvOS: com.Company.ProductName
