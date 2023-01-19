@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JunWooTestDialogue : MonoBehaviour
 {
     [SerializeField] string[] csv_Filenames;
     [SerializeField] TextMeshProUGUI txt_Dialogue;
     [SerializeField] TextMeshProUGUI txt_Name;
+    [SerializeField] private Image[] TextImage;
 
     [SerializeField] Dialougue[] dialogues = null;
     DiaglogueParser Parser = null;
@@ -83,12 +85,20 @@ public class JunWooTestDialogue : MonoBehaviour
     {
         txt_Dialogue.enabled = false;
         txt_Name.enabled = false;
+        for (int i = 0; i < TextImage.Length; i++)
+        {
+            TextImage[i].enabled = false;
+        }
     }
 
     public void TextGoEnable()
     {
         txt_Dialogue.enabled = true;
         txt_Name.enabled = true;
+        for(int i=0;i<TextImage.Length;i++)
+        {
+            TextImage[i].enabled = true;
+        }
     }
     public void TestParseButton(ref Dialougue[] _dialougues)
     {
