@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Dialougue
 {
-    [Tooltip("캐릭터")] public string name;
+    [Tooltip("캐릭터 이름")] public string name;
     [Tooltip("대사 내용")]public string[] contexts;
 }
 [System.Serializable]
