@@ -40,7 +40,7 @@ public class JunWooTestDialogue : MonoBehaviour
     {
         if (LineNumber<dialogues.Length)
         {
-            Debug.Log(dialogues.Length); //3
+            //Debug.Log(dialogues.Length);
             //여기서 사람 이름, 텍스트 켜기(이거 상호작용 키 누르면 들어가야됨 일단 지금은 테스트)
             TextGoEnable();
             //Debug.Log(dialogueNumber);
@@ -71,7 +71,7 @@ public class JunWooTestDialogue : MonoBehaviour
                 dialogueNumber++;
             }
             //Debug.Log("dialogueNumber"+dialogueNumber);
-            Debug.Log("LineNumber"+LineNumber);
+            //Debug.Log("LineNumber"+LineNumber);
         }
         else
         {

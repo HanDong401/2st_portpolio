@@ -979,7 +979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csv_Filenames:
   - TalkingCSV
-  - TestCSV1
+  - MalrangDial
   txt_Dialogue: {fileID: 1896002217}
   txt_Name: {fileID: 52192477}
   dialogues: []

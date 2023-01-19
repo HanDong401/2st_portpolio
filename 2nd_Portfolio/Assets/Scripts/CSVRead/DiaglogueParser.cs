@@ -47,7 +47,6 @@ public class DiaglogueParser : MonoBehaviour
         //같은 사람이 말하는 거라면 같은 배열 안으로 넣어야함
         //다른 사람이 말하는 거면 배열 분리
         List<Dialougue> dialougueList = new List<Dialougue>(_dialougues);
-        int testcnt = 0;
         for(int i=0;  i< dialougueList.Count; i++)
         {
             //Debug.Log($"{i}번째" + _dialougues[i].name);
@@ -67,7 +66,6 @@ public class DiaglogueParser : MonoBehaviour
             //    dialougueList.RemoveAt(i);
             //    i--;
             //}
-            testcnt++;
         }
         return dialougueList.ToArray();
     }
