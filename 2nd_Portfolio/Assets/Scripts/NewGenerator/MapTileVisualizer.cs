@@ -75,7 +75,6 @@ public class MapTileVisualizer : MonoBehaviour
         floorTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
         propsTileMap.ClearAllTiles();
-        
     }
 
     internal void PaintSingleCornerWall(Vector2Int _position, string _binaryType)

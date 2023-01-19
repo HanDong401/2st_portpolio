@@ -20,6 +20,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
 
     private void CreateRooms()
     {
+        Debug.Log("크리에이트 룸 잘 들어옴");
         var roomsList = ProceduralGenerationAlgorithm.BinarySpacePartitioning(new BoundsInt
             ((Vector3Int)startPosition, new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
 
@@ -42,7 +43,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
-        #region 생성 코드
+        #region 생성 관련 코드
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
 
