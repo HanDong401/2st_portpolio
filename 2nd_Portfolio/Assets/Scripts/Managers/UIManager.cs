@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] MainUI m_Main = null;
     [SerializeField] Inventory m_Inventory = null;
+    [SerializeField] MainMenuButton m_MainMenuUI = null;
+    [SerializeField] MainMenuOption m_MainOption = null;
 
     private int m_CurrHp;
     private int m_MaxHp;
@@ -25,6 +27,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(SetMainUI());
             }
         }
+        if (m_MainMenuUI == null)
+        {
+            m_MainMenuUI = GameObject.FindObjectOfType<MainMenuButton>();
+            if (m_MainMenuUI != null)
+            {
+
+            }
+        }
         //if (m_Inventory == null)
         //{
         //    m_Inventory = this.GetComponentInChildren<Inventory>();
@@ -34,6 +44,7 @@ public class UIManager : MonoBehaviour
         //    }
         //}
     }
+
 
     public void ActiveMainUI(bool _bool)
     {

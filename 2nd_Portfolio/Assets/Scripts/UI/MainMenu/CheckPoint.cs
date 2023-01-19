@@ -7,12 +7,12 @@ public class CheckPoint : MonoBehaviour
 {
     [SerializeField] private Image m_CheckPoint = null;
     [SerializeField] private bool mbIsClickButton = false;
-    public bool IsClickButton { get { return mbIsClickButton; } }
 
-    public void OnCheckPoint()
+    public bool OnCheckPoint()
     {
         mbIsClickButton = !mbIsClickButton;
         m_CheckPoint.enabled = mbIsClickButton;
+        return mbIsClickButton;
     }
 
 }

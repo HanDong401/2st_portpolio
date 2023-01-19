@@ -6,36 +6,44 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuButton : MonoBehaviour
 {
-    [SerializeField] Button m_StartButton, m_OptionButton, m_ExitButton;
+    public delegate void MainMenuButtonEvent();
+    private MainMenuButtonEvent m_StartEvent = null;
+    private MainMenuButtonEvent m_ExitEvent = null;
+    [SerializeField] Button m_StartButton, m_OptionButton, m_ExitButton = null;
 
-    public void OnEnable()
+    public void MainMenuButtonAwake()
     {
-        Debug.Log("버튼 OnEnable");
-        SceneManager.sceneLoaded += SetButton;
+        SetStartButton();
+        SetExitButton();
     }
 
-    private void SetButton(Scene scene, LoadSceneMode _mod)
+    private void SetStartButton()
     {
-        Debug.Log("버튼 SetButton");
-        MainSceneManager sceneManager = GameObject.FindObjectOfType<MainSceneManager>();
-        m_StartButton.onClick.AddListener(sceneManager.LoadTestScene);
-        m_OptionButton.onClick.AddListener(sceneManager.LoadMainMenuScene);
-        m_ExitButton.onClick.AddListener(OnExitUI);
+        m_StartButton.onClick.AddListener(OnStartButton);
     }
 
-    public void OnOptionUI()
+    private void SetExitButton()
     {
-        
+        m_ExitButton.onClick.AddListener(OnExitButton);
     }
 
-    public void OnExitUI()
+    private void OnStartButton()
     {
-
+        m_StartEvent?.Invoke();
     }
 
-    private void OnDisable()
+    private void OnExitButton()
     {
-        Debug.Log("버튼 DisEisable");
-        SceneManager.sceneLoaded -= SetButton;
+        m_ExitEvent?.Invoke();
+    }
+
+    public void AddStartEvent(MainMenuButtonEvent _callback)
+    {
+        m_StartEvent = _callback;
+    }
+
+    public void AddExitEvent(MainMenuButtonEvent _callback)
+    {
+        m_ExitEvent = _callback;
     }
 }
