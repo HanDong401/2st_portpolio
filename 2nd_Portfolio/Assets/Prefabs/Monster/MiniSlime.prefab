@@ -101,11 +101,15 @@ MonoBehaviour:
   m_AbilityDelay: 0
   m_TargetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 512
   m_IgnoreLayer:
     serializedVersion: 2
     m_Bits: 64
   mbIsCanAbility: 0
+  mbIsCanAttack1: 1
+  mbIsCanAttack2: 0
+  mbIsCanAttack3: 0
+  m_AttackRangePrefab: {fileID: 0}
 --- !u!114 &4484720112050144201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +133,7 @@ GameObject:
   - component: {fileID: 3693020225688069817}
   - component: {fileID: 3693020225688069819}
   - component: {fileID: 3693020225688069818}
+  - component: {fileID: 7007651398194414818}
   m_Layer: 6
   m_Name: Spiked Slime
   m_TagString: Monster
@@ -224,3 +229,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7007651398194414818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693020225688069816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0e721d046243f4ba71e61cf5247569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

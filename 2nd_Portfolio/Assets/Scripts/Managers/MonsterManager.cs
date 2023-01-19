@@ -14,6 +14,8 @@ public class MonsterManager : MonoBehaviour
     [SerializeField] private Golem1 m_Golem1 = null;
     [SerializeField] private Golem2 m_Golem2 = null;
     [SerializeField] private Golem3 m_Golem3 = null;
+    [SerializeField] private Rat m_Rat = null;
+    [SerializeField] private Pebble m_Pebble = null;
     [SerializeField] private List<Monster> m_MonsterList = new List<Monster>();
 
     private void Awake()
@@ -36,6 +38,7 @@ public class MonsterManager : MonoBehaviour
     {
         Monster monster = Instantiate(SelectMonster(_monster));
         monster.AddMonsterEvent(AStar.PathFinding);
+        monster.AddMonsterSummonEvent(SummonMonster);
         m_MonsterList.Add(monster);
         monster.transform.SetParent(this.transform, false);
         monster.transform.position = _Pos;
@@ -58,7 +61,10 @@ public class MonsterManager : MonoBehaviour
                 return m_Golem2;
             case "Golem3":
                 return m_Golem3;
-                
+            case "Rat":
+                return m_Rat;
+            case "Pebble":
+                return m_Pebble;
         }
         return null;
     }

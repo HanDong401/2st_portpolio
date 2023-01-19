@@ -8,10 +8,20 @@ public class HP : MonoBehaviour
     HPGauge m_HpGauge = null;
     HPNumText m_HpNum = null;
 
-    private void Awake()
+    public void HPAwake()
     {
-        m_HpGauge = this.GetComponentInChildren<HPGauge>();
-        m_HpNum = this.GetComponentInChildren<HPNumText>();
+        if (m_HpGauge == null)
+        {
+            m_HpGauge = this.GetComponentInChildren<HPGauge>();
+            if (m_HpGauge != null)
+                m_HpGauge.HpGaugeAwake();
+        }
+        if (m_HpNum == null)
+        {
+            m_HpNum = this.GetComponentInChildren<HPNumText>();
+            if (m_HpNum != null)
+                m_HpNum.HpNumTextAwake();
+        }
     }
 
     public void UpdateHp(int _currHp, int _maxHp)

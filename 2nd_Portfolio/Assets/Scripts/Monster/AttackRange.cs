@@ -8,6 +8,7 @@ public class AttackRange : MonoBehaviour
     {
         if (this.transform.localScale.x > _radius * 2f)
         {
+            Destroy(this.gameObject);
             return true;
         }
         transform.localScale += new Vector3(_deltaTime, _deltaTime, 0f);

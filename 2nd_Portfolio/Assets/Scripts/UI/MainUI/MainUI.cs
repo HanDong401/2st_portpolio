@@ -7,10 +7,20 @@ public class MainUI : MonoBehaviour
     [SerializeField] HP m_HpUI = null;
     [SerializeField] SP m_SpUI = null;
 
-    private void Awake()
+    public void MainUIAwake()
     {
-        m_HpUI = GetComponentInChildren<HP>();
-        m_SpUI = GetComponentInChildren<SP>();
+        if (m_HpUI == null)
+        {
+            m_HpUI = this.GetComponentInChildren<HP>();
+            if (m_HpUI != null)
+                m_HpUI.HPAwake();
+        }
+        if (m_SpUI == null)
+        {
+            m_SpUI = this.GetComponentInChildren<SP>();
+            if (m_SpUI != null)
+                m_SpUI.SPAwake();
+        }
     }
 
     public void SetHp(int _currHp, int _maxHp)

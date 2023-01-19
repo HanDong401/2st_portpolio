@@ -15,10 +15,10 @@ public class Slime : Monster
 
     public override void Attack1()
     {
-        m_Body = GetComponent<SlimeBody>();
         Anim.SetTrigger("IsAttack");
+        IsCanAttack1 = false;
         StartCoroutine(Attack1Coroutine());
-        StartDelay("Idle", Attack1Delay);
+        
     }
 
     public override bool SubCheckState()
@@ -47,26 +47,40 @@ public class Slime : Monster
         
     }
 
+    public override void Death()
+    {
+        Anim.SetTrigger("IsDeath");
+        Collider.enabled = false;
+        GameObject.Destroy(this.gameObject, 1f);
+    }
+
     private void SlimeAttack1()
     {
-        Target.PlayerDamage(Attack1Damage);
-        Target.Knockback(transform.position, Attack1Damage);
+        Collider2D coll = Physics2D.OverlapCircle(transform.position, 1f, TargetLayer);
+        if (coll != null)
+        {
+            Target.PlayerDamage(Attack1Damage);
+            Target.Knockback(transform.position, Attack1Damage);
+        }
+        StartDelay("Idle", 1f);
     }
 
     IEnumerator SlimeAbility()
     {
+        Anim.SetTrigger("IsAbility");
         Monster monster = m_MonsterSummonEvent("MiniSlime", transform.position);
         monster.InitMonster();
         Rigidbody2D rigid = monster.GetComponent<Rigidbody2D>();
         monster.GetComponent<Drop>().DropObject(rigid, 8f);
         Debug.Log(this.gameObject.name + "어빌리티 발동");
-        yield return null;
+        yield return new WaitForSeconds(1f);
+        ChangeState("Idle");
     }
 
     IEnumerator CheckAbility()
     {
         ChangeState("Ability");
-        yield return new WaitForSeconds(AbilityDelay);
+        yield return new WaitForSeconds(3f);
         mbIsCanAbility = false;
     }
 

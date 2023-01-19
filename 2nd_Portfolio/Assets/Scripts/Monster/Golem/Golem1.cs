@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Golem1 : Monster
 {
+    private GolemUI m_GolemUI = null;
+    private AttackRange m_AttackRange = null;
+    private Coroutine m_Coroutine = null;
+
     public override void SubAwake()
     {
-
+        m_GolemUI = this.GetComponentInChildren<GolemUI>();
+        StartCoroutine(SetHP());
     }
 
     public override void Ability()
     {
-        // 체력이 다깎였을때 혹은 죽었을때 발동하게
-        // 발동할때 어느 타이밍에 게임오브젝트를 지울지도 선택
+        Anim.SetTrigger("IsAbility");
+        IsCanAbility = false;
     }
 
     public override void Attack1()
@@ -22,13 +27,20 @@ public class Golem1 : Monster
 
     public override void Attack2()
     {
-        StartCoroutine(Attack2Coroutine());
+        if (m_Coroutine != null)
+        {
+            StopCoroutine(m_Coroutine);
+            if (m_AttackRange != null)
+                Destroy(m_AttackRange.gameObject);
+        }
+        m_Coroutine = StartCoroutine(Attack2Coroutine());
+        IsCanAttack2 = false;
     }
 
     public override void Attack3()
     {
         Anim.SetTrigger("IsAttack3");
-        StartDelay("Idle", Attack3Delay);
+        IsCanAttack3 = false;
     }
 
     public override bool SubCheckState()
@@ -36,26 +48,49 @@ public class Golem1 : Monster
         return false;
     }
 
-    private void GolemAttack3()
+    public override void Death()
     {
-        Target.PlayerDamage(Attack3Damage);
-        Target.Knockback(transform.position, Attack3Damage);
+        ChangeState("Ability");
+        if (m_Coroutine != null)
+        {
+            StopCoroutine(m_Coroutine);
+            if (m_AttackRange != null)
+                Destroy(m_AttackRange.gameObject);
+        }
     }
 
-    private void GolemAbility()
+    private void GolemAttack3()
+    {
+        Vector2 targetPos = Target.GetPosition();
+        Vector2 targetDir = (targetPos - (Vector2)transform.position).normalized;
+        if (Renderer.flipX.Equals(true))
+        {
+            if (targetDir.x > 0) return;
+        }
+        else
+        {
+            if (targetDir.x < 0) return;
+        }
+        Target.PlayerDamage(Attack3Damage);
+        Target.Knockback(transform.position, Attack3Damage);
+        StartDelay("Idle", 1f);
+        Anim.ResetTrigger("IsAttack3");
+    }
+
+    private void Golem1Ability()
     {
         m_MonsterSummonEvent("Golem2", transform.position);
+        Destroy(this.gameObject);
     }
 
     IEnumerator Attack2Coroutine()
     {
-        AttackRange attackRange = Instantiate(AttackRangePrefab);
-        attackRange.transform.position = transform.position;
+        m_AttackRange = Instantiate(AttackRangePrefab);
+        m_AttackRange.transform.position = transform.position;
         while (true)
         {
-            if (attackRange.EffectRange(Attack2Range, Attack2Delay * Time.deltaTime).Equals(true))
+            if (m_AttackRange.EffectRange(Attack2Range, Attack2Delay * Time.deltaTime).Equals(true))
             {
-                Destroy(attackRange.gameObject);
                 Anim.SetTrigger("IsAttack2");
                 Collider2D target = Physics2D.OverlapCircle(transform.position, Attack2Range, TargetLayer);
                 if (target != null)
@@ -67,6 +102,15 @@ public class Golem1 : Monster
             }
             yield return null;
         }
-        StartDelay("Idle", Attack2Delay);
+        StartDelay("Idle", 1f);
+    }
+
+    IEnumerator SetHP()
+    {
+        while(true)
+        {
+            m_GolemUI.InitGolemUI(m_CurrHp, m_MaxHp);
+            yield return null;
+        }
     }
 }

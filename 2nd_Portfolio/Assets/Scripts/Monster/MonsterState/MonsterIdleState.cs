@@ -7,7 +7,6 @@ public class MonsterIdleState : MonsterBaseState
     public MonsterIdleState(Monster _monster) : base(_monster) { }
     public override void EnterState()
     {
-        Debug.Log("Idle ¿‘¿Â!!");
         m_CurrPos = m_Monster.GetPosition();
     }
 
@@ -35,8 +34,14 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void CheckState()
     {
+        if (m_Monster.Target == null)
+        {
+            m_Monster.ChangeState("Idle");
+            return;
+        }
+
         if (m_Monster.SubCheckState().Equals(true)) return;
-        if (m_Monster.Target == null) return;
+
         Vector2 dir = m_CurrTargetPos - m_CurrPos;
         float sqr = dir.sqrMagnitude;
         if (sqr < m_Monster.DetectRange * m_Monster.DetectRange)

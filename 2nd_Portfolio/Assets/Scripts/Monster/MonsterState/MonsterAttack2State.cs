@@ -10,6 +10,7 @@ public class MonsterAttack2State : MonsterBaseState
     {
         Debug.Log("Attack2 ¿‘¿Â!!");
         m_Monster.Attack2();
+        m_Monster.Attack2CoolTime(m_Monster.Attack2Delay);
     }
 
     public override void UpdateState()
@@ -19,7 +20,6 @@ public class MonsterAttack2State : MonsterBaseState
 
     public override void ExitState()
     {
-        m_Monster.Anim.ResetTrigger("IsAttack2");
         if (m_Monster.Collider.enabled == false)
             m_Monster.Collider.enabled = true;
     }

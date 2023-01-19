@@ -8,9 +8,8 @@ public class MonsterDeathState : MonsterBaseState
 
     public override void EnterState()
     {
-        m_Monster.Anim.SetTrigger("IsDeath");
-        m_Monster.Collider.enabled = false;
-        GameObject.Destroy(m_Monster.gameObject, 1f);
+        m_Monster.Death();
+        
     }
 
     public override void UpdateState()

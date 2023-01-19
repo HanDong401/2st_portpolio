@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,21 +14,52 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager m_UIManager = null;
     [SerializeField] private ItemManager m_ItemManager = null;
     [SerializeField] private MonsterManager m_MonsterManager = null;
+    [SerializeField] private MainSceneManager m_MainSceneManager = null;
+    private Coroutine m_InitUICoroutine = null;
 
     private int m_level = 3;
 
-    private void Awake()
+    private void OnEnable()
     {
-        InitConectEvent();
+        SceneManager.sceneLoaded += SetGameManager;
+    }
+
+    public void SetGameManager(Scene _scene, LoadSceneMode _mod)
+    {
         DontDestroyOnLoad(this.gameObject);
+        SetComponent();
     }
 
-    private void Start()
+    private void SetComponent()
     {
-        StartCoroutine(InitGameManager());
+        if (m_MainSceneManager == null)
+            m_MainSceneManager = GameObject.FindObjectOfType<MainSceneManager>();
+        if (m_UIManager == null)
+        {
+            m_UIManager = GameObject.FindObjectOfType<UIManager>();
+            if (m_UIManager != null)
+            {
+                m_UIManager.UIManagerAwake();
+            }
+        }
+        if (m_Player == null)
+        {
+            m_Player = GameObject.FindObjectOfType<Player>();
+            if (m_Player != null)
+            {
+                m_Player.PlayerInit();
+                ConectPlayerEvent();
+                m_UIManager.ActiveMainUI(true);
+                //m_UIManager.ActiveInventory(true);
+                StartCoroutine(InitUIManager());
+                return;
+            }
+            m_UIManager.ActiveMainUI(false);
+            //m_UIManager.ActiveInventory(false);
+        }
     }
 
-    private void InitConectEvent()
+    private void ConectPlayerEvent()
     {
         m_InputManager.AddOnInputEvent(m_Player.OnMoveCallback);
         m_InputManager.AddOnDashEvent(m_Player.OnDashCallback);
@@ -41,7 +74,7 @@ public class GameManager : MonoBehaviour
         m_InputManager.AddOnInteractionEvent(_interac);
     }
 
-    IEnumerator InitGameManager()
+    IEnumerator InitUIManager()
     {
         while(true)
         {

@@ -34,4 +34,9 @@ public class Crab : Monster
         return false;
     }
 
+    public override void Death()
+    {
+        
+    }
+
 }

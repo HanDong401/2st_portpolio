@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bat : Monster
 {
+    private Coroutine delay = null;
     public override void SubAwake()
     {
         
@@ -12,7 +13,7 @@ public class Bat : Monster
     public override void Attack1()
     {
         Anim.SetTrigger("IsAttack");
-        StartDelay("Idle", Attack1Delay);
+        IsCanAttack1 = false;
     }
 
     public override void Ability()
@@ -36,9 +37,21 @@ public class Bat : Monster
         return false;
     }
 
+    public override void Death()
+    {
+        Anim.SetTrigger("IsDeath");
+        Collider.enabled = false;
+        GameObject.Destroy(this.gameObject, 1f);
+    }
+
     private void BatAttack1()
     {
-        Target.OnDamage(Attack1Damage);
-        Target.Knockback((Vector2)transform.position, Attack1Damage);
+        Collider2D coll = Physics2D.OverlapCircle(transform.position, Attack1Range, TargetLayer);
+        if (coll != null)
+        {
+            Target.OnDamage(Attack1Damage);
+            Target.Knockback((Vector2)transform.position, Attack1Damage);
+        }
+        StartDelay("Idle", 1f);
     }
 }

@@ -7,9 +7,10 @@ public class HPGauge : MonoBehaviour
 {
     Image m_HpImage = null;
 
-    private void Awake()
+    public void HpGaugeAwake()
     {
-        m_HpImage = this.GetComponent<Image>();
+        if (m_HpImage == null)
+            m_HpImage = this.GetComponent<Image>();
     }
 
     public void SetHp(int _currHp, int _maxHp)

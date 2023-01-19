@@ -7,9 +7,10 @@ public class SP : MonoBehaviour
 {
     Image[] m_SpGauge = null;
 
-    private void Awake()
+    public void SPAwake()
     {
-        m_SpGauge = this.GetComponentsInChildren<Image>();
+        if (m_SpGauge == null)
+            m_SpGauge = this.GetComponentsInChildren<Image>();
     }
 
     public void UpdateSp(int _currSp, int _maxSp)

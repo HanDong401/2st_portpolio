@@ -10,6 +10,7 @@ public class MonsterRunState : MonsterBaseState
     private float m_Count = 1;
     private List<Node> m_NodeList;
     private bool mbIsAStar = false;
+    private bool mbIsLookPlayer = false;
 
     Vector2 m_NextPos;
     
@@ -18,7 +19,7 @@ public class MonsterRunState : MonsterBaseState
     {
         Debug.Log("Run 입장!!");
         m_Monster.Anim.SetBool("IsRun", true);
-    }
+   }
 
     public override void UpdateState()
     {
@@ -30,16 +31,23 @@ public class MonsterRunState : MonsterBaseState
         if (m_Count > 1.0f)
         {
             RaycastHit2D hit = Physics2D.Raycast(m_CurrPos, m_CurrTargetPos - m_CurrPos, m_Monster.DetectRange, ~m_Monster.IgnoreLayer);
+            if (hit.collider == null)
+            {
+                m_Monster.ChangeState("Idle");
+            }
             if (hit.transform.CompareTag("Player"))
             {
                 m_NextPos = m_CurrTargetPos;
                 mbIsAStar = false;
+                mbIsLookPlayer = true;
             }
             else
             {
                 m_NodeList = m_Monster.m_MonsterEvent(m_CurrPos, m_CurrTargetPos);
-                m_ListCount = 0;
+                m_ListCount = 1;
+                UpdateNextPos();
                 mbIsAStar = true;
+                mbIsLookPlayer = false;
             }
             m_Count = 0f;
         }
@@ -50,7 +58,6 @@ public class MonsterRunState : MonsterBaseState
             m_ListCount++;
             UpdateNextPos();
         }
-
         Debug.DrawRay(m_CurrPos, m_NextPos - m_CurrPos);
         m_Monster.transform.Translate((m_NextPos - m_CurrPos).normalized * Time.deltaTime * m_Monster.MoveSpeed);
     }
@@ -64,15 +71,16 @@ public class MonsterRunState : MonsterBaseState
     {
         Vector2 dir = m_CurrTargetPos - m_CurrPos;
         float sqr = dir.sqrMagnitude;
+        if (m_Monster.SubCheckState().Equals(true)) return;
 
-        if (sqr > m_Monster.DetectRange * m_Monster.DetectRange)
-            m_Monster.ChangeState("Idle");
-        else if (sqr > m_Monster.Attack2Range * m_Monster.Attack2Range && sqr < m_Monster.Attack3Range * m_Monster.Attack3Range)
-            m_Monster.ChangeState("Attack3");
-        else if (sqr > m_Monster.Attack1Range * m_Monster.Attack1Range && sqr < m_Monster.Attack2Range * m_Monster.Attack2Range)
-            m_Monster.ChangeState("Attack2");
-        else if (sqr < m_Monster.Attack1Range * m_Monster.Attack1Range)
+        if (m_Monster.IsCanAttack1.Equals(true) && mbIsLookPlayer.Equals(true) && sqr < m_Monster.Attack1Range * m_Monster.Attack1Range)
             m_Monster.ChangeState("Attack1");
+        else if (m_Monster.IsCanAttack2.Equals(true) && mbIsLookPlayer.Equals(true) && sqr > m_Monster.Attack1Range * m_Monster.Attack1Range && sqr < m_Monster.Attack2Range * m_Monster.Attack2Range)
+            m_Monster.ChangeState("Attack2");
+        else if (m_Monster.IsCanAttack3.Equals(true) && mbIsLookPlayer.Equals(true) && sqr > m_Monster.Attack2Range * m_Monster.Attack2Range && sqr < m_Monster.Attack3Range * m_Monster.Attack3Range)
+            m_Monster.ChangeState("Attack3");
+        else if (sqr > m_Monster.DetectRange * m_Monster.DetectRange)
+            m_Monster.ChangeState("Idle");
     }
 
     private void CheckFlipX()
@@ -88,11 +96,13 @@ public class MonsterRunState : MonsterBaseState
     private void UpdateNextPos()
     {
         if (m_ListCount < m_NodeList.Count)
+        {
             m_NextPos = new Vector2(m_NodeList[m_ListCount].x, m_NodeList[m_ListCount].y);
+        }
         else
         {
-            Debug.Log("리스트 카운트 오류발생");
-            return;
+            Debug.Log("노드리스트 오류");
+            m_Monster.ChangeState("Idle");
         }
     }
 }

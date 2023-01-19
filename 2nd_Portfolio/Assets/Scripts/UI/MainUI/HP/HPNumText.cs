@@ -7,9 +7,10 @@ public class HPNumText : MonoBehaviour
 {
     Text m_HpNumText = null;
 
-    private void Awake()
+    public void HpNumTextAwake()
     {
-        m_HpNumText = this.GetComponent<Text>();
+        if (m_HpNumText == null)
+            m_HpNumText = this.GetComponent<Text>();
     }
 
     public void SetHpText(int _currHp, int _maxHp)

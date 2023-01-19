@@ -15,8 +15,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float m_MaxDashSpeed = 0f;
     [SerializeField] private float m_DodgeRange = 0f;
     [SerializeField] private float m_DodgeSpeed;
-    private Rigidbody2D m_Rigid = null;
     [SerializeField] private Animator m_Anim = null;
+    private Rigidbody2D m_Rigid = null;
     private SpriteRenderer m_Sprite = null;
     private Vector2 m_MoveDir;
     private Vector2 m_CurrDir;
@@ -24,6 +24,8 @@ public class PlayerMove : MonoBehaviour
     private bool mbIsOnDash = false;
     private bool mbIsOnDodge = false;
     private bool mbIsFlipX = false;
+    public delegate void DodgeEvent(int _layer);
+    private DodgeEvent m_DodgeEvent = null;
 
     #endregion
 
@@ -96,6 +98,7 @@ public class PlayerMove : MonoBehaviour
     {
         mbIsOnDodge = true;
         m_Anim.SetTrigger("IsRoll");
+        m_DodgeEvent(11);
         //if (m_MoveDir != Vector2.zero)
         //{
         //    Vector2 prevDir = m_MoveDir;
@@ -113,6 +116,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OffDodge()
     {
+        m_DodgeEvent(9);
         StartCoroutine(IsOnDodgeDelay());
         m_MoveDir = m_CurrDir;
         SetFlipX();
@@ -142,6 +146,11 @@ public class PlayerMove : MonoBehaviour
     public float GetSpeed()
     {
         return m_MoveSpeed + m_DashSpeed + m_DodgeSpeed;
+    }
+
+    public void AddDodgeEvent(DodgeEvent _callback)
+    {
+        m_DodgeEvent = _callback;
     }
 
 

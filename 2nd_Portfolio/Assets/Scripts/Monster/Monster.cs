@@ -79,6 +79,16 @@ public abstract class Monster : Unit
     [Space (10f)]
     [Tooltip("어빌리티 발동 가능 유무")]
     [SerializeField] protected bool mbIsCanAbility = true;
+    public bool IsCanAbility { get { return mbIsCanAbility; } set { mbIsCanAbility = value; } }
+    [Tooltip("공격1 발동 가능 유무")]
+    [SerializeField] protected bool mbIsCanAttack1 = false;
+    public bool IsCanAttack1 { get { return mbIsCanAttack1; } set { mbIsCanAttack1 = value; } }
+    [Tooltip("공격2 발동 가능 유무")]
+    [SerializeField] protected bool mbIsCanAttack2 = false;
+    public bool IsCanAttack2 { get { return mbIsCanAttack2; } set { mbIsCanAttack2 = value; } }
+    [Tooltip("공격3 발동 가능 유무")]
+    [SerializeField] protected bool mbIsCanAttack3 = false;
+    public bool IsCanAttack3 { get { return mbIsCanAttack3; } set { mbIsCanAttack3 = value; } }
     [Space(10f)]
     [Header("프리팹")]
     [Space(10f)]
@@ -118,6 +128,7 @@ public abstract class Monster : Unit
     public abstract void Attack2();
     public abstract void Attack3();
     public abstract void Ability();
+    public abstract void Death();
     public abstract void SubAwake();
 
     public void ChangeState(string _state)
@@ -150,6 +161,7 @@ public abstract class Monster : Unit
                 break;
         }
     }
+
 
     public void AddMonsterEvent(MonsterEvent _callback)
     {
@@ -187,6 +199,26 @@ public abstract class Monster : Unit
         StartCoroutine(ChangeStateDelayCoroutine(_state, _delay));
     }
 
+    public void AbilityCoolTime(float _delay)
+    {
+        StartCoroutine(AbilityCoolTimeCoroutine(_delay));
+    }
+
+    public void Attack1CoolTime(float _delay)
+    {
+        StartCoroutine(Attack1CoolTimeCoroutine(_delay));
+    }
+
+    public void Attack2CoolTime(float _delay)
+    {
+        StartCoroutine(Attack2CoolTimeCoroutine(_delay));
+    }
+
+    public void Attack3CoolTime(float _delay)
+    {
+        StartCoroutine(Attack3CoolTimeCoroutine(_delay));
+    }
+
     IEnumerator RunUpdateCoroutine()
     {
         while(true)
@@ -202,4 +234,26 @@ public abstract class Monster : Unit
         yield return new WaitForSeconds(_delay);
         ChangeState(_state);
     }
+
+    IEnumerator AbilityCoolTimeCoroutine(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        mbIsCanAbility = true;
+    }
+    IEnumerator Attack1CoolTimeCoroutine(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        mbIsCanAttack1 = true;
+    }
+    IEnumerator Attack2CoolTimeCoroutine(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        mbIsCanAttack2 = true;
+    }
+    IEnumerator Attack3CoolTimeCoroutine(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        mbIsCanAttack3 = true;
+    }
+
 }

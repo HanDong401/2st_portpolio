@@ -164,7 +164,7 @@ MonoBehaviour:
   m_DetectRange: 15
   m_Attack1Damage: 5
   m_Attack1Range: 1
-  m_Attack1Delay: 1
+  m_Attack1Delay: 2
   m_Attack2Damage: 0
   m_Attack2Range: 0
   m_Attack2Delay: 0
@@ -174,9 +174,12 @@ MonoBehaviour:
   m_AbilityDelay: 0
   m_TargetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 512
   m_IgnoreLayer:
     serializedVersion: 2
     m_Bits: 64
   mbIsCanAbility: 0
+  mbIsCanAttack1: 1
+  mbIsCanAttack2: 0
+  mbIsCanAttack3: 0
   m_AttackRangePrefab: {fileID: 0}

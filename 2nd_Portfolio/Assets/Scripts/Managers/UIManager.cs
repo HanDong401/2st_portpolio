@@ -13,17 +13,36 @@ public class UIManager : MonoBehaviour
     private int m_CurrSp;
     private int m_MaxSp;
 
-
-    private void Awake()
+    public void UIManagerAwake()
     {
-        m_Main = GetComponentInChildren<MainUI>();
-        m_Inventory = GetComponentInChildren<Inventory>();
+        DontDestroyOnLoad(this.gameObject);
+        if (m_Main == null)
+        {
+            m_Main = this.GetComponentInChildren<MainUI>();
+            if (m_Main != null)
+            {
+                m_Main.MainUIAwake();
+                StartCoroutine(SetMainUI());
+            }
+        }
+        //if (m_Inventory == null)
+        //{
+        //    m_Inventory = this.GetComponentInChildren<Inventory>();
+        //    if (m_Inventory != null)
+        //    {
+        //        // 인벤토리 초기화
+        //    }
+        //}
     }
 
-    private void Start()
+    public void ActiveMainUI(bool _bool)
     {
-        if (m_Main != null)
-            StartCoroutine(SetMainUI());
+        m_Main.gameObject.SetActive(_bool);
+    }
+
+    public void ActiveInventory(bool _bool)
+    {
+        m_Inventory.gameObject.SetActive(_bool);
     }
 
     public void InitUIManager(int _currHp = 100, int _maxHp = 100, int _currSp = 1, int _maxSp = 1)

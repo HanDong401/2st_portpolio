@@ -20,25 +20,35 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -495038541334910322, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: -495038541334910322, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.083333336
-      value: {fileID: -2061379301136031501, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: -2061379301136031501, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.16666667
-      value: {fileID: -3843940900294628759, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: -3843940900294628759, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.25
-      value: {fileID: -5165715128601406083, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: -5165715128601406083, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.33333334
-      value: {fileID: -5615211522960254107, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: -5615211522960254107, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.41666666
-      value: {fileID: 608909239458850662, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: 608909239458850662, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.5
-      value: {fileID: 875539581526185460, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: 875539581526185460, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.5833333
-      value: {fileID: 8762644879769916076, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: 8762644879769916076, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.6666667
-      value: {fileID: 7541593295242489936, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: 7541593295242489936, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     - time: 0.75
-      value: {fileID: 4087786673554300872, guid: 17d4906971d6bda4e933ec3e391815ea, type: 3}
+      value: {fileID: 4087786673554300872, guid: 17d4906971d6bda4e933ec3e391815ea,
+        type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -92,4 +102,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.33333334
+    functionName: Golem3Attack3
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

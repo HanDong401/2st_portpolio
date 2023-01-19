@@ -28,9 +28,16 @@ public class Player : Unit
     [SerializeField] private CameraSet m_Camera = null;
     //private PlayerBaseState m_CurrState = null;
 
-    private void Awake()
+    public void PlayerInit()
     {
+        PlayerAwake();
+        PlayerStart();
+    }
+    private void PlayerAwake()
+    {
+        DontDestroyOnLoad(this.gameObject);
         m_PlayerMove = this.GetComponentInChildren<PlayerMove>();
+        m_PlayerMove.AddDodgeEvent(SetLayer);
         m_PlayerAnim = this.GetComponentInChildren<Animator>();
         m_PlayerAnimation = this.GetComponentInChildren<PlayerAnimation>();
         m_PlayerAction = this.GetComponent<PlayerAction>();
@@ -54,7 +61,7 @@ public class Player : Unit
             yield return null;
         }
     }
-    private void Start()
+    private void PlayerStart()
     {
         SetMaxHp(100);
         SetCurrHp(m_MaxHp);
@@ -62,7 +69,6 @@ public class Player : Unit
         SetCurrSp(m_MaxSp);
         m_PlayerUpdateCoroutine = StartCoroutine(PlayerUpdate());
         mbIsCanMove = true;
-        //m_PlayerMoveCoroutine = StartCoroutine(PlayerMoveUpdate());
     }
 
     private void FixedUpdate()
@@ -166,6 +172,10 @@ public class Player : Unit
         return m_PlayerAnim;
     }
 
+    public void SetPlayerPosition(Vector2 _pos)
+    {
+        this.transform.position = _pos;
+    }
     #endregion
 
     public void Knockback(Vector2 _dir, int _damage)
@@ -174,6 +184,7 @@ public class Player : Unit
         if (m_PlayerMoveCoroutine != null)
             StopCoroutine(m_PlayerMoveCoroutine);
         Vector2 moveDir = ((Vector2)transform.position - _dir).normalized;
+        m_PlayerRigid.velocity = Vector2.zero;
         m_PlayerRigid.AddForce(moveDir * _damage, ForceMode2D.Impulse);
         m_PlayerMoveCoroutine = StartCoroutine(PlayerMoveUpdate());
     }
@@ -182,6 +193,11 @@ public class Player : Unit
     {
         if (m_PlayerMove.GetIsDodge().Equals(true)) return;
         base.OnDamage(_damage);
+    }
+
+    public void SetLayer(int _layer)
+    {
+        this.gameObject.layer = _layer;
     }
 
     //public void ChangeState(string _state)
