@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: bbb934619896dfd48b8ea76e0c5a1add
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: a0b3be9ea2bd29f4990b318d056a0f5e
+    path: Assets/Scenes/TownScene.unity
+    guid: 6269dd3cea31ba7438f1588587beed0d
+  - enabled: 1
+    path: Assets/Scenes/DungeonScene.unity
+    guid: bf4b1232b22c6aa40af11e8ba4b4695d
+  - enabled: 1
+    path: Assets/Scenes/HandongIn.unity
+    guid: 95121f04c6e3f2a42ac697ca90bca259
   m_configObjects: {}

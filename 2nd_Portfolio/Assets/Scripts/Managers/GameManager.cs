@@ -15,9 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemManager m_ItemManager = null;
     [SerializeField] private MonsterManager m_MonsterManager = null;
     [SerializeField] private MainSceneManager m_MainSceneManager = null;
+    [SerializeField] private TeleportTile m_TeleportTile = null;
     private Coroutine m_InitUICoroutine = null;
 
     private int m_level = 3;
+    private bool mbIsOnBgmSound = true;
+    private bool mbIsOnEffectSound = true;
 
     private void OnEnable()
     {
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public void SetGameManager(Scene _scene, LoadSceneMode _mod)
     {
+        Debug.Log("SetGameManager 실행");
         DontDestroyOnLoad(this.gameObject);
         SetComponent();
     }
@@ -37,10 +41,13 @@ public class GameManager : MonoBehaviour
         if (m_UIManager == null)
         {
             m_UIManager = GameObject.FindObjectOfType<UIManager>();
-            if (m_UIManager != null)
-            {
-                m_UIManager.UIManagerAwake();
-            }
+            m_UIManager.AddMainStartEvent(m_MainSceneManager.LoadScene);
+            m_UIManager.AddMainExitEvent(QuitGame);
+            m_UIManager.UIManagerAwake();
+        }
+        else
+        {
+            m_UIManager.UIManagerStart();
         }
         if (m_Player == null)
         {
@@ -57,6 +64,18 @@ public class GameManager : MonoBehaviour
             m_UIManager.ActiveMainUI(false);
             //m_UIManager.ActiveInventory(false);
         }
+        if (m_TeleportTile == null)
+        {
+            m_TeleportTile = GameObject.FindObjectOfType<TeleportTile>();
+            if (m_TeleportTile != null)
+            {
+                m_TeleportTile.TeleAwake();
+            }
+        }
+        else
+        {
+            m_TeleportTile.TeleStart();
+        }
     }
 
     private void ConectPlayerEvent()
@@ -72,6 +91,24 @@ public class GameManager : MonoBehaviour
     public void SetInetraction(Interaction _interac)
     {
         m_InputManager.AddOnInteractionEvent(_interac);
+    }
+
+    private void SetIsBgm(bool _bool)
+    {
+        mbIsOnBgmSound = _bool;
+    }
+
+    private void SetIsEffect(bool _bool)
+    {
+        mbIsOnEffectSound = _bool;
+    }
+
+    private void QuitGame()
+    {
+        //유니티 에디터 사용중일시
+        UnityEditor.EditorApplication.isPlaying = false;
+        //빌드 시
+        //Application.Quit();
     }
 
     IEnumerator InitUIManager()

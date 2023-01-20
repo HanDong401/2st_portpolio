@@ -5,10 +5,17 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] MainUI m_Main = null;
-    [SerializeField] Inventory m_Inventory = null;
-    [SerializeField] MainMenuButton m_MainMenuUI = null;
-    [SerializeField] MainMenuOption m_MainOption = null;
+    public delegate void UIManagerSceneEvent(string _name);
+    public delegate void UIManagerEvent();
+    [SerializeField] private UIManagerSceneEvent m_MainStartEvent = null;
+    [SerializeField] private UIManagerEvent m_MainExitEvent = null;
+    [SerializeField] private MainUI m_Main = null;
+    [SerializeField] private Inventory m_Inventory = null;
+    [SerializeField] private MainMenuButton m_MainMenuButton = null;
+    [SerializeField] private MainMenuOption m_MainOption = null;
+    [SerializeField] private Image m_Fade = null;
+    [SerializeField] private bool mbIsFadeOut = false;
+    private Coroutine m_FadeCoroutine = null;
 
     private int m_CurrHp;
     private int m_MaxHp;
@@ -27,14 +34,6 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(SetMainUI());
             }
         }
-        if (m_MainMenuUI == null)
-        {
-            m_MainMenuUI = GameObject.FindObjectOfType<MainMenuButton>();
-            if (m_MainMenuUI != null)
-            {
-
-            }
-        }
         //if (m_Inventory == null)
         //{
         //    m_Inventory = this.GetComponentInChildren<Inventory>();
@@ -45,6 +44,40 @@ public class UIManager : MonoBehaviour
         //}
     }
 
+    public void UIManagerStart()
+    {
+        if (m_MainMenuButton == null)
+        {
+            m_MainMenuButton = GameObject.FindObjectOfType<MainMenuButton>();
+            if (m_MainMenuButton != null)
+            {
+                m_MainMenuButton.AddStartEvent(OnMainStartEvent);
+                m_MainMenuButton.AddExitEvent(OnMainExitEvent);
+                m_MainMenuButton.MainMenuButtonAwake();
+            }
+        }
+    }
+
+    public void OnMainStartEvent(string _name)
+    {
+        m_Fade.gameObject.SetActive(true);
+        FadeOut(_name);
+    }
+
+    private void OnMainExitEvent()
+    {
+        m_MainExitEvent?.Invoke();
+    }
+
+    public void AddMainStartEvent(UIManagerSceneEvent _callback)
+    {
+        m_MainStartEvent = _callback;
+    }
+
+    public void AddMainExitEvent(UIManagerEvent _callback)
+    {
+        m_MainExitEvent = _callback;
+    }
 
     public void ActiveMainUI(bool _bool)
     {
@@ -62,6 +95,60 @@ public class UIManager : MonoBehaviour
         this.m_MaxHp = _maxHp;
         this.m_CurrSp = _currSp;
         this.m_MaxSp = _maxSp;
+    }
+
+    public void FadeOut(string _name)
+    {
+        if (m_FadeCoroutine != null)
+        {
+            StopCoroutine(m_FadeCoroutine);
+        }
+        m_FadeCoroutine = StartCoroutine(FadeOutCoroutine(_name));
+    }
+
+    public void FadeIn()
+    {
+        if (m_FadeCoroutine != null)
+        {
+            StopCoroutine(m_FadeCoroutine);
+        }
+        m_FadeCoroutine = StartCoroutine(FadeInCoroutine());
+
+    }
+
+    IEnumerator FadeOutCoroutine(string _name)
+    {
+        if (mbIsFadeOut.Equals(false))
+        {
+            float count = 0f;
+            while(count <= 1f)
+            {
+                count += Time.deltaTime;
+                m_Fade.color = new Color(0f, 0f, 0f, count);
+                yield return null;
+            }
+            mbIsFadeOut = true;
+            if (m_MainStartEvent != null)
+                m_MainStartEvent(_name);
+            yield return new WaitForSeconds(1f);
+            FadeIn();
+        }
+    }
+
+    IEnumerator FadeInCoroutine()
+    {
+        if (mbIsFadeOut.Equals(true))
+        {
+            float count = 1f;
+            while(count >= 0f)
+            {
+                count -= Time.deltaTime;
+                m_Fade.color = new Color(0f, 0f, 0f, count);
+                yield return null;
+            }
+            mbIsFadeOut = false;
+            m_Fade.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator SetMainUI()

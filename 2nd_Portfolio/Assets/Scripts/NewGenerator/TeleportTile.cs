@@ -6,28 +6,34 @@ public class TeleportTile : MonoBehaviour
 {
     [SerializeField] private RoomFirstDungeonGenerator RoomFirstDungeonGenerator;
     int dungeonLevel=0;
-    private void Update()//기능 테스트용
+    public void TeleAwake()//기능 테스트용
     {
-        if(Input.GetKeyDown("j"))
-        {
-            DungeonLevelUp(dungeonLevel);
+        DontDestroyOnLoad(this);
+        DungeonLevelUp();
+        if (RoomFirstDungeonGenerator == null)
+            RoomFirstDungeonGenerator = GameObject.FindObjectOfType<RoomFirstDungeonGenerator>();
+        if (RoomFirstDungeonGenerator != null)
             DungeonClearAndGenerateNew();
-            Debug.Log("잘됨");
-        }
+        Debug.Log("잘됨");
+    }
+    public void TeleStart()
+    {
+        DungeonLevelUp();
     }
     public void DungeonLevelGoZero(int _dungeonLevel)//게임 시작시 던전 레벨 초기화
     {
         _dungeonLevel = 0;
     }
 
-    public void DungeonLevelUp(int _dungeonLevel)
+    public void DungeonLevelUp()
     {
-        _dungeonLevel++;
+        dungeonLevel++;
     }
 
     public void DungeonClearAndGenerateNew()
     {
-        RoomFirstDungeonGenerator.GenerateDungeon();
+        if (RoomFirstDungeonGenerator != null)
+            RoomFirstDungeonGenerator.GenerateDungeon();
     }
     //여기에 콜라이더 검출하는 함수 만들기
 

@@ -6,9 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuButton : MonoBehaviour
 {
-    public delegate void MainMenuButtonEvent();
-    private MainMenuButtonEvent m_StartEvent = null;
-    private MainMenuButtonEvent m_ExitEvent = null;
+    public delegate void MainMenuStartEvent(string _name);
+    public delegate void MainMenuExitEvent();
+    private MainMenuStartEvent m_StartEvent = null;
+    private MainMenuExitEvent m_ExitEvent = null;
     [SerializeField] Button m_StartButton, m_OptionButton, m_ExitButton = null;
 
     public void MainMenuButtonAwake()
@@ -27,9 +28,11 @@ public class MainMenuButton : MonoBehaviour
         m_ExitButton.onClick.AddListener(OnExitButton);
     }
 
+
     private void OnStartButton()
     {
-        m_StartEvent?.Invoke();
+        if (m_StartEvent != null)
+            m_StartEvent("HandongIn");
     }
 
     private void OnExitButton()
@@ -37,12 +40,12 @@ public class MainMenuButton : MonoBehaviour
         m_ExitEvent?.Invoke();
     }
 
-    public void AddStartEvent(MainMenuButtonEvent _callback)
+    public void AddStartEvent(MainMenuStartEvent _callback)
     {
         m_StartEvent = _callback;
     }
 
-    public void AddExitEvent(MainMenuButtonEvent _callback)
+    public void AddExitEvent(MainMenuExitEvent _callback)
     {
         m_ExitEvent = _callback;
     }

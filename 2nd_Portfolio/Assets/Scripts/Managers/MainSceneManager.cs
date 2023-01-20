@@ -9,14 +9,23 @@ public class MainSceneManager : MonoBehaviour
     {
         Debug.Log("¾À¸Å´ÏÀú Start");
         DontDestroyOnLoad(this);
-        LoadMainMenuScene();
+        LoadScene("MainMenuScene");
     }
-    public void LoadMainMenuScene()
+
+    public void LoadScene(string _name)
     {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene(_name);
     }
-    public void LoadTestScene()
-    {
-        SceneManager.LoadScene("TestScene");
-    }
+    //public void LoadMainMenuScene()
+    //{
+    //    SceneManager.LoadScene("MainMenuScene");
+    //}
+    //public void LoadTownScene()
+    //{
+    //    SceneManager.LoadScene("TownScene");
+    //}
+    //public void LoadDungeonScene()
+    //{
+    //    SceneManager.LoadScene("DungeonScene");
+    //}
 }

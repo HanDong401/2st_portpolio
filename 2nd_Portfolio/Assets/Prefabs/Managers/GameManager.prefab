@@ -50,3 +50,5 @@ MonoBehaviour:
   m_UIManager: {fileID: 0}
   m_ItemManager: {fileID: 0}
   m_MonsterManager: {fileID: 0}
+  m_MainSceneManager: {fileID: 0}
+  m_TeleportTile: {fileID: 0}
