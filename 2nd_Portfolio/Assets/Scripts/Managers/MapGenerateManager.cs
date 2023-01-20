@@ -9,16 +9,24 @@ public class MapGenerateManager : MonoBehaviour
     [SerializeField] Props props = null;
     [SerializeField] SpecialTileInstantiator specialTileInstantiator = null;
 
+    [SerializeField] int DungeonLevel = 0;
     public void DungeonGenerate()
     {
         MapTileVisualizer.Clear();
+        DungeonLevel = roomFirstDungeonGenerator.ReturnDungeonLevel();
         //여기에 플레이어 위치 스타트 위치로 가는 함수 호출
-
+        if (DungeonLevel > 3)
+        {
+            //보스룸 생성 1.
+            roomFirstDungeonGenerator.SetDungeonWidthHeightBossRoom();
+        }
         roomFirstDungeonGenerator.GenerateDungeon();
+        roomFirstDungeonGenerator.PlusDungeonLevel();
         
     }
     public Vector2 GetStartPos()
     {
         return roomFirstDungeonGenerator.GetStartPos();
     }
+    
 }
