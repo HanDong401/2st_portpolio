@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager m_UIManager = null;
     [SerializeField] private ItemManager m_ItemManager = null;
     [SerializeField] private MonsterManager m_MonsterManager = null;
+    [SerializeField] private MapGenerateManager m_MapGenerateManager = null;
 
     private int m_level = 3;
 
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(InitGameManager());
     }
-
     private void InitConectEvent()
     {
         m_InputManager.AddOnInputEvent(m_Player.OnMoveCallback);

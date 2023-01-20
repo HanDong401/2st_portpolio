@@ -168,7 +168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52192475}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 266887240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc278bc9eeaa64247b82532f8da0175f, type: 3}
   m_Name: 
@@ -731,6 +731,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1940832144268409523, guid: e0623d178859ed846ad68b8784da331e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.48
+      objectReference: {fileID: 0}
     - target: {fileID: 2069624795449187478, guid: e0623d178859ed846ad68b8784da331e,
         type: 3}
       propertyPath: orthographic size
@@ -953,6 +958,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NameWhitePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8247196848458688966, guid: 7fe5c2ab9f33e1146a1f0db1fd08c6db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8247196848458688967, guid: 7fe5c2ab9f33e1146a1f0db1fd08c6db,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1067,7 +1077,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1026233636}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -7739,7 +7749,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 8247196850182818483}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -7789,7 +7799,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896002215}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -8373,6 +8383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ContextWhitePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8247196848458688966, guid: 7fe5c2ab9f33e1146a1f0db1fd08c6db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8247196848458688967, guid: 7fe5c2ab9f33e1146a1f0db1fd08c6db,
         type: 3}

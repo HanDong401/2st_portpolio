@@ -8,6 +8,7 @@ public class Props : AbstractProps
 {
     private HashSet<Vector2Int> propPos;
     [SerializeField] private int maxCount = 15;
+    Vector2Int indexPosition = Vector2Int.zero;
     protected override void SetPropsPosition()
     {
 
@@ -100,7 +101,7 @@ public class Props : AbstractProps
         //Debug.Log("MultipleMinusTeleportPosition.x" + MultipleMinusTeleportPosition.x);
         //Debug.Log("MultipleMinusTeleportPosition.y" + MultipleMinusTeleportPosition.y);
         Vector2Int FarPosition = MultipleMinusTeleportPosition;//거리비교해서 저장할 변수
-        Vector2Int indexPosition = Vector2Int.zero;
+        
         float distance = 10000;
         float compareDistance = 0;
 
@@ -112,12 +113,19 @@ public class Props : AbstractProps
             if (distance > compareDistance)//저장되어 있는 거리값이 위에서 계산한 거리비교계산보다 작다면
             {
                indexPosition = ListPlaceablePos[index];//인덱스포지션에 값을 저장하고
-                distance = compareDistance;//거리에 비교거리값 저장
+               distance = compareDistance;//거리에 비교거리값 저장
             }
         }
+        indexPosition += Vector2Int.up;
+        indexPosition += Vector2Int.right;
         propPos.Add(indexPosition);
         //Debug.Log("공정 완료");
         return propPos;
+    }
+    public Vector2 GetStartPos()
+    {
+        Vector2 startPos = indexPosition;
+        return startPos;
     }
     public HashSet<Vector2Int> SetItemChestTile(
         HashSet<Vector2Int> _TeleportPos, HashSet<Vector2Int> _StartPos, HashSet<Vector2Int> _PlaceablePosition)
