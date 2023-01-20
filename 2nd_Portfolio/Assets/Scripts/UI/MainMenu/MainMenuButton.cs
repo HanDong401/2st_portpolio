@@ -32,7 +32,7 @@ public class MainMenuButton : MonoBehaviour
     private void OnStartButton()
     {
         if (m_StartEvent != null)
-            m_StartEvent("HandongIn");
+            m_StartEvent("TownScene");
     }
 
     private void OnExitButton()
