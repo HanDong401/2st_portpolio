@@ -605,6 +605,11 @@ PrefabInstance:
       propertyPath: m_InputManager
       value: 
       objectReference: {fileID: 775234843}
+    - target: {fileID: 7853460881577336965, guid: 15dd2cdb285a5684f8ea678904b6b360,
+        type: 3}
+      propertyPath: m_MapGenerateManager
+      value: 
+      objectReference: {fileID: 5163170850480565932}
     - target: {fileID: 7853460881577336986, guid: 15dd2cdb285a5684f8ea678904b6b360,
         type: 3}
       propertyPath: m_Name
@@ -644,6 +649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapGenerateManager: {fileID: 0}
+  NPCImage: []
 --- !u!61 &1089245193
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7401,9 +7407,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
         type: 3}
+      propertyPath: props
+      value: 
+      objectReference: {fileID: 254784978}
+    - target: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
+        type: 3}
       propertyPath: MapTileVisualizer
       value: 
       objectReference: {fileID: 1094777757}
+    - target: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
+        type: 3}
+      propertyPath: specialTileInstantiator
+      value: 
+      objectReference: {fileID: 1365443517}
     - target: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
         type: 3}
       propertyPath: roomFirstDungeonGenerator
@@ -7466,6 +7482,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb8663e940070b04498b358b4adc5a62, type: 3}
+--- !u!114 &5163170850480565932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
+    type: 3}
+  m_PrefabInstance: {fileID: 5163170850480565931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee9e69daf2dcb4da32f3baf5f1e7fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5776166143553640856
 PrefabInstance:
   m_ObjectHideFlags: 0

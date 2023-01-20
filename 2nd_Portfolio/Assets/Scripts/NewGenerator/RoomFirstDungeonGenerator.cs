@@ -12,7 +12,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField] private bool randomWalkRooms = false;
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
-
+    [SerializeField]private int DungeonLevel=0;
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
@@ -84,6 +84,23 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     public Vector2 GetStartPos()
     {
         return props.GetStartPos();
+    }
+    public void SetDungeonWidthHeightBossRoom()
+    {
+        minRoomHeight = dungeonHeight;
+        minRoomWidth = dungeonWidth;
+    }
+    public void SetDungeonLevelZero()
+    {
+        DungeonLevel = 0;
+    }
+    public void PlusDungeonLevel()
+    {
+        DungeonLevel++;
+    }
+    public int ReturnDungeonLevel()
+    {
+        return DungeonLevel;
     }
     public void AddRoomEvent(RoomEvent _callback)
     {

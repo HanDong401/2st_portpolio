@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemManager m_ItemManager = null;
     [SerializeField] private MonsterManager m_MonsterManager = null;
     [SerializeField] private MapGenerateManager m_MapGenerateManager = null;
+    [SerializeField] private TownToGoDungeon townToGoDungeon = null;
 
-    private int m_level = 3;
-
+    
     private void Awake()
     {
         InitConectEvent();
