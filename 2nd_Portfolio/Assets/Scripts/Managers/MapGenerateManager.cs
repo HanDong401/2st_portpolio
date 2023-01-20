@@ -6,7 +6,8 @@ public class MapGenerateManager : MonoBehaviour
 {
     [SerializeField] RoomFirstDungeonGenerator roomFirstDungeonGenerator = null;
     [SerializeField] MapTileVisualizer MapTileVisualizer= null;
-    
+    [SerializeField] Props props = null;
+    [SerializeField] SpecialTileInstantiator specialTileInstantiator = null;
 
     public void DungeonGenerate()
     {
@@ -15,5 +16,9 @@ public class MapGenerateManager : MonoBehaviour
 
         roomFirstDungeonGenerator.GenerateDungeon();
         
+    }
+    public Vector2 GetStartPos()
+    {
+        return roomFirstDungeonGenerator.GetStartPos();
     }
 }

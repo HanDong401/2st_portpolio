@@ -81,7 +81,10 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         if (roomEvent != null)
             roomEvent();
     }
-
+    public Vector2 GetStartPos()
+    {
+        return props.GetStartPos();
+    }
     public void AddRoomEvent(RoomEvent _callback)
     {
         roomEvent = _callback;

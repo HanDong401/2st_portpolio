@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DungeonToNextFloor : MonoBehaviour, Interaction
 {
+    [SerializeField] MapGenerateManager mapGenerateManager;
     [SerializeField] private Image[] NPCImage = null;
     public delegate Player spawnEvent();
     private spawnEvent m_SpawnEvent;
@@ -35,7 +36,6 @@ public class DungeonToNextFloor : MonoBehaviour, Interaction
         m_SpawnEvent = _callback;
     }
 
-    [SerializeField] MapGenerateManager mapGenerateManager;
     public void InteractionExecute()
     {
         m_Player = m_SpawnEvent?.Invoke();
