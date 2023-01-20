@@ -32,7 +32,10 @@ public class Props : AbstractProps
         }
         return propPos;
     }
-
+    public void SetPropsCntFreely(int _PropsCnt)//ÀÌ°Å ¾È¸Ô³× ¹¹Áö
+    {
+        maxCount = _PropsCnt;
+    }
     public HashSet<Vector2Int> SetTeleportTilePos(HashSet<Vector2Int> _PlaceablePosition, HashSet<Vector2Int> _NowPlacingTile)
     {
         propPos.Clear();

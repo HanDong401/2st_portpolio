@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DungeonToNextFloor : MonoBehaviour, Interaction
 {
-    [SerializeField] MapGenerateManager mapGenerateManager;
+    [SerializeField] MapGenerateManager mapGenerateManager=null;
     [SerializeField] private Image[] NPCImage = null;
     public delegate Player spawnEvent();
     private spawnEvent m_SpawnEvent;
@@ -12,6 +12,7 @@ public class DungeonToNextFloor : MonoBehaviour, Interaction
 
     private void OnEnable()
     {
+        mapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
         for (int i = 0; i < NPCImage.Length; i++)
         {
             NPCImage[i].enabled = false;

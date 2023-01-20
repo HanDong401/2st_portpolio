@@ -44,7 +44,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += SetGameManager;
     }
-
+    public void SetPlayerPosition()
+    {
+        m_Player.SetPlayerPosition(m_MapGenerateManager.GetStartPos());
+    }
     public void SetGameManager(Scene _scene, LoadSceneMode _mod)
     {
         Debug.Log("SetGameManager ½ÇÇà");
@@ -87,6 +90,7 @@ public class GameManager : MonoBehaviour
             m_MapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
             if (m_MapGenerateManager != null)
             {
+                m_MapGenerateManager.AddMapGenerateEvent(SetPlayerPosition);
                 m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
             }
         }

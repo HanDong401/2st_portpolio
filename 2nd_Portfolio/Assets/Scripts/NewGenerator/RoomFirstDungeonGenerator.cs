@@ -90,6 +90,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         minRoomHeight = dungeonHeight;
         minRoomWidth = dungeonWidth;
     }
+    public void SetDungeonWidthHeightFreely(int _Width, int _Height)
+    {
+        dungeonWidth = _Width;
+        dungeonHeight = _Height;
+    }
+    public void SetDungeonMinWidthHeight(int _Width, int _Height)
+    {
+        minRoomHeight =_Height;
+        minRoomWidth = _Width;
+    }
     public void SetDungeonLevelZero()
     {
         DungeonLevel = 0;

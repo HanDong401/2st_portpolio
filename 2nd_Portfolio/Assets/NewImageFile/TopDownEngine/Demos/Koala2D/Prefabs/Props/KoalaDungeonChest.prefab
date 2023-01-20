@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 61692140631539462}
   - component: {fileID: 114098083464166288}
   m_Layer: 0
-  m_Name: DungeonChest
+  m_Name: KoalaDungeonChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 46.5, y: -24.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4832370845079124}
   - {fileID: 1789249457961512635}
@@ -84,14 +85,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad0219ba3e603343a2a4c498e2dae4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonActivatedRequirement: 2
+  RequiresPlayerType: 1
   RequiresButtonActivationAbility: 1
-  RequiresPlayerCharacter: 1
+  Activable: 1
   AutoActivation: 0
-  ShouldUpdateState: 1
+  AutoActivationDelay: 0
+  AutoActivationDelayResetsOnExit: 1
   CanOnlyActivateIfGrounded: 0
-  UnimitedActivations: 0
+  ShouldUpdateState: 1
+  OnlyOneActivationAtOnce: 1
+  UnlimitedActivations: 1
   MaxNumberOfActivations: 1
   DelayBetweenUses: 0
+  DisableAfterUse: 0
+  InputType: 0
+  InputSystemAction:
+    m_Name: Input System
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b52116e8-968b-4070-b69b-8f8d0f654c4f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  AnimationTriggerParameterName: 
+  UseVisualPrompt: 1
   ButtonPromptPrefab: {fileID: 114767332097364426, guid: bb1fc0f1f16f31248b9b4d80aa795609,
     type: 3}
   ButtonPromptText: A
@@ -101,12 +120,27 @@ MonoBehaviour:
   ShowPromptWhenColliding: 1
   HidePromptAfterUse: 0
   PromptRelativePosition: {x: 0, y: 2, z: 0}
+  PromptRotation: {x: 0, y: 0, z: 0}
+  ActivationFeedback: {fileID: 7347106206624250410}
+  DeniedFeedback: {fileID: 0}
+  EnterFeedback: {fileID: 0}
+  ExitFeedback: {fileID: 0}
+  OnActivation:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStay:
+    m_PersistentCalls:
+      m_Calls: []
   RequiresKey: 0
   KeyID: 
   KeyAction:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114194220039837188}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OpenChest
         m_Mode: 1
         m_Arguments:
@@ -117,9 +151,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ActivationFeedback: {fileID: 7347106206624250410}
 --- !u!1 &1953690520404348
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +183,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4891761525449100}
   m_RootOrder: 0
@@ -167,9 +199,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -181,6 +216,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -206,7 +242,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &95152138234394168
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -219,6 +255,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -263,8 +300,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item: {fileID: 11400000, guid: 2e4dffbd90697924d8a102356e316b84, type: 2}
   Quantity: 50
+  RemainingQuantity: 1
   PickableIfInventoryIsFull: 0
-  PickAsMuchQuantityAsPossible: 0
   DisableObjectWhenDepleted: 0
 --- !u!114 &114113265735186100
 MonoBehaviour:
@@ -280,8 +317,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item: {fileID: 11400000, guid: 1592bd12b16c62a438df214272ff2b45, type: 2}
   Quantity: 50
+  RemainingQuantity: 1
   PickableIfInventoryIsFull: 0
-  PickAsMuchQuantityAsPossible: 0
   DisableObjectWhenDepleted: 0
 --- !u!114 &114194220039837188
 MonoBehaviour:
@@ -325,6 +362,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4891761525449100}
   m_RootOrder: 1
@@ -346,6 +384,40 @@ MonoBehaviour:
   - {fileID: 7991021294500408094}
   - {fileID: 7016085946339191347}
   InitializationMode: 2
+  SafeMode: 3
+  Direction: 0
+  AutoChangeDirectionOnEnd: 0
+  AutoPlayOnStart: 0
+  AutoPlayOnEnable: 0
+  ForceTimescaleMode: 0
+  ForcedTimescaleMode: 1
+  DurationMultiplier: 1
+  DisplayFullDurationDetails: 0
+  PlayerTimescaleMode: 1
+  CooldownDuration: 0
+  InitialDelay: 0
+  CanPlay: 1
+  CanPlayWhileAlreadyPlaying: 1
+  ChanceToPlay: 100
+  FeedbacksIntensity: 1
+  Events:
+    TriggerMMFeedbacksEvents: 0
+    TriggerUnityEvents: 1
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPause:
+      m_PersistentCalls:
+        m_Calls: []
+    OnResume:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRevert:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
   DebugActive: 0
 --- !u!114 &3333476160971371537
 MonoBehaviour:
@@ -361,15 +433,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Active: 1
   Label: Bloom
+  Chance: 100
   Timing:
+    TimescaleMode: 0
+    ExcludeFromHoldingPauses: 0
+    ContributeToTotalDuration: 1
     InitialDelay: 0
     CooldownDuration: 0
+    InterruptsOnStop: 1
     NumberOfRepeats: 0
     RepeatForever: 0
     DelayBetweenRepeats: 1
+    MMFeedbacksDirectionCondition: 0
+    PlayDirection: 0
+    ConstantIntensity: 0
+    UseIntensityInterval: 0
+    IntensityIntervalMin: 0
+    IntensityIntervalMax: 0
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
   DebugActive: 0
+  Channel: 0
   ShakeDuration: 0.2
-  RelativeIntensity: 1
+  ResetShakerValuesAfterShake: 1
+  ResetTargetValuesAfterShake: 1
+  RelativeValues: 1
   ShakeIntensity:
     serializedVersion: 2
     m_Curve:
@@ -403,7 +493,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ShakeIntensityAmplitude: 10
+  RemapIntensityZero: 0
+  RemapIntensityOne: 1
   ShakeThreshold:
     serializedVersion: 2
     m_Curve:
@@ -437,7 +528,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ShakeThresholdAmplitude: -0.2
+  RemapThresholdZero: 0
+  RemapThresholdOne: 0
 --- !u!114 &7991021294500408094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,14 +544,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Active: 1
   Label: Freeze Frame
+  Chance: 100
   Timing:
+    TimescaleMode: 0
+    ExcludeFromHoldingPauses: 0
+    ContributeToTotalDuration: 1
     InitialDelay: 0
     CooldownDuration: 0
+    InterruptsOnStop: 1
     NumberOfRepeats: 0
     RepeatForever: 0
     DelayBetweenRepeats: 1
+    MMFeedbacksDirectionCondition: 0
+    PlayDirection: 0
+    ConstantIntensity: 0
+    UseIntensityInterval: 0
+    IntensityIntervalMin: 0
+    IntensityIntervalMax: 0
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
   DebugActive: 0
   FreezeFrameDuration: 0.02
+  MinimumTimescaleThreshold: 0.1
 --- !u!114 &7016085946339191347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,15 +582,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Active: 1
   Label: Sound
+  Chance: 100
   Timing:
+    TimescaleMode: 0
+    ExcludeFromHoldingPauses: 0
+    ContributeToTotalDuration: 1
     InitialDelay: 0
     CooldownDuration: 0
+    InterruptsOnStop: 1
     NumberOfRepeats: 0
     RepeatForever: 0
     DelayBetweenRepeats: 1
+    MMFeedbacksDirectionCondition: 0
+    PlayDirection: 0
+    ConstantIntensity: 0
+    UseIntensityInterval: 0
+    IntensityIntervalMin: 0
+    IntensityIntervalMax: 0
+    Sequence: {fileID: 0}
+    TrackID: 0
+    Quantized: 0
+    TargetBPM: 120
   DebugActive: 0
   Sfx: {fileID: 8300000, guid: f58295ea87320c24788af99c05984e71, type: 3}
   RandomSfx: []
+  TestButton: 0
+  TestStopButton: 0
+  PlayMethod: 0
+  PoolSize: 10
   MinVolume: 1
   MaxVolume: 1
   MinPitch: 1
