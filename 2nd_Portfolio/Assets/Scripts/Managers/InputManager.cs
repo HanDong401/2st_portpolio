@@ -9,17 +9,6 @@ using UnityEngine.InputSystem.Interactions;
 
 public class InputManager : MonoBehaviour
 {
-    private float m_AxisX;
-    public float AxisX
-    {
-        get { return m_AxisX; }
-    }
-    private float m_AxisY;
-    public float AxisY
-    {
-        get { return m_AxisY; }
-    }
-
     public delegate void MoveEvent(Vector2 _inputDir);
     public delegate void InputEvent();
     private MoveEvent m_OnMoveEvent = null;
@@ -90,22 +79,6 @@ public class InputManager : MonoBehaviour
     }
 
     #region 인풋시스템 이벤트 연결 함수
-
-    public void OnMove()
-    {
-        if (m_OnMoveEvent != null)
-        {
-            m_OnMoveEvent(new Vector2(m_AxisX, m_AxisY));
-        }
-    }
-
-    public void OnInput()
-    {
-        if (m_OnInputEvent != null)
-        {
-            m_OnInputEvent(new Vector2(m_AxisX, m_AxisY));
-        }
-    }
 
     public void OnInputMove(InputAction.CallbackContext _callback)
     {

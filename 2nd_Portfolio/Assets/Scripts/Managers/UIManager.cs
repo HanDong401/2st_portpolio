@@ -7,20 +7,20 @@ public class UIManager : MonoBehaviour
 {
     public delegate void UIManagerSceneEvent(string _name);
     public delegate void UIManagerEvent();
-    [SerializeField] private UIManagerSceneEvent m_MainStartEvent = null;
-    [SerializeField] private UIManagerEvent m_MainExitEvent = null;
+    private UIManagerSceneEvent m_MainStartEvent = null;
+    private UIManagerEvent m_MainExitEvent = null;
     [SerializeField] private MainUI m_Main = null;
     [SerializeField] private Inventory m_Inventory = null;
     [SerializeField] private MainMenuButton m_MainMenuButton = null;
     [SerializeField] private MainMenuOption m_MainOption = null;
     [SerializeField] private Image m_Fade = null;
-    [SerializeField] private bool mbIsFadeOut = false;
     private Coroutine m_FadeCoroutine = null;
 
     private int m_CurrHp;
     private int m_MaxHp;
     private int m_CurrSp;
     private int m_MaxSp;
+    private bool mbIsFadeOut = false;
 
     public void UIManagerAwake()
     {
@@ -34,14 +34,6 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(SetMainUI());
             }
         }
-        //if (m_Inventory == null)
-        //{
-        //    m_Inventory = this.GetComponentInChildren<Inventory>();
-        //    if (m_Inventory != null)
-        //    {
-        //        // 인벤토리 초기화
-        //    }
-        //}
     }
 
     public void UIManagerStart()

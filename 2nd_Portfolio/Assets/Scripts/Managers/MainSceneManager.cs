@@ -16,16 +16,4 @@ public class MainSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene(_name);
     }
-    //public void LoadMainMenuScene()
-    //{
-    //    SceneManager.LoadScene("MainMenuScene");
-    //}
-    //public void LoadTownScene()
-    //{
-    //    SceneManager.LoadScene("TownScene");
-    //}
-    //public void LoadDungeonScene()
-    //{
-    //    SceneManager.LoadScene("DungeonScene");
-    //}
 }

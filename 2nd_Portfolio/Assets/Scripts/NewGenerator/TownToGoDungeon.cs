@@ -6,9 +6,13 @@ using UnityEngine.UI;
 
 public class TownToGoDungeon : MonoBehaviour, Interaction
 {
+    public delegate void DoorEvent(string _name);
+    private DoorEvent m_DoorEvent = null;
     [SerializeField] private Image[] NPCImage = null;
+    //[SerializeField] private MainSceneManager m_MainSceneManager = null;
     private void OnEnable()
     {
+        //m_MainSceneManager = GameObject.FindObjectOfType<MainSceneManager>();
         for (int i = 0; i < NPCImage.Length; i++)
         {
             NPCImage[i].enabled = false;
@@ -17,7 +21,10 @@ public class TownToGoDungeon : MonoBehaviour, Interaction
     public void InteractionExecute()
     {
         Debug.Log("이동성공");
-        //SceneManager.LoadScene("");//이동할 씬 이름
+        //m_MainSceneManager.LoadScene("DungeonScene");
+        if (m_DoorEvent != null)
+            m_DoorEvent("DungeonScene");
+        SceneManager.LoadScene("");//이동할 씬 이름
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,5 +39,10 @@ public class TownToGoDungeon : MonoBehaviour, Interaction
         {
             NPCImage[i].enabled = false;
         }
+    }
+
+    public void AddDoorEvent(DoorEvent _callback)
+    {
+        m_DoorEvent = _callback;
     }
 }

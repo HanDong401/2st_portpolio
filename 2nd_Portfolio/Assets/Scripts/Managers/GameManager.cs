@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void GameManagerEvent();
+    private GameManagerEvent m_GameManagerEvent = null;
     [SerializeField] private Player m_Player = null;
     [SerializeField] private InputManager m_InputManager = null;
     [SerializeField] private Inventory m_Inventory = null;
@@ -15,12 +17,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemManager m_ItemManager = null;
     [SerializeField] private MonsterManager m_MonsterManager = null;
     [SerializeField] private MainSceneManager m_MainSceneManager = null;
-    [SerializeField] private TeleportTile m_TeleportTile = null;
+    [SerializeField] private MapGenerateManager m_MapGenerateManager = null;
+    [SerializeField] private TownToGoDungeon m_TownToGoDungeon = null;
     private Coroutine m_InitUICoroutine = null;
 
     private int m_level = 3;
     private bool mbIsOnBgmSound = true;
     private bool mbIsOnEffectSound = true;
+
+    public void AddGameManagerEvent(GameManagerEvent _callback)
+    {
+        m_GameManagerEvent += _callback;
+    }
+
+    public void RemoveGameManagerEvnet(GameManagerEvent _callback)
+    {
+        m_GameManagerEvent -= _callback;
+    }
+
+    public void RunGameManagerEvnet()
+    {
+        m_GameManagerEvent?.Invoke();
+    }
 
     private void OnEnable()
     {
@@ -59,23 +77,36 @@ public class GameManager : MonoBehaviour
                 m_UIManager.ActiveMainUI(true);
                 //m_UIManager.ActiveInventory(true);
                 StartCoroutine(InitUIManager());
-                return;
+                //return;
             }
             m_UIManager.ActiveMainUI(false);
             //m_UIManager.ActiveInventory(false);
         }
-        //if (m_TeleportTile == null)
-        //{
-        //    m_TeleportTile = GameObject.FindObjectOfType<TeleportTile>();
-        //    if (m_TeleportTile != null)
-        //    {
-        //        m_TeleportTile.TeleAwake();
-        //    }
-        //}
-        //else
-        //{
-        //    m_TeleportTile.TeleStart();
-        //}
+        if (m_MapGenerateManager == null)
+        {
+            m_MapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
+            if (m_MapGenerateManager != null)
+            {
+                m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
+            }
+        }
+        else
+        {
+            m_Player.transform.position = (Vector2)m_Player.transform.position + m_MapGenerateManager.GetStartPos();
+        }
+        if (m_TownToGoDungeon == null)
+        {
+            m_TownToGoDungeon = GameObject.FindObjectOfType<TownToGoDungeon>();
+            if (m_TownToGoDungeon != null)
+            {
+                m_TownToGoDungeon.AddDoorEvent(SetDoor);
+            }
+        }
+    }
+
+    private void SetDoor(string _name)
+    {
+        m_MainSceneManager.LoadScene(_name);
     }
 
     private void ConectPlayerEvent()
