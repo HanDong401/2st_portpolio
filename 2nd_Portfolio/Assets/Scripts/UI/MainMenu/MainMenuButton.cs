@@ -34,7 +34,7 @@ public class MainMenuButton : MonoBehaviour
         if (m_StartEvent != null)
             m_StartEvent("TownScene");
     }
-
+    
     private void OnExitButton()
     {
         m_ExitEvent?.Invoke();

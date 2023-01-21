@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HPGauge : MonoBehaviour
 {
-    Image m_HpImage = null;
+    private Image m_HpImage = null;
 
     public void HpGaugeAwake()
     {

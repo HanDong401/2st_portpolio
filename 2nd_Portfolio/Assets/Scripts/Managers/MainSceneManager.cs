@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour
 {
-    private void Start()
+    public void SceneManagerAwake()
     {
-        Debug.Log("¾À¸Å´ÏÀú Start");
         DontDestroyOnLoad(this);
         LoadScene("MainMenuScene");
     }

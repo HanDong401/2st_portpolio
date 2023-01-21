@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     private bool mbIsOnBgmSound = true;
     private bool mbIsOnEffectSound = true;
 
+    // 게임매니저의 이벤트에 실행시킬 초기화 함수들을 저장해놓고
+    // 씬이 로드 될때마다 실행 후 
+    // 한번만 실행되도 되는것들은 이벤트에서 삭제한다
+    // 그렇게 하면 매번 돌릴때 조건 검사를 할 필요도 없고 깔끔하게 없어진다
     public void AddGameManagerEvent(GameManagerEvent _callback)
     {
         m_GameManagerEvent += _callback;
@@ -40,22 +44,21 @@ public class GameManager : MonoBehaviour
         m_GameManagerEvent?.Invoke();
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += SetGameManager;
-    }
+    #region 게임매니저 이밴트에 연결할 함수들
 
-    public void SetGameManager(Scene _scene, LoadSceneMode _mod)
-    {
-        Debug.Log("SetGameManager 실행");
-        DontDestroyOnLoad(this.gameObject);
-        SetComponent();
-    }
-
-    private void SetComponent()
+    private void InitMainSceneManager()
     {
         if (m_MainSceneManager == null)
+        {
             m_MainSceneManager = GameObject.FindObjectOfType<MainSceneManager>();
+            m_MainSceneManager.SceneManagerAwake();
+        }
+        if (m_MainSceneManager != null)
+            RemoveGameManagerEvnet(InitMainSceneManager);
+    }
+
+    private void InitUIManager()
+    {
         if (m_UIManager == null)
         {
             m_UIManager = GameObject.FindObjectOfType<UIManager>();
@@ -63,10 +66,12 @@ public class GameManager : MonoBehaviour
             m_UIManager.AddMainExitEvent(QuitGame);
             m_UIManager.UIManagerAwake();
         }
-        else
-        {
-            m_UIManager.UIManagerStart();
-        }
+        if (m_UIManager != null)
+            RemoveGameManagerEvnet(InitUIManager);
+    }
+
+    private void InitPlayer()
+    {
         if (m_Player == null)
         {
             m_Player = GameObject.FindObjectOfType<Player>();
@@ -76,12 +81,37 @@ public class GameManager : MonoBehaviour
                 ConectPlayerEvent();
                 m_UIManager.ActiveMainUI(true);
                 //m_UIManager.ActiveInventory(true);
-                StartCoroutine(InitUIManager());
+                //StartCoroutine(InitUIManager());
                 //return;
             }
             m_UIManager.ActiveMainUI(false);
             //m_UIManager.ActiveInventory(false);
         }
+    }
+    #endregion
+    private void Awake()
+    {
+        AddGameManagerEvent(InitMainSceneManager);
+        AddGameManagerEvent(InitUIManager);
+        AddGameManagerEvent(InitPlayer);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += SetGameManager;
+    }
+
+    public void SetGameManager(Scene _scene, LoadSceneMode _mod)
+    {
+        Debug.Log("SetGameManager 실행");
+        DontDestroyOnLoad(this.gameObject);
+        RunGameManagerEvnet();
+        SetComponent();
+    }
+
+    private void SetComponent()
+    {
+        m_UIManager.UIManagerStart();
         if (m_MapGenerateManager == null)
         {
             m_MapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
@@ -142,12 +172,12 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator InitUIManager()
-    {
-        while(true)
-        {
-            m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
-            yield return null;
-        }
-    }
+    //IEnumerator InitUIManager()
+    //{
+    //    while(true)
+    //    {
+    //        m_UIManager.InitUIManager(m_Player.GetCurrHp(), m_Player.GetMaxHp(), m_Player.GetCurrSp(), m_Player.GetMaxSp());
+    //        yield return null;
+    //    }
+    //}
 }

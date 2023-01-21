@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class HP : MonoBehaviour
 {
-    HPGauge m_HpGauge = null;
-    HPNumText m_HpNum = null;
+    private HPGauge m_HpGauge = null;
+    private HPNumText m_HpNum = null;
 
     public void HPAwake()
     {

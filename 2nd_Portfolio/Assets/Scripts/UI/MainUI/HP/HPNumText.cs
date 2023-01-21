@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HPNumText : MonoBehaviour
 {
-    Text m_HpNumText = null;
+    private Text m_HpNumText = null;
 
     public void HpNumTextAwake()
     {
