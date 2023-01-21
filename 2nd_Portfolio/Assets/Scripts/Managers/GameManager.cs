@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviour
             if (m_MapGenerateManager != null)
             {
                 m_MapGenerateManager.AddMapGenerateEvent(SetPlayerPosition);
+                m_MapGenerateManager.AddLoadSceneEvent(m_MainSceneManager.LoadScene);
                 m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
             }
         }

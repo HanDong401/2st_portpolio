@@ -5,7 +5,9 @@ using UnityEngine;
 public class MapGenerateManager : MonoBehaviour
 {
     public delegate void MapGenerateEvent();
-    private MapGenerateEvent mapGenerateEvent = null;
+    private MapGenerateEvent m_MapGenerateEvent = null;
+    public delegate void LoadSceneEvent(string _sceneName);
+    private LoadSceneEvent m_LoadsceneEvent = null;
     [SerializeField] RoomFirstDungeonGenerator roomFirstDungeonGenerator = null;
     [SerializeField] MapTileVisualizer MapTileVisualizer= null;
     [SerializeField] Props props = null;
@@ -34,13 +36,14 @@ public class MapGenerateManager : MonoBehaviour
         else if(DungeonLevel>=4)
         {
             roomFirstDungeonGenerator.SetDungeonLevelZero();
-            
+
             //여기서 씬 전환 나와서 타운 맵으로 이동
-            
+            if (m_LoadsceneEvent != null)
+                m_LoadsceneEvent("TownScene");
             return;
         }
         roomFirstDungeonGenerator.GenerateDungeon();
-        mapGenerateEvent?.Invoke();
+        m_MapGenerateEvent?.Invoke();
     }
     public Vector2 GetStartPos()
     {
@@ -49,6 +52,11 @@ public class MapGenerateManager : MonoBehaviour
     
     public void AddMapGenerateEvent(MapGenerateEvent _callback)
     {
-        mapGenerateEvent = _callback;
+        m_MapGenerateEvent = _callback;
+    }
+
+    public void AddLoadSceneEvent(LoadSceneEvent _callback)
+    {
+        m_LoadsceneEvent = _callback;
     }
 }
