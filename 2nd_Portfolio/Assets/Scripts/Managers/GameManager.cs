@@ -45,7 +45,10 @@ public class GameManager : MonoBehaviour
     }
 
     #region 게임매니저 이밴트에 연결할 함수들
-
+    public void SetPlayerPosition()
+    {
+        m_Player.SetPlayerPosition(m_MapGenerateManager.GetStartPos());
+    }
     private void InitMainSceneManager()
     {
         if (m_MainSceneManager == null)
@@ -117,6 +120,7 @@ public class GameManager : MonoBehaviour
             m_MapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
             if (m_MapGenerateManager != null)
             {
+                m_MapGenerateManager.AddMapGenerateEvent(SetPlayerPosition);
                 m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
             }
         }

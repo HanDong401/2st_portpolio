@@ -194,7 +194,7 @@ public class Player : Unit
         if (m_PlayerMove.GetIsDodge().Equals(true)) return;
         base.OnDamage(_damage);
     }
-
+    
     public void SetLayer(int _layer)
     {
         this.gameObject.layer = _layer;
