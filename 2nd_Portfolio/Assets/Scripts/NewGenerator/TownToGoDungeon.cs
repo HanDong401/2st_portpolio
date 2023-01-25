@@ -24,7 +24,6 @@ public class TownToGoDungeon : MonoBehaviour, Interaction
         //m_MainSceneManager.LoadScene("DungeonScene");
         if (m_DoorEvent != null)
             m_DoorEvent("DungeonScene");
-        SceneManager.LoadScene("");//이동할 씬 이름
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -35,8 +35,8 @@ public class AStar
     private Node m_StartNode, m_EndNode, m_CurrNode;
     private List<Node> m_OpenList, m_EndList;
 
-    [SerializeField] private int m_xSize = 50;
-    [SerializeField] private int m_ySize = 25;
+    private int m_xSize = 40;
+    private int m_ySize = 20;
 
     // 맵전체의 좌표와 bool값을 초기화해서 Node형태로 저장함
     public void InitNode()

@@ -7,8 +7,7 @@ public class MainSceneManager : MonoBehaviour
 {
     public void SceneManagerAwake()
     {
-        DontDestroyOnLoad(this);
-        LoadScene("MainMenuScene");
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void LoadScene(string _name)

@@ -44,12 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212d1760f84c9474ab524595658313a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorTilemap: {fileID: 6784744691487693866, guid: 0c8cd7a765779504b8ea4fa52c25632a,
-    type: 3}
-  wallTilemap: {fileID: 1739615682105259526, guid: d8bbad6f30807de4ebfeceb3aafbd719,
-    type: 3}
-  propsTileMap: {fileID: 6851377179682376792, guid: dac7138ce1c041b4f8c8a7f212f6dd5a,
-    type: 3}
+  floorTilemap: {fileID: 0}
+  wallTilemap: {fileID: 0}
+  propsTileMap: {fileID: 0}
   floorTile: {fileID: 11400000, guid: 1da7c6bd54ad9ff428a29113be06025e, type: 2}
   wallTop: {fileID: 11400000, guid: 9aac5c3ad1a83ef42b8df9f36e1b2af4, type: 2}
   wallSideRight: {fileID: 11400000, guid: 9aac5c3ad1a83ef42b8df9f36e1b2af4, type: 2}

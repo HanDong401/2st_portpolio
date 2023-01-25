@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomFirstDungeonGenerator: {fileID: 0}
   MapTileVisualizer: {fileID: 0}
+  props: {fileID: 0}
+  specialTileInstantiator: {fileID: 0}
+  DungeonLevel: 0

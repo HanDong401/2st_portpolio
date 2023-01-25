@@ -17,12 +17,27 @@ public class MonsterManager : MonoBehaviour
     [SerializeField] private Rat m_Rat = null;
     [SerializeField] private Pebble m_Pebble = null;
     [SerializeField] private List<Monster> m_MonsterList = new List<Monster>();
+    [SerializeField] private SpawnPoint m_SpawnPoint = null;
 
-    private void Awake()
+    public void MonsterManagerAwake()
     {
-        m_MonsterList = this.GetComponentsInChildren<Monster>().ToList();
+        DontDestroyOnLoad(this.gameObject);
+        m_MonsterList.Clear();
+        //m_MonsterList = this.GetComponentsInChildren<Monster>().ToList();
+        //m_AStar.InitNode();
+        //InitMonsterManager();
+    }
+
+    public void MonsterManagerStart()
+    {
         m_AStar.InitNode();
-        InitMonsterManager();
+        if (m_SpawnPoint == null)
+            m_SpawnPoint = GameObject.FindObjectOfType<SpawnPoint>();
+        if (m_SpawnPoint != null)
+        {
+            m_SpawnPoint.AddMonsterSummonEvent(SummonRandomMonster);
+            m_SpawnPoint.SpawnPointAwake();
+        }
     }
 
     private void InitMonsterManager()
@@ -34,15 +49,26 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    public Monster SummonMonster(string _monster, Vector2 _Pos)
+    public Monster SummonMonster(string _monster, Vector2 _pos)
     {
         Monster monster = Instantiate(SelectMonster(_monster));
         monster.AddMonsterEvent(AStar.PathFinding);
         monster.AddMonsterSummonEvent(SummonMonster);
         m_MonsterList.Add(monster);
         monster.transform.SetParent(this.transform, false);
-        monster.transform.position = _Pos;
+        monster.transform.position = _pos;
         return monster;
+    }
+
+    public void SummonRandomMonster(Vector2 _pos)
+    {
+        Monster monster = Instantiate(RandomSelectMonster());
+        monster.AddMonsterEvent(AStar.PathFinding);
+        monster.AddRemoveMonsterEvent(RemoveMonster);
+        monster.AddMonsterSummonEvent(SummonMonster);
+        m_MonsterList.Add(monster);
+        monster.transform.SetParent(this.transform, false);
+        monster.transform.position = _pos;
     }
 
     private Monster SelectMonster(string _monster)
@@ -69,9 +95,35 @@ public class MonsterManager : MonoBehaviour
         return null;
     }
 
+    public Monster RandomSelectMonster()
+    {
+        int index = Random.Range(0, 3);
+
+        switch(index)
+        {
+            case 0:
+                return m_Bat;
+            case 1:
+                return m_Rat;
+            case 2:
+                return m_Slime;
+        }
+        return null;
+    }
+
     private void AddMonster(Monster _monster)
     {
         m_MonsterList.Add(_monster);
         _monster.AddMonsterEvent(AStar.PathFinding);
+    }
+
+    public void RemoveMonster(Monster _monster)
+    {
+        m_MonsterList.Remove(_monster);
+    }
+
+    public int GetMonsterListCount()
+    {
+        return m_MonsterList.Count;
     }
 }

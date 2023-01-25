@@ -9,6 +9,7 @@ public class Item : MonoBehaviour, Interaction
     public bool mbIsPop = false;
 
     [SerializeField] protected Player m_Player = null;
+    [SerializeField] protected Inventory m_Inventory = null;
 
     protected void InitItem()
     {
@@ -16,12 +17,12 @@ public class Item : MonoBehaviour, Interaction
     }
 
 
-    public void SetInven(Inventory _inven)
+    public void SetInven()
     {
-        Transform invenTrans = _inven.transform;
+        Transform invenTrans = m_Inventory.transform;
         this.transform.SetParent(invenTrans);
         this.transform.position = invenTrans.position;
-        _inven.GetItem(this);
+        m_Inventory.GetItem(this);
     }
 
     public void SetItemActive(bool _isActive)
@@ -34,6 +35,11 @@ public class Item : MonoBehaviour, Interaction
         this.transform.position = _targetPos;
     }
 
+    public void SetInventory(Inventory _inven)
+    {
+        m_Inventory = _inven;
+    }
+
     private void PickUp()
     {
         mbIsPickUp = true;
@@ -44,7 +50,7 @@ public class Item : MonoBehaviour, Interaction
     public void InteractionExecute()
     {
         PickUp();
-        SetInven(Inventory.Instance);
+        SetInven();
         InitItem();
         Interaction();
     }

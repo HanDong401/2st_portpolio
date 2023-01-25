@@ -9,6 +9,7 @@ public class MonsterDeathState : MonsterBaseState
     public override void EnterState()
     {
         m_Monster.Death();
+        m_Monster.OnRemoveMonster();
         
     }
 

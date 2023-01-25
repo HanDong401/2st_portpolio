@@ -150,55 +150,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DungeonDoors_OpenBottom
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 54
-        width: 32
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 68b8a197caaa2c548acdfc1b4542d8f8
-      internalID: 21300000
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonDoors_OpenTop
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 85
-        width: 32
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 735f5308a65e35d4cb24c50be3e898d6
-      internalID: 21300002
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: DungeonDoors_Closed1
       rect:
         serializedVersion: 2
         x: 32
-        y: 54
+        y: 53
         width: 32
-        height: 42
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,9 +175,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 54
+        y: 53
         width: 32
-        height: 42
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -296,6 +254,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: KoalaDungeonDoors_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 53
+        width: 32
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7540f2d5169c9c43b431adc67d39241
+      internalID: -1386242261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -313,6 +292,7 @@ TextureImporter:
       DungeonDoors_GateTop: -6882960092962382143
       DungeonDoors_GateBottom: 7280219535031015504
       DungeonDoors_GateGround: -5596091024112990592
+      KoalaDungeonDoors_0: -1386242261
       DungeonDoors_Closed1: 21300004
   spritePackingTag: 
   pSDRemoveMatte: 0

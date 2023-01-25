@@ -99,10 +99,10 @@ public class PlayerMove : MonoBehaviour
         mbIsOnDodge = true;
         m_Anim.SetTrigger("IsRoll");
         m_DodgeEvent(11);
-        //if (m_MoveDir != Vector2.zero)
-        //{
-        //    Vector2 prevDir = m_MoveDir;
-        //}
+        if (m_MoveDir != Vector2.zero)
+        {
+            Vector2 prevDir = m_MoveDir;
+        }
         if (m_MoveDir == Vector2.zero)
         {
             if (m_Sprite.flipX)

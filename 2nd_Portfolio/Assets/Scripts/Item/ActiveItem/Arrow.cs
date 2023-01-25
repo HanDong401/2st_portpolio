@@ -7,7 +7,7 @@ public class Arrow : MonoBehaviour
 {
     private Rigidbody2D m_Rigid2D = null;
     private Vector2 m_MoveDir;
-    private int m_Damage = 5;
+    [SerializeField] private int m_Damage = 5;
     [SerializeField] private float m_ArrowSpeed = 0f;
     [SerializeField] private int m_ReflectCount = 3;
 

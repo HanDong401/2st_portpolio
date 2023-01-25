@@ -37,12 +37,12 @@ public class Unit : MonoBehaviour
 
     public void SetMaxHp(int _maxHp)
     {
-        this.m_MaxHp += _maxHp;
+        this.m_MaxHp = _maxHp;
     }
 
     public void SetDefense(int _defense)
     {
-        this.m_Defense += _defense;
+        this.m_Defense = _defense;
     }
 
     public void OnDamage(int _damage)

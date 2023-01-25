@@ -7,12 +7,12 @@ public class UIManager : MonoBehaviour
 {
     public delegate void UIManagerSceneEvent(string _name);
     public delegate void UIManagerEvent();
-    private UIManagerSceneEvent m_MainStartEvent = null;
-    private UIManagerEvent m_MainExitEvent = null;
+    private UIManagerSceneEvent m_SceneLoadEvent = null;
+    private UIManagerEvent m_GameQuitEvent = null;
     [SerializeField] private MainUI m_Main = null;
+    [SerializeField] private Option m_Option = null;
     [SerializeField] private Inventory m_Inventory = null;
     [SerializeField] private MainMenuButton m_MainMenuButton = null;
-    [SerializeField] private MainMenuOption m_MainOption = null;
     [SerializeField] private Image m_Fade = null;
     private Coroutine m_FadeCoroutine = null;
 
@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public void UIManagerAwake()
     {
         DontDestroyOnLoad(this.gameObject);
+        
         if (m_Main == null)
         {
             m_Main = this.GetComponentInChildren<MainUI>();
@@ -32,6 +33,20 @@ public class UIManager : MonoBehaviour
             {
                 m_Main.MainUIAwake();
                 StartCoroutine(SetMainUI());
+                ActiveMainUI(false);
+            }
+        }
+        if (m_Option == null)
+        {
+            m_Option = this.GetComponentInChildren<Option>();
+            if (m_Option != null)
+            {
+                m_Option.AddBgmEvent(null);
+                m_Option.AddEffectEvent(null);
+                m_Option.AddGameQuitYesEvent(OnGameQuitEvent);
+                m_Option.AddLoadSceneEvent(OnLoadSceneEvent);
+                m_Option.OptionAwake();
+                ActiveOption();
             }
         }
     }
@@ -43,32 +58,67 @@ public class UIManager : MonoBehaviour
             m_MainMenuButton = GameObject.FindObjectOfType<MainMenuButton>();
             if (m_MainMenuButton != null)
             {
-                m_MainMenuButton.AddStartEvent(OnMainStartEvent);
-                m_MainMenuButton.AddExitEvent(OnMainExitEvent);
+                m_MainMenuButton.AddStartEvent(OnLoadSceneEvent);
+                m_MainMenuButton.AddOptionEvent(OnMainMenuOptionEvent);
+                m_MainMenuButton.AddExitEvent(OnGameQuitEvent);
                 m_MainMenuButton.MainMenuButtonAwake();
             }
         }
     }
 
-    public void OnMainStartEvent(string _name)
+    public void OnLoadSceneEvent(string _name)
     {
         m_Fade.gameObject.SetActive(true);
         FadeOut(_name);
     }
 
-    private void OnMainExitEvent()
+    private void OnGameQuitEvent()
     {
-        m_MainExitEvent?.Invoke();
+        m_GameQuitEvent?.Invoke();
     }
 
-    public void AddMainStartEvent(UIManagerSceneEvent _callback)
+    private void OnBgmEvent()
     {
-        m_MainStartEvent = _callback;
+
     }
 
-    public void AddMainExitEvent(UIManagerEvent _callback)
+    private void OnEffectEvent()
     {
-        m_MainExitEvent = _callback;
+
+    }
+
+    private void OnMainMenuOptionEvent()
+    {
+        m_Option.ActiveGameQuitButton(false);
+        m_Option.ActiveToMainMenuButton(false);
+        m_Option.ActiveToTownButton(false);
+        ActiveOption();
+    }
+
+    public void OnTownOptionEvent()
+    {
+        m_Option.ActiveGameQuitButton(true);
+        m_Option.ActiveToMainMenuButton(true);
+        m_Option.ActiveToTownButton(false);
+        ActiveOption();
+    }
+
+    public void OnDugneonOptionEvent()
+    {
+        m_Option.ActiveGameQuitButton(true);
+        m_Option.ActiveToMainMenuButton(false);
+        m_Option.ActiveToTownButton(true);
+        ActiveOption();
+    }
+
+    public void AddSceneLoadEvent(UIManagerSceneEvent _callback)
+    {
+        m_SceneLoadEvent = _callback;
+    }
+
+    public void AddGameQuitEvent(UIManagerEvent _callback)
+    {
+        m_GameQuitEvent = _callback;
     }
 
     public void ActiveMainUI(bool _bool)
@@ -76,12 +126,20 @@ public class UIManager : MonoBehaviour
         m_Main.gameObject.SetActive(_bool);
     }
 
+    public void ActiveOption()
+    {
+        if (m_Option.gameObject.activeSelf.Equals(true))
+            m_Option.gameObject.SetActive(false);
+        else
+            m_Option.gameObject.SetActive(true);
+    }
+
     public void ActiveInventory(bool _bool)
     {
         m_Inventory.gameObject.SetActive(_bool);
     }
 
-    public void InitUIManager(int _currHp = 100, int _maxHp = 100, int _currSp = 1, int _maxSp = 1)
+    public void UpdateMainUI(int _currHp = 100, int _maxHp = 100, int _currSp = 1, int _maxSp = 1)
     {
         this.m_CurrHp = _currHp;
         this.m_MaxHp = _maxHp;
@@ -120,8 +178,8 @@ public class UIManager : MonoBehaviour
                 yield return null;
             }
             mbIsFadeOut = true;
-            if (m_MainStartEvent != null)
-                m_MainStartEvent(_name);
+            if (m_SceneLoadEvent != null)
+                m_SceneLoadEvent(_name);
             yield return new WaitForSeconds(1f);
             FadeIn();
         }

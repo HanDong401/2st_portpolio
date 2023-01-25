@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestManager : MonoBehaviour
+public class TownOption : Option
 {
-    GameObject m_ChestPrefab = null;
-
+    private OptionEvent m_ToMainMenuEvent = null;
 }

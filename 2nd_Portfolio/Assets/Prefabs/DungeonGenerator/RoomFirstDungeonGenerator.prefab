@@ -44,17 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e949c2b09d48f140a9272ecc3de18d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMapVisualizer: {fileID: 3400713203972100628, guid: ba984cfc08a96c3458a6814565dc67c6,
-    type: 3}
+  tileMapVisualizer: {fileID: 0}
   startPosition: {x: 0, y: 0}
-  props: {fileID: 684333123232184610, guid: e68d4f29983a6814b9c7525b5f02a44b, type: 3}
-  specialTileInstantiator: {fileID: 5776166144914496037, guid: ac66a64ae4b301e499518053ebb64cc2,
-    type: 3}
+  props: {fileID: 0}
+  specialTileInstantiator: {fileID: 0}
   randomWalkParameters: {fileID: 11400000, guid: ae40b82b616806743906cbfc221bc5f8,
     type: 2}
   minRoomWidth: 5
   minRoomHeight: 5
-  dungeonWidth: 50
-  dungeonHeight: 25
-  offset: 0
+  dungeonWidth: 30
+  dungeonHeight: 15
+  offset: 1
   randomWalkRooms: 0
+  DungeonLevel: 0

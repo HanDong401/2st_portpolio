@@ -4,32 +4,12 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private static Inventory m_inventory;
-    public static Inventory Instance
-    {
-        get
-        {
-            if (m_inventory == null)
-                return null;
-            return m_inventory;
-        }
-    }
-
     public List<PassiveItem> m_PassiveItems = new List<PassiveItem>();
     public ActionCommand m_Action1 = null;
     public ActionCommand m_Action2 = null;
 
-    private void Awake()
+    public void InventoryAwake()
     {
-        if (m_inventory == null)
-        {
-            m_inventory = this;
-        }
-        else if (m_inventory != null)
-        {
-            Destroy(this.gameObject);
-        }
-
         DontDestroyOnLoad(this.gameObject);
     }
 

@@ -19,6 +19,7 @@ public class Player : Unit
     private Animator m_PlayerAnim = null;
     private Rigidbody2D m_PlayerRigid = null;
     private Collider2D m_PlayerColl = null;
+    private Inventory m_Inventory = null;
     private bool mbIsInterac = false;
     private bool mbIsCanMove = false;
     private Coroutine m_PlayerUpdateCoroutine = null;
@@ -28,12 +29,7 @@ public class Player : Unit
     [SerializeField] private CameraSet m_Camera = null;
     //private PlayerBaseState m_CurrState = null;
 
-    public void PlayerInit()
-    {
-        PlayerAwake();
-        PlayerStart();
-    }
-    private void PlayerAwake()
+    public void PlayerAwake()
     {
         DontDestroyOnLoad(this.gameObject);
         m_PlayerMove = this.GetComponentInChildren<PlayerMove>();
@@ -45,6 +41,7 @@ public class Player : Unit
         m_PlayerRigid = this.GetComponent<Rigidbody2D>();
         m_PlayerColl = this.GetComponent<Collider2D>();
         StartCoroutine(SetInit());
+        PlayerStart();
     }
 
     IEnumerator SetInit()
@@ -110,12 +107,12 @@ public class Player : Unit
 
     public void OnAction1Callback()
     {
-        m_PlayerAction.OnAction1(Inventory.Instance.GetAction(1));
+        m_PlayerAction.OnAction1(m_Inventory.GetAction(1));
     }
 
     public void OnAction2Callback()
     {
-        m_PlayerAction.OnAction2(Inventory.Instance.GetAction(2));
+        m_PlayerAction.OnAction2(m_Inventory.GetAction(2));
     }
 
     #endregion
@@ -170,6 +167,11 @@ public class Player : Unit
     public Animator GetAnim()
     {
         return m_PlayerAnim;
+    }
+
+    public void SetInventory(Inventory _inven)
+    {
+        m_Inventory = _inven;
     }
 
     public void SetPlayerPosition(Vector2 _pos)

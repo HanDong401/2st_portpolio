@@ -11,11 +11,12 @@ public class Chest : MonoBehaviour, Interaction
     Animator m_Anim = null;
     private bool mbIsOpen = false;
 
-    private void Awake()
+    public void Awake()
     {
         this.m_Anim = GetComponent<Animator>();
+        SetImage();
     }
-    private void OnEnable()
+    private void SetImage()
     {
         for (int i = 0; i < NPCImage.Length; i++)
         {
@@ -36,7 +37,13 @@ public class Chest : MonoBehaviour, Interaction
             NPCImage[i].enabled = false;
         }
     }
-    public void SetChestEvent(ChestEvent _callback)
+    
+    public void SetPosition(Vector2 _pos)
+    {
+        this.transform.position = _pos;
+    }
+
+    public void AddChestEvent(ChestEvent _callback)
     {
         m_ChestEvent = _callback;
     }
@@ -45,13 +52,13 @@ public class Chest : MonoBehaviour, Interaction
     {
         if(mbIsOpen == false)
         {
-            mbIsOpen = true;
-            this.GetComponent<Collider2D>().enabled = false;
             if (m_ChestEvent == null) return;
+            mbIsOpen = true;
             m_Anim.SetBool("IsOpen", mbIsOpen);
+            this.GetComponent<Collider2D>().enabled = false;
             Item popItem = m_ChestEvent();
-
             popItem.SetPosition(this.transform.position);
+
             Destroy(this.gameObject, 2f);
         }
     }

@@ -6,21 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuButton : MonoBehaviour
 {
-    public delegate void MainMenuStartEvent(string _name);
-    public delegate void MainMenuExitEvent();
-    private MainMenuStartEvent m_StartEvent = null;
-    private MainMenuExitEvent m_ExitEvent = null;
+    public delegate void LoadSceneEvent(string _name);
+    public delegate void MainMenuEvent();
+    private LoadSceneEvent m_StartEvent = null;
+    private MainMenuEvent m_OptionEvent = null;
+    private MainMenuEvent m_ExitEvent = null;
     [SerializeField] Button m_StartButton, m_OptionButton, m_ExitButton = null;
 
     public void MainMenuButtonAwake()
     {
         SetStartButton();
+        SetOptionButton();
         SetExitButton();
     }
 
     private void SetStartButton()
     {
         m_StartButton.onClick.AddListener(OnStartButton);
+    }
+
+    private void SetOptionButton()
+    {
+        m_OptionButton.onClick.AddListener(OnOptionButton);
     }
 
     private void SetExitButton()
@@ -32,7 +39,12 @@ public class MainMenuButton : MonoBehaviour
     private void OnStartButton()
     {
         if (m_StartEvent != null)
-            m_StartEvent("TownScene");
+            m_StartEvent("InitScene_MainMenuToTown");
+    }
+
+    private void OnOptionButton()
+    {
+        m_OptionEvent?.Invoke();
     }
     
     private void OnExitButton()
@@ -40,12 +52,17 @@ public class MainMenuButton : MonoBehaviour
         m_ExitEvent?.Invoke();
     }
 
-    public void AddStartEvent(MainMenuStartEvent _callback)
+    public void AddStartEvent(LoadSceneEvent _callback)
     {
         m_StartEvent = _callback;
     }
 
-    public void AddExitEvent(MainMenuExitEvent _callback)
+    public void AddOptionEvent(MainMenuEvent _callback)
+    {
+        m_OptionEvent = _callback;
+    }
+
+    public void AddExitEvent(MainMenuEvent _callback)
     {
         m_ExitEvent = _callback;
     }

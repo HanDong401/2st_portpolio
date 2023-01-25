@@ -75,8 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 21ed692efe3d95a40bcb58ec97b4d87a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,8 +101,10 @@ MonoBehaviour:
   mbIsPickUp: 0
   mbIsPop: 0
   m_Player: {fileID: 0}
+  m_Inventory: {fileID: 0}
   m_Anim: {fileID: 0}
-  m_MagicPrefab: {fileID: 0}
+  m_MagicPrefab: {fileID: 620781418934237742, guid: 899d3dc86a74c564b830c3b864b17d14,
+    type: 3}
 --- !u!61 &4194713550209585948
 BoxCollider2D:
   m_ObjectHideFlags: 0

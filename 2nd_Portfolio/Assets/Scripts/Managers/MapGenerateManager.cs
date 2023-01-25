@@ -14,6 +14,12 @@ public class MapGenerateManager : MonoBehaviour
     [SerializeField] SpecialTileInstantiator specialTileInstantiator = null;
 
     [SerializeField] int DungeonLevel = 0;
+
+    public void MapGenerateManagerAwake()
+    {
+        if (roomFirstDungeonGenerator == null)
+            roomFirstDungeonGenerator = GameObject.FindObjectOfType<RoomFirstDungeonGenerator>();
+    }
     public void DungeonGenerate()
     {
         MapTileVisualizer.Clear();
@@ -29,8 +35,8 @@ public class MapGenerateManager : MonoBehaviour
         }
         else if(DungeonLevel < 3)
         {
-            roomFirstDungeonGenerator.SetDungeonWidthHeightFreely(Random.Range(25, 75), Random.Range(25, 50));//최대 크기 제한하는 함수
-            roomFirstDungeonGenerator.SetDungeonMinWidthHeight(Random.Range(4,8), Random.Range(4, 8));//방 최소크기 제한하는 함수
+            roomFirstDungeonGenerator.SetDungeonWidthHeightFreely(Random.Range(25, 40), Random.Range(10, 20));//최대 크기 제한하는 함수
+            roomFirstDungeonGenerator.SetDungeonMinWidthHeight(5, 5);//방 최소크기 제한하는 함수
             //props.SetPropsCntFreely(15);
         }
         else if(DungeonLevel>=4)

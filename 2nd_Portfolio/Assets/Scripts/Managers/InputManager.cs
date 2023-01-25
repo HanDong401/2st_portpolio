@@ -17,12 +17,13 @@ public class InputManager : MonoBehaviour
     private InputEvent m_OnDashEvent = null;
     private InputEvent m_OnAction1Event = null;
     private InputEvent m_OnAction2Event = null;
-    private InputEvent m_OnInventory = null;
+    private InputEvent m_OnInventoryEvent = null;
+    private InputEvent m_OnOptionEvent = null;
     private InputEvent m_InputManagerJoinEvent = null;
     private InputEvent m_InputManagerLeftEvent = null;
     private Interaction m_Interaction = null;
 
-    private void Awake()
+    public void InputManagerAwake()
     {
         DontDestroyOnLoad(this.gameObject);
     }
@@ -65,7 +66,12 @@ public class InputManager : MonoBehaviour
 
     public void AddOnInventoryEvent(InputEvent _callback)
     {
-        m_OnInventory = _callback;
+        m_OnInventoryEvent = _callback;
+    }
+
+    public void AddOnOptionEvent(InputEvent _callback)
+    {
+        m_OnOptionEvent = _callback;
     }
 
     public void AddInputManagerJoinEvent(InputEvent _callback)
@@ -118,7 +124,12 @@ public class InputManager : MonoBehaviour
 
     public void OnInventory(InputAction.CallbackContext _callback)
     {
-        CheckInputAction(_callback, _performed: m_OnInventory);
+        CheckInputAction(_callback, _performed: m_OnInventoryEvent);
+    }
+
+    public void OnOption(InputAction.CallbackContext _callback)
+    {
+        CheckInputAction(_callback, _performed: m_OnOptionEvent);
     }
 
     public void InputManagerJoin()

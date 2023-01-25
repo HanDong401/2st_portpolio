@@ -101,6 +101,8 @@ public abstract class Monster : Unit
     public MonsterEvent m_MonsterEvent = null;
     public delegate Monster MonsterSummonEvent(string _monster, Vector2 _pos);
     public MonsterSummonEvent m_MonsterSummonEvent = null;
+    public delegate void RemoveMonsterListEvent(Monster _monster);
+    public RemoveMonsterListEvent m_RemoveMonster = null; 
 
     private void Awake()
     {
@@ -171,6 +173,17 @@ public abstract class Monster : Unit
     public void AddMonsterSummonEvent(MonsterSummonEvent _callback)
     {
         m_MonsterSummonEvent = _callback;
+    }
+
+    public void AddRemoveMonsterEvent(RemoveMonsterListEvent _callback)
+    {
+        m_RemoveMonster = _callback;
+    }
+
+    public void OnRemoveMonster()
+    {
+        if (m_RemoveMonster != null)
+            m_RemoveMonster(this);
     }
 
     public Vector2 GetPosition()
