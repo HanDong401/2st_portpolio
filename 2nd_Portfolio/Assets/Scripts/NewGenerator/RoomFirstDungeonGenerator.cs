@@ -10,9 +10,14 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     [SerializeField,Range(0, 10)] private int offset = 1;
     [SerializeField] private bool randomWalkRooms = false;
+
+    List<Vector2Int> roomCentersPos = new List<Vector2Int>();
+
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
     [SerializeField]private int DungeonLevel=0;
+    [SerializeField]Gizmos gizmos = null;//test
+
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
@@ -35,14 +40,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
             floor = CreateSimpleRooms(roomsList);
         }
         HashSet<Vector2Int> propsTile = new HashSet<Vector2Int>(floor);
-        HashSet<Vector2Int>  UsingTeleportTilePos = new HashSet<Vector2Int>(propsTile);
-        HashSet<Vector2Int>  UsingStartTilePos = new HashSet<Vector2Int>(propsTile);
+        HashSet<Vector2Int> UsingTeleportTilePos = new HashSet<Vector2Int>(propsTile);
+        HashSet<Vector2Int> UsingStartTilePos = new HashSet<Vector2Int>(propsTile);
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
+        roomCentersPos = new List<Vector2Int>(roomCenters);//방 중앙 호출
+
         #region 생성 관련 코드
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
@@ -81,9 +88,33 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         if (roomEvent != null)
             roomEvent();
     }
+    public void OnDrawGizmos()
+    {
+        Vector3 Pos = Vector3.zero;
+        Pos.x = roomCentersPos[0].x;
+        Pos.y = roomCentersPos[0].y;
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(Pos, Vector3.one);
+        Pos.x = roomCentersPos[1].x;
+        Pos.y = roomCentersPos[1].y;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(Pos, Vector3.one);
+        Pos.x = roomCentersPos[2].x;
+        Pos.y = roomCentersPos[2].y;
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(Pos, Vector3.one);
+        Pos.x = roomCentersPos[3].x;
+        Pos.y = roomCentersPos[3].y;
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireCube(Pos, Vector3.one);
+    }
     public Vector2 GetStartPos()
     {
         return props.GetStartPos();
+    }
+    public Vector2Int[] GetRoomCentersPos()
+    {
+        return roomCentersPos.ToArray();
     }
     public void SetDungeonWidthHeightBossRoom()
     {
