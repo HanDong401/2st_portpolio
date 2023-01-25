@@ -12,7 +12,7 @@ public class TownDoor : Door
     protected override void SubExecute()
     {
         if (m_DoorEvent != null)
-            m_DoorEvent("Stage0");
+            m_DoorEvent("DungeonScene");
     }
 
 }

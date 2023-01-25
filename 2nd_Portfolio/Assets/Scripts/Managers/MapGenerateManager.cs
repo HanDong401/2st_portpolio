@@ -15,6 +15,11 @@ public class MapGenerateManager : MonoBehaviour
 
     [SerializeField] int DungeonLevel = 0;
 
+    public void Start()
+    {
+        DungeonGenerate();
+    }
+
     public void MapGenerateManagerAwake()
     {
         if (roomFirstDungeonGenerator == null)
@@ -45,7 +50,7 @@ public class MapGenerateManager : MonoBehaviour
 
             //여기서 씬 전환 나와서 타운 맵으로 이동
             if (m_LoadsceneEvent != null)
-                m_LoadsceneEvent("TownScene");
+                m_LoadsceneEvent("TownScene2");
             return;
         }
         roomFirstDungeonGenerator.GenerateDungeon();
