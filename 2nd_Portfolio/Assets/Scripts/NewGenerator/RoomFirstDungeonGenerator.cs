@@ -88,26 +88,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         if (roomEvent != null)
             roomEvent();
     }
-    public void OnDrawGizmos()
-    {
-        Vector3 Pos = Vector3.zero;
-        Pos.x = roomCentersPos[0].x;
-        Pos.y = roomCentersPos[0].y;
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(Pos, Vector3.one);
-        Pos.x = roomCentersPos[1].x;
-        Pos.y = roomCentersPos[1].y;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(Pos, Vector3.one);
-        Pos.x = roomCentersPos[2].x;
-        Pos.y = roomCentersPos[2].y;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(Pos, Vector3.one);
-        Pos.x = roomCentersPos[3].x;
-        Pos.y = roomCentersPos[3].y;
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireCube(Pos, Vector3.one);
-    }
+
     public Vector2 GetStartPos()
     {
         return props.GetStartPos();

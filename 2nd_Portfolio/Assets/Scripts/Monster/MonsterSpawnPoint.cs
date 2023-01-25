@@ -9,16 +9,6 @@ public class MonsterSpawnPoint : MonoBehaviour
     [SerializeField] private List<Vector2> m_RoomPoints;
     [SerializeField] private List<Vector2> m_SpawnPoints;
 
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousepos = Input.mousePosition;
-            Vector2 randompos = (Random.insideUnitCircle * 3f) + mousepos;
-            Debug.Log(randompos);
-        }
-    }
     public void SetMaxMonsterNum()
     {
         m_MaxMonsterNum = m_RoomPoints.Count + (int)(m_RoomPoints.Count * 0.5f);
@@ -29,14 +19,26 @@ public class MonsterSpawnPoint : MonoBehaviour
         m_MaxRoomMonsterNum = _num;
     }
 
-    public void SetSpawnPoint(Vector2 _pos)
+    public void SetRoomPoint(Vector2 _pos)
     {
         m_RoomPoints.Add(_pos);
     }
 
-    public void SpawnMonster()
+    public void SetSpawnPoint()
     {
+        SetMaxMonsterNum();
         int roomIndex = 0;
-        m_SpawnPoints.Add((Random.insideUnitCircle * 3f) + m_RoomPoints[roomIndex]);
+        while(m_MaxMonsterNum > 0)
+        {
+            int roomMonsterNum = Random.Range(0, m_MaxRoomMonsterNum);
+            for (int i = 0; i < roomMonsterNum; ++i)
+            {
+                m_SpawnPoints.Add((Random.insideUnitCircle * 1f) + m_RoomPoints[roomIndex]);
+                --m_MaxMonsterNum;
+            }
+            ++roomIndex;
+            if (roomIndex >= m_RoomPoints.Count)
+                roomIndex = 0;
+        }
     }
 }

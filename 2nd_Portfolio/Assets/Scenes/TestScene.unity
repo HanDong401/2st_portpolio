@@ -996,6 +996,7 @@ MonoBehaviour:
   m_MaxRoomMonsterNum: 2
   m_RoomPoints: []
   m_SpawnPoints: []
+  test: {fileID: 893652089}
 --- !u!4 &1679465170
 Transform:
   m_ObjectHideFlags: 0
