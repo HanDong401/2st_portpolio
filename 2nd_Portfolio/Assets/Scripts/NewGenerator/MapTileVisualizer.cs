@@ -90,14 +90,6 @@ public class MapTileVisualizer : MonoBehaviour
         {
             tile = wallInnerCornerDownRight;
         }
-        else if (WallTypesHelper.wallInnerCornerUpLeft.Contains(typeASInt))
-        {
-            tile = wallInnerCornerUpLeft;
-        }
-        else if (WallTypesHelper.wallInnerCornerUpRight.Contains(typeASInt))
-        {
-            tile = wallInnerCornerUpRight;
-        }
         else if (WallTypesHelper.wallDiagonalCornerDownLeft.Contains(typeASInt))
         {
             tile = wallDiagonalCornerDownLeft;

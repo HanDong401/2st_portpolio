@@ -1495,7 +1495,6 @@ GameObject:
   m_Component:
   - component: {fileID: 999748462}
   - component: {fileID: 999748464}
-  - component: {fileID: 999748466}
   - component: {fileID: 999748468}
   m_Layer: 0
   m_Name: TESTCSV
@@ -1531,22 +1530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a388eff6f514da4e8e9e5ba743a70aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &999748466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999748460}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e193e9a903894e648800d58bec6dbae2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go_DialogueBar: {fileID: 0}
-  go_DialogueNameBar: {fileID: 0}
-  txt_Dialogue: {fileID: 1896002217}
-  txt_Name: {fileID: 52192477}
 --- !u!114 &999748468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9386,7 +9369,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2.625}
+    oldSize: {x: 2, y: 2.6875}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
