@@ -6,6 +6,10 @@ public class MapGenerateManager : MonoBehaviour
 {
     public delegate void MapGenerateEvent();
     private MapGenerateEvent m_MapGenerateEvent = null;
+    private MapGenerateEvent m_MonsterSummonEvent = null;
+    private MapGenerateEvent m_InitNodeEvent = null;
+    public delegate void RoomPointEvent(Vector2Int[] _pos);
+    private RoomPointEvent m_RoomPointEvent = null;
     public delegate void LoadSceneEvent(string _sceneName);
     private LoadSceneEvent m_LoadsceneEvent = null;
     [SerializeField] RoomFirstDungeonGenerator roomFirstDungeonGenerator = null;
@@ -24,6 +28,8 @@ public class MapGenerateManager : MonoBehaviour
     {
         if (roomFirstDungeonGenerator == null)
             roomFirstDungeonGenerator = GameObject.FindObjectOfType<RoomFirstDungeonGenerator>();
+        if (roomFirstDungeonGenerator != null)
+            roomFirstDungeonGenerator.AddRoomEvent(InitNode);
     }
     public void DungeonGenerate()
     {
@@ -54,6 +60,12 @@ public class MapGenerateManager : MonoBehaviour
             return;
         }
         roomFirstDungeonGenerator.GenerateDungeon();
+        m_RoomPointEvent(null);
+        if (DungeonLevel < 3)
+        {
+            m_RoomPointEvent(GetRoomCenterPos());
+            m_MonsterSummonEvent?.Invoke();
+        }
         m_MapGenerateEvent?.Invoke();
     }
     public Vector2 GetStartPos()
@@ -66,8 +78,35 @@ public class MapGenerateManager : MonoBehaviour
         m_MapGenerateEvent = _callback;
     }
 
+    public void AddMonsterSummonEvent(MapGenerateEvent _callback)
+    {
+        m_MonsterSummonEvent = _callback;
+    }
+
+    public void AddInitNodeEvent(MapGenerateEvent _callback)
+    {
+        m_InitNodeEvent = _callback;
+    }
+
     public void AddLoadSceneEvent(LoadSceneEvent _callback)
     {
         m_LoadsceneEvent = _callback;
+    }
+
+    public void AddRoomPointEvent(RoomPointEvent _callback)
+    {
+        m_RoomPointEvent = _callback;
+    }
+
+
+    public void InitNode()
+    {
+        m_InitNodeEvent?.Invoke();
+    }
+
+    public Vector2Int[] GetRoomCenterPos()
+    {
+        Debug.Log("방위치 불러오기 실행");
+        return roomFirstDungeonGenerator.GetRoomCentersPos();
     }
 }

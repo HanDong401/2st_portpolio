@@ -187,6 +187,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853460881577336965, guid: 15dd2cdb285a5684f8ea678904b6b360,
         type: 3}
+      propertyPath: point
+      value: 
+      objectReference: {fileID: 6401806342856373286, guid: 2990627f67f76a247b486afb6e3330da,
+        type: 3}
+    - target: {fileID: 7853460881577336965, guid: 15dd2cdb285a5684f8ea678904b6b360,
+        type: 3}
       propertyPath: m_InputManager
       value: 
       objectReference: {fileID: 0}

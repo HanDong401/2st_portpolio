@@ -31,7 +31,7 @@ public class AStar
     private List<Node> m_FinalNodeList;
     public List<Node> FinalNodeList { get { return m_FinalNodeList; } }
 
-    private Node[,] m_NodePos;
+    public Node[,] m_NodePos;
     private Node m_StartNode, m_EndNode, m_CurrNode;
     private List<Node> m_OpenList, m_EndList;
 

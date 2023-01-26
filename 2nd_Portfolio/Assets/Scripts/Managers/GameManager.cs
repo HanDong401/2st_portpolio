@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainSceneManager m_MainSceneManager = null;
     [SerializeField] private InputManager m_InputManager = null;
     [SerializeField] private UIManager m_UIManager = null;
+    [SerializeField] private MonsterSpawnPoint m_MonsterSpawnPoint = null;
     [SerializeField] private MapGenerateManager m_MapGenerateManager = null;
     [SerializeField] private Player m_Player = null;
     [SerializeField] private Inventory m_Inventory = null;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MonsterManager m_MonsterManager = null;
     [SerializeField] private Door m_Door = null;
     private Coroutine m_InitUICoroutine = null;
+    public GameObject point = null;
 
     private int m_level = 3;
     private bool mbIsOnBgmSound = true;
@@ -29,7 +31,6 @@ public class GameManager : MonoBehaviour
     // 게임매니저의 이벤트에 실행시킬 초기화 함수들을 저장해놓고
     // 씬이 로드 될때마다 실행 후 
     // 한번만 실행되도 되는것들은 이벤트에서 삭제한다
-    // 그렇게 하면 매번 돌릴때 조건 검사를 할 필요도 없고 깔끔하게 없어진다
     public void AddGameManagerEvent(GameManagerEvent _callback)
     {
         m_GameManagerEvent += _callback;
@@ -78,18 +79,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void InitMonsterManager()
+    {
+        m_MonsterManager = GameObject.FindObjectOfType<MonsterManager>();
+        if (m_MonsterManager != null)
+        {
+            m_MonsterManager.MonsterManagerAwake();
+            RemoveGameManagerEvent(InitMonsterManager);
+        }
+    }
+
+    private void InitMonsterSpawnPoint()
+    {
+        m_MonsterSpawnPoint = GameObject.FindObjectOfType<MonsterSpawnPoint>();
+        if (m_MonsterSpawnPoint != null)
+        {
+            m_MonsterSpawnPoint.AddSpawnPointEvent(m_MonsterManager.SetSpawnPoint);
+            m_MonsterSpawnPoint.MonsterSpawnPointAwake();
+            RemoveGameManagerEvent(InitMonsterSpawnPoint);
+        }
+    }
+
     private void InitMapGenerateManager()
     {
         m_MapGenerateManager = GameObject.FindObjectOfType<MapGenerateManager>();
         if (m_MapGenerateManager != null)
         {
             m_MapGenerateManager.AddMapGenerateEvent(SetPlayerPosition);
+            
             m_MapGenerateManager.AddLoadSceneEvent(m_MainSceneManager.LoadScene);
+            m_MapGenerateManager.AddRoomPointEvent(m_MonsterSpawnPoint.SetRoomPoint);
+            m_MapGenerateManager.AddMonsterSummonEvent(m_MonsterManager.SummonRandomMonster);
+            m_MapGenerateManager.AddInitNodeEvent(m_MonsterManager.AStar.InitNode);
+
             m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
             RemoveGameManagerEvent(InitMapGenerateManager);
         }
     }
-
 
     private void InitInventory()
     {
@@ -134,15 +160,6 @@ public class GameManager : MonoBehaviour
         }
     }    
 
-    private void InitMonsterManager()
-    {
-        m_MonsterManager = GameObject.FindObjectOfType<MonsterManager>();
-        if (m_MonsterManager != null)
-        {
-            m_MonsterManager.MonsterManagerAwake();
-            RemoveGameManagerEvent(InitMonsterManager);
-        }
-    }
 
     #endregion
     private void Awake()
@@ -175,6 +192,8 @@ public class GameManager : MonoBehaviour
                     break;
                 case "TownScene":
                     break;
+                case "DungeonScene":
+                    break;
                 case "Stage0":
                     break;
                 case "Stage1":
@@ -194,7 +213,7 @@ public class GameManager : MonoBehaviour
         if (m_Player != null && GameObject.FindGameObjectWithTag("START") != null)
         {
             m_Player.SetPlayerPosition(GameObject.FindGameObjectWithTag("START").transform.position);
-        }    
+        }
     }
 
     private void NullCheck()
@@ -205,6 +224,10 @@ public class GameManager : MonoBehaviour
             AddGameManagerEvent(InitInputManager);
         if (m_UIManager == null)
             AddGameManagerEvent(InitUIManager);
+        if (m_MonsterManager == null)
+            AddGameManagerEvent(InitMonsterManager);
+        if (m_MonsterSpawnPoint == null)
+            AddGameManagerEvent(InitMonsterSpawnPoint);
         if (m_MapGenerateManager == null)
             AddGameManagerEvent(InitMapGenerateManager);
         if (m_Inventory == null)
@@ -213,8 +236,6 @@ public class GameManager : MonoBehaviour
             AddGameManagerEvent(InitPlayer);
         if (m_ItemManager == null)
             AddGameManagerEvent(InitItemManager);
-        if (m_MonsterManager == null)
-            AddGameManagerEvent(InitMonsterManager);
     }
 
     private void SetGameManager()

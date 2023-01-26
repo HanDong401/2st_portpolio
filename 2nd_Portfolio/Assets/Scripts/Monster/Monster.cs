@@ -102,8 +102,7 @@ public abstract class Monster : Unit
     public delegate Monster MonsterSummonEvent(string _monster, Vector2 _pos);
     public MonsterSummonEvent m_MonsterSummonEvent = null;
     public delegate void RemoveMonsterListEvent(Monster _monster);
-    public RemoveMonsterListEvent m_RemoveMonster = null; 
-
+    public RemoveMonsterListEvent m_RemoveMonster = null;
     private void Awake()
     {
         InitMonster();
