@@ -72,6 +72,10 @@ public class MapGenerateManager : MonoBehaviour
     {
         return roomFirstDungeonGenerator.GetStartPos();
     }
+    public Vector2Int[] GetRoomCentersPos()
+    {
+        return roomFirstDungeonGenerator.GetRoomCentersPos();
+    }
     
     public void AddMapGenerateEvent(MapGenerateEvent _callback)
     {
