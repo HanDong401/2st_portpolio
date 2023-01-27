@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -2959047622047109253}
   m_Layer: 0
   m_Name: OpenChest
-  m_TagString: Untagged
+  m_TagString: CHEST
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

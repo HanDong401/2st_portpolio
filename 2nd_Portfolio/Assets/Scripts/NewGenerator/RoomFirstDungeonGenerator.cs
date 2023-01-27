@@ -11,7 +11,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField,Range(0, 10)] private int offset = 1;
     [SerializeField] private bool randomWalkRooms = false;
 
-    List<Vector2Int> roomCentersPos = new List<Vector2Int>();
+    Vector2[] roomCentersPos;
 
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
@@ -44,12 +44,17 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         HashSet<Vector2Int> UsingStartTilePos = new HashSet<Vector2Int>(propsTile);
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
+        List<Vector2> roomCenterVector2 = new List<Vector2>();
         foreach (var room in roomsList)
         {
+            //Debug.Log(room.center);
+            //roomCentersPos.Add(new Vector2(room.center.x, room.center.y));
+            Vector2 vec = new Vector2(room.center.x, room.center.y);
+            roomCenterVector2.Add(vec);
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
-        roomCentersPos = new List<Vector2Int>(roomCenters);//방 중앙 호출
 
+        roomCentersPos = roomCenterVector2.ToArray();
         #region 생성 관련 코드
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
@@ -93,9 +98,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     {
         return props.GetStartPos();
     }
-    public Vector2Int[] GetRoomCentersPos()
+    public Vector2[] GetRoomCentersPos()
     {
-        return roomCentersPos.ToArray();
+        return roomCentersPos;
     }
     public void SetDungeonWidthHeightBossRoom()
     {
@@ -112,18 +117,18 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         minRoomHeight =_Height;
         minRoomWidth = _Width;
     }
-    public void SetDungeonLevelZero()
-    {
-        DungeonLevel = 0;
-    }
-    public void PlusDungeonLevel()
-    {
-        DungeonLevel++;
-    }
-    public int ReturnDungeonLevel()
-    {
-        return DungeonLevel;
-    }
+    //public void SetDungeonLevelZero()
+    //{
+    //    DungeonLevel = 0;
+    //}
+    //public void PlusDungeonLevel()
+    //{
+    //    DungeonLevel++;
+    //}
+    //public int ReturnDungeonLevel()
+    //{
+    //    return DungeonLevel;
+    //}
     public void AddRoomEvent(RoomEvent _callback)
     {
         roomEvent = _callback;

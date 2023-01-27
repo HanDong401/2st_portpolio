@@ -16,6 +16,7 @@ public class MapGenerateManager : MonoBehaviour
     [SerializeField] MapTileVisualizer MapTileVisualizer= null;
     [SerializeField] Props props = null;
     [SerializeField] SpecialTileInstantiator specialTileInstantiator = null;
+    [SerializeField] RoomManager m_RoomManager = null;
 
     [SerializeField] int DungeonLevel = 0;
 
@@ -34,25 +35,25 @@ public class MapGenerateManager : MonoBehaviour
     public void DungeonGenerate()
     {
         MapTileVisualizer.Clear();
-        roomFirstDungeonGenerator.PlusDungeonLevel();
-        DungeonLevel = roomFirstDungeonGenerator.ReturnDungeonLevel();
         //여기에 플레이어 위치 스타트 위치로 가는 함수 호출
-        if (DungeonLevel >= 3 && DungeonLevel<4)
+        if(DungeonLevel < 3)
         {
-            //보스룸 생성 1.
-            roomFirstDungeonGenerator.SetDungeonWidthHeightFreely(20,15);
-            roomFirstDungeonGenerator.SetDungeonWidthHeightBossRoom();
-            //props.SetPropsCntFreely(0);
-        }
-        else if(DungeonLevel < 3)
-        {
+            DungeonLevel++;
             roomFirstDungeonGenerator.SetDungeonWidthHeightFreely(Random.Range(25, 40), Random.Range(10, 20));//최대 크기 제한하는 함수
             roomFirstDungeonGenerator.SetDungeonMinWidthHeight(5, 5);//방 최소크기 제한하는 함수
             //props.SetPropsCntFreely(15);
         }
-        else if(DungeonLevel>=4)
+        else if(DungeonLevel.Equals(3))
         {
-            roomFirstDungeonGenerator.SetDungeonLevelZero();
+            //보스룸 생성 1.
+            DungeonLevel++;
+            roomFirstDungeonGenerator.SetDungeonWidthHeightFreely(20,15);
+            roomFirstDungeonGenerator.SetDungeonWidthHeightBossRoom();
+            //props.SetPropsCntFreely(0);
+        }
+        else if(DungeonLevel.Equals(4))
+        {
+            DungeonLevel = 0;
 
             //여기서 씬 전환 나와서 타운 맵으로 이동
             if (m_LoadsceneEvent != null)
@@ -60,21 +61,18 @@ public class MapGenerateManager : MonoBehaviour
             return;
         }
         roomFirstDungeonGenerator.GenerateDungeon();
-        m_RoomPointEvent(null);
-        if (DungeonLevel < 3)
-        {
-            m_RoomPointEvent(GetRoomCenterPos());
-            m_MonsterSummonEvent?.Invoke();
-        }
         m_MapGenerateEvent?.Invoke();
+        m_RoomManager.SetRooms(roomFirstDungeonGenerator.GetRoomCentersPos());
+        //m_RoomPointEvent(null);
+        //if (DungeonLevel < 3)
+        //{
+        //    m_RoomPointEvent(GetRoomCenterPos());
+        //    m_MonsterSummonEvent?.Invoke();
+        //}
     }
     public Vector2 GetStartPos()
     {
         return roomFirstDungeonGenerator.GetStartPos();
-    }
-    public Vector2Int[] GetRoomCentersPos()
-    {
-        return roomFirstDungeonGenerator.GetRoomCentersPos();
     }
     
     public void AddMapGenerateEvent(MapGenerateEvent _callback)
@@ -102,13 +100,18 @@ public class MapGenerateManager : MonoBehaviour
         m_RoomPointEvent = _callback;
     }
 
+    public void SetRoomManagerTargetPos(Vector2 _targetPos)
+    {
+        m_RoomManager.SetTargetPos(_targetPos);
+    }
+
 
     public void InitNode()
     {
         m_InitNodeEvent?.Invoke();
     }
 
-    public Vector2Int[] GetRoomCenterPos()
+    public Vector2[] GetRoomCenterPos()
     {
         Debug.Log("방위치 불러오기 실행");
         return roomFirstDungeonGenerator.GetRoomCentersPos();

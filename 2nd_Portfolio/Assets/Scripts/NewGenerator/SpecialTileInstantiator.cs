@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpecialTileInstantiator : MonoBehaviour
 {
-    [SerializeField] private GameObject TeleportPrefab, StartPrefab, TestChestItem;
+    [SerializeField] private GameObject TeleportPrefab, StartPrefab, ChestPrefab;
     private GameObject FindHierachyTeleport,FindHierachyStart, FindHierachyChest;
     private Vector3 Pos = Vector3.zero;
 
@@ -14,7 +14,7 @@ public class SpecialTileInstantiator : MonoBehaviour
         List<Vector2Int> ListChestPosition = new List<Vector2Int>(_ChestPosition);
         Pos.x = ListChestPosition[0].x;
         Pos.y = ListChestPosition[0].y;
-        Instantiate(TestChestItem, Pos, Quaternion.identity);
+        Instantiate(ChestPrefab, Pos, Quaternion.identity);
     }
     
     public void InstatntiateTeleport(HashSet<Vector2Int> _TeleportPosition)
@@ -27,7 +27,7 @@ public class SpecialTileInstantiator : MonoBehaviour
     }
     public void DeleteTeleport()
     {
-        FindHierachyTeleport = GameObject.FindGameObjectWithTag("TELEPORT");
+        FindHierachyTeleport = GameObject.FindGameObjectWithTag("DOOR");
         Destroy(FindHierachyTeleport);
     }
     public void InstatntiateStart(HashSet<Vector2Int> _StartPosition)

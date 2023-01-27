@@ -111,8 +111,10 @@ public class GameManager : MonoBehaviour
             m_MapGenerateManager.AddRoomPointEvent(m_MonsterSpawnPoint.SetRoomPoint);
             m_MapGenerateManager.AddMonsterSummonEvent(m_MonsterManager.SummonRandomMonster);
             m_MapGenerateManager.AddInitNodeEvent(m_MonsterManager.AStar.InitNode);
+            m_MapGenerateManager.MapGenerateManagerAwake();
 
             m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
+            StartCoroutine(UpdatePlayerPos());
             RemoveGameManagerEvent(InitMapGenerateManager);
         }
     }
@@ -301,4 +303,13 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
+
+    IEnumerator UpdatePlayerPos()
+    {
+        while(true)
+        {
+            m_MapGenerateManager.SetRoomManagerTargetPos(m_Player.GetPosition());
+            yield return null;
+        }
+    }    
 }

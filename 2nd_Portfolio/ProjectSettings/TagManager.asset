@@ -17,6 +17,7 @@ TagManager:
   - SpawnPoint
   - Monster
   - Skill
+  - DOOR
   layers:
   - Default
   - TransparentFX

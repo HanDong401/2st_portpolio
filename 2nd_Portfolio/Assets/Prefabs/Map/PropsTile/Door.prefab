@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4761501815468199404}
   m_Layer: 0
   m_Name: Door
-  m_TagString: TELEPORT
+  m_TagString: DOOR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2.625}
+    oldSize: {x: 2, y: 2.6875}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -125,11 +125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d12edb2f494db4c9212e6368da9275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGenerateManager: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
+    type: 3}
   NPCImage:
   - {fileID: 665535180077520797}
   - {fileID: 665535180130618741}
-  mapGenerateManager: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
-    type: 3}
 --- !u!1001 &1668559464460984154
 PrefabInstance:
   m_ObjectHideFlags: 0

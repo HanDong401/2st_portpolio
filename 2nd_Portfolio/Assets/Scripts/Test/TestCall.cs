@@ -5,28 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class TestCall : MonoBehaviour
 {
-    int count = 0;
-    private void Start()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
-    private void OnEnable()
-    {
-        Debug.Log("OnEnable");
-        SceneManager.sceneLoaded += test;
-    }
+    //private void Start()
+    //{
+    //    BoxCollider2D coll = this.gameObject.AddComponent<BoxCollider2D>();
+    //    coll.isTrigger = true;
+    //}
 
-    private void test(Scene _scene, LoadSceneMode _mod)
+    private void OnTriggerEnter2D(Collider2D coll)
     {
-        count++;
-        Debug.Log(count);
-        Debug.Log("Test ·Îµå");
-        Debug.Log(_scene.name);
-    }
-
-    private void OnDisable()
-    {
-        Debug.Log("OnDisable");
-        SceneManager.sceneLoaded -= test;
     }
 }

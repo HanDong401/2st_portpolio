@@ -63,7 +63,7 @@ public class MonsterManager : MonoBehaviour
 
     public void SummonRandomMonster()
     {
-        m_AStar.InitNode();
+        //m_AStar.InitNode();
         foreach(Vector2 pos in m_SpawnPoint)
         {
             Monster monster = Instantiate(RandomSelectMonster());
