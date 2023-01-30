@@ -7427,9 +7427,10 @@ MonoBehaviour:
     m_RoomCenterPos: {x: 0, y: 0}
     mbIsInRoom: 0
     mbIsClear: 0
+    mbIsActiveEvent: 0
     mbIsItStart: 0
     mbIsItDoor: 0
-  AreaRange: 6
+  AreaRange: 4
 --- !u!1001 &5776166143553640856
 PrefabInstance:
   m_ObjectHideFlags: 0

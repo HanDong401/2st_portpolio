@@ -13,20 +13,25 @@ public class RoomNode
     public bool mbIsActiveEvent = false;
     public bool mbIsItStart = false;
     public bool mbIsItDoor = false;
+    public bool mbIsBossRoom = false;
 }
 
 [System.Serializable]
 public class RoomManager : MonoBehaviour
 {
     //[SerializeField] private RoomNode[] m_Rooms;
-    [SerializeField] private List<RoomNode> m_Rooms;
+    [SerializeField] private List<RoomNode> m_Rooms = new List<RoomNode>();
     [SerializeField] private RoomNode m_CurrRoom;
     [SerializeField] private float AreaRange = 3f;
-    private Coroutine m_Coroutine;
+    [SerializeField] private bool mbIsRoomChange = false;
+    private Coroutine m_CheckInRoomCoroutine = null;
+    private Coroutine m_CheckCurrRoomCoroutine = null;
     private Vector2 m_TargetPos;
-    private bool mbIsRoomChange = false;
-    public delegate void SummonMonsterEvent(Vector2[] _pos);
-    private SummonMonsterEvent m_MonsterEvent = null;
+    public delegate void SummonMonsterEvent(Vector2 _pos);
+    private SummonMonsterEvent m_SummonRandomMonsterEvent = null;
+    private SummonMonsterEvent m_SummonBossMonsterEvent = null;
+    public delegate void SummonSelectMonsterEvent(string _name, Vector2 _pos);
+    private SummonSelectMonsterEvent m_SummonSelectMonsterEvent = null;
 
     public void SetRooms(Vector2[] _rooms)
     {
@@ -36,7 +41,6 @@ public class RoomManager : MonoBehaviour
             Debug.Log("중앙 위치 Null");
             return;
         }
-        m_Rooms = new List<RoomNode>();
         Vector2 StartPos = GameObject.FindGameObjectWithTag("START").transform.position;
         Vector2 DoorPos = GameObject.FindGameObjectWithTag("DOOR").transform.position;
         float minStartDis = float.MaxValue;
@@ -49,7 +53,6 @@ public class RoomManager : MonoBehaviour
         {
             m_Rooms.Add(new RoomNode());
             m_Rooms[i].m_RoomCenterPos = (_rooms[i] - new Vector2(0.5f, 0.5f));
-            Debug.Log("룸 매니저 반복문 안에 들어옴");
             curStartDis = Vector2.Distance(m_Rooms[i].m_RoomCenterPos, StartPos);
             if (minStartDis > curStartDis)
             {
@@ -64,9 +67,24 @@ public class RoomManager : MonoBehaviour
                 DoorRoomNum = i;
             }
         }
+        if (m_Rooms.Count.Equals(1))
+            m_Rooms[0].mbIsBossRoom = true;
         m_Rooms[startRoomNum].mbIsItStart = true;
         m_Rooms[DoorRoomNum].mbIsItDoor = true;
         StartCheckInRoom();
+        StartCheckCurrRoom();
+    }
+    public void StartCheckInRoom()
+    {
+        if (m_CheckInRoomCoroutine != null)
+            StopCoroutine(m_CheckInRoomCoroutine);
+
+        m_CheckInRoomCoroutine = StartCoroutine(CheckInRoom());
+    }
+
+    public void CheckStartRoom()
+    {
+
     }
 
     IEnumerator CheckInRoom()
@@ -90,13 +108,8 @@ public class RoomManager : MonoBehaviour
                 if (minDis > curDis)
                 {
                     minDis = curDis;
-                    if (roomNum != i)
-                    {
-                        mbIsRoomChange = true;
-                    }
                     roomNum = i;
                 }
-                //m_Rooms[i].mbIsInRoom = false;
             }
             m_Rooms[roomNum].mbIsInRoom = true;
             m_CurrRoom = m_Rooms[roomNum];
@@ -105,17 +118,78 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    public void StartCheckCurrRoom()
+    {
+        if (m_CheckCurrRoomCoroutine != null)
+            StopCoroutine(m_CheckCurrRoomCoroutine);
+        m_CheckCurrRoomCoroutine = StartCoroutine(CheckCurrRoom());
+    }
+
+    IEnumerator CheckCurrRoom()
+    {
+        while(true)
+        {
+            yield return null;
+            if (m_CurrRoom == null) continue;
+
+            if (m_CurrRoom.mbIsInRoom.Equals(true))
+            {
+                if (m_CurrRoom.mbIsBossRoom.Equals(true) && m_CurrRoom.mbIsActiveEvent.Equals(false))
+                {
+                    SummonBossMonster(m_CurrRoom.m_RoomCenterPos);
+                    m_CurrRoom.mbIsActiveEvent = true;
+                    continue;
+                }
+
+                if (m_CurrRoom.mbIsActiveEvent.Equals(true) || m_CurrRoom.mbIsItStart.Equals(true) || m_CurrRoom.mbIsItDoor.Equals(true) || m_CurrRoom.mbIsClear.Equals(true))
+                    continue;
+
+                // 방입장 이밴트 실행
+                SummonRandomMonster(m_CurrRoom.m_RoomCenterPos);
+                m_CurrRoom.mbIsActiveEvent = true;
+            }
+        }
+    }
+
+    public void AddSummonRandomMonsterEvent(SummonMonsterEvent _callback)
+    {
+        m_SummonRandomMonsterEvent = _callback;
+    }
+
+    public void AddSummonSelectMonsterEvent(SummonSelectMonsterEvent _callback)
+    {
+        m_SummonSelectMonsterEvent = _callback;
+    }
+
+    public void SummonRandomMonster(Vector2 _pos)
+    {
+        if (m_SummonRandomMonsterEvent != null)
+        {
+            int randomNum = Random.Range(1, 3);
+
+            for (int i = 0; i < randomNum; ++i)
+            {
+                Vector2 randomPos = Random.insideUnitCircle * 1f + _pos;
+
+                m_SummonRandomMonsterEvent(randomPos);
+            }
+        }
+    }
+
+    public void AddSummonBossMonsterEvent(SummonMonsterEvent _callback)
+    {
+        m_SummonBossMonsterEvent = _callback;
+    }
+
+    public void SummonBossMonster(Vector2 _pos)
+    {
+        if (m_SummonBossMonsterEvent != null)
+            m_SummonBossMonsterEvent(_pos);
+    }
+
     public void SetTargetPos(Vector2 _targetPos)
     {
         m_TargetPos = _targetPos;
-    }
-
-    public void StartCheckInRoom()
-    {
-        if (m_Coroutine != null)
-            StopCoroutine(m_Coroutine);
-
-        m_Coroutine = StartCoroutine(CheckInRoom());
     }
 
     public RoomNode GetCurrRoomNode()

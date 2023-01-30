@@ -51,10 +51,17 @@ public class AStar
                 foreach (Collider2D coll in Physics2D.OverlapCircleAll(new Vector2(i, j), 0.4f))
                 {
                     if (coll.gameObject.layer == LayerMask.NameToLayer("Wall"))
+                    {
                         isWall = true;
+                        
+                    }
                 }
 
                 m_NodePos[i, j] = new Node(isWall, i, j);
+                if (m_NodePos[i, j].mbIsWall == true)
+                {
+                    Debug.Log("벽 노드의 위치 " + m_NodePos[i, j].x + ", " + m_NodePos[i, j].y);
+                }
             }
         }
     }

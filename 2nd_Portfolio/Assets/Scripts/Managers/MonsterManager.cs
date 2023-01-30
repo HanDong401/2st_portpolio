@@ -61,19 +61,15 @@ public class MonsterManager : MonoBehaviour
         return monster;
     }
 
-    public void SummonRandomMonster()
+    public void SummonRandomMonster(Vector2 _pos)
     {
-        //m_AStar.InitNode();
-        foreach(Vector2 pos in m_SpawnPoint)
-        {
-            Monster monster = Instantiate(RandomSelectMonster());
-            monster.AddMonsterEvent(AStar.PathFinding);
-            monster.AddRemoveMonsterEvent(RemoveMonster);
-            monster.AddMonsterSummonEvent(SummonMonster);
-            m_MonsterList.Add(monster);
-            monster.transform.SetParent(this.transform, false);
-            monster.transform.position = pos;
-        }
+        Monster monster = Instantiate(RandomSelectMonster());
+        monster.AddMonsterEvent(AStar.PathFinding);
+        monster.AddRemoveMonsterEvent(RemoveMonster);
+        monster.AddMonsterSummonEvent(SummonMonster);
+        m_MonsterList.Add(monster);
+        monster.transform.SetParent(this.transform, false);
+        monster.transform.position = _pos;
     }
 
     private Monster SelectMonster(string _monster)
@@ -125,6 +121,15 @@ public class MonsterManager : MonoBehaviour
     public void RemoveMonster(Monster _monster)
     {
         m_MonsterList.Remove(_monster);
+    }
+
+    public void RemoveAllMonster()
+    {
+        foreach(Monster _monster in m_MonsterList)
+        {
+            Destroy(_monster.gameObject);
+        }
+        m_MonsterList.Clear();
     }
 
     public int GetMonsterListCount()

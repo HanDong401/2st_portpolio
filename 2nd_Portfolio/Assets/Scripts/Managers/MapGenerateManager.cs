@@ -8,8 +8,13 @@ public class MapGenerateManager : MonoBehaviour
     private MapGenerateEvent m_MapGenerateEvent = null;
     private MapGenerateEvent m_MonsterSummonEvent = null;
     private MapGenerateEvent m_InitNodeEvent = null;
+    private MapGenerateEvent m_RemoveAllMonsterEvent = null;
     public delegate void RoomPointEvent(Vector2Int[] _pos);
     private RoomPointEvent m_RoomPointEvent = null;
+    public delegate void RoomManagerRandomMonsterEvent(Vector2 _pos);
+    private RoomManagerRandomMonsterEvent m_RoomManageRandomMonsterEvent = null;
+    public delegate Monster RoomManagerSelectMonsterEvent(string _kind, Vector2 _pos);
+    private RoomManagerSelectMonsterEvent m_RoomManagerSelectMonsterEvent = null;
     public delegate void LoadSceneEvent(string _sceneName);
     private LoadSceneEvent m_LoadsceneEvent = null;
     [SerializeField] RoomFirstDungeonGenerator roomFirstDungeonGenerator = null;
@@ -31,9 +36,16 @@ public class MapGenerateManager : MonoBehaviour
             roomFirstDungeonGenerator = GameObject.FindObjectOfType<RoomFirstDungeonGenerator>();
         if (roomFirstDungeonGenerator != null)
             roomFirstDungeonGenerator.AddRoomEvent(InitNode);
+        if (m_RoomManager != null)
+        {
+            m_RoomManager.AddSummonRandomMonsterEvent(OnRoomManagerRandomMonster);
+            m_RoomManager.AddSummonBossMonsterEvent(OnRoomManagerBossMonster);
+            m_RoomManager.AddSummonSelectMonsterEvent(OnRoomManagerSelectMonster);
+        }
     }
     public void DungeonGenerate()
     {
+        m_RemoveAllMonsterEvent?.Invoke();
         MapTileVisualizer.Clear();
         //여기에 플레이어 위치 스타트 위치로 가는 함수 호출
         if(DungeonLevel < 3)
@@ -69,10 +81,17 @@ public class MapGenerateManager : MonoBehaviour
         //    m_RoomPointEvent(GetRoomCenterPos());
         //    m_MonsterSummonEvent?.Invoke();
         //}
+        InitNode();
     }
     public Vector2 GetStartPos()
     {
         return roomFirstDungeonGenerator.GetStartPos();
+    }
+
+    public Vector2[] GetRoomCenterPos()
+    {
+        Debug.Log("방위치 불러오기 실행");
+        return roomFirstDungeonGenerator.GetRoomCentersPos();
     }
     
     public void AddMapGenerateEvent(MapGenerateEvent _callback)
@@ -83,6 +102,11 @@ public class MapGenerateManager : MonoBehaviour
     public void AddMonsterSummonEvent(MapGenerateEvent _callback)
     {
         m_MonsterSummonEvent = _callback;
+    }
+
+    public void AddRemoveAllMonsterEvent(MapGenerateEvent _callback)
+    {
+        m_RemoveAllMonsterEvent = _callback;
     }
 
     public void AddInitNodeEvent(MapGenerateEvent _callback)
@@ -100,6 +124,35 @@ public class MapGenerateManager : MonoBehaviour
         m_RoomPointEvent = _callback;
     }
 
+    public void AddRoomManagerRandomMonsterEvent(RoomManagerRandomMonsterEvent _callback)
+    {
+        m_RoomManageRandomMonsterEvent = _callback;
+    }
+
+    public void AddRoomManagerSelectMonsterEvent(RoomManagerSelectMonsterEvent _callback)
+    {
+        m_RoomManagerSelectMonsterEvent = _callback;
+    }
+
+    public void OnRoomManagerRandomMonster(Vector2 _pos)
+    {
+        if (DungeonLevel < 4 && m_RoomManageRandomMonsterEvent != null)
+            m_RoomManageRandomMonsterEvent(_pos);
+    }
+
+    public void OnRoomManagerBossMonster(Vector2 _pos)
+    {
+        if (DungeonLevel.Equals(4) && m_RoomManagerSelectMonsterEvent != null)
+        {
+            m_RoomManagerSelectMonsterEvent("Golem1", _pos);
+        }
+    }
+
+    public void OnRoomManagerSelectMonster(string _name, Vector2 _pos)
+    {
+        m_RoomManagerSelectMonsterEvent(_name, _pos);
+    }
+
     public void SetRoomManagerTargetPos(Vector2 _targetPos)
     {
         m_RoomManager.SetTargetPos(_targetPos);
@@ -111,9 +164,4 @@ public class MapGenerateManager : MonoBehaviour
         m_InitNodeEvent?.Invoke();
     }
 
-    public Vector2[] GetRoomCenterPos()
-    {
-        Debug.Log("방위치 불러오기 실행");
-        return roomFirstDungeonGenerator.GetRoomCentersPos();
-    }
 }

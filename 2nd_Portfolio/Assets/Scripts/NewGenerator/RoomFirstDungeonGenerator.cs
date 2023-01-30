@@ -90,8 +90,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         specialTileInstantiator.InstatntiateChestItem(chestTiles);
         #endregion
         //여기서 길찾기 델리게이트 호출
-        if (roomEvent != null)
-            roomEvent();
+        //roomEvent?.Invoke();
     }
 
     public Vector2 GetStartPos()

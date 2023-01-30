@@ -262,7 +262,7 @@ public class Player : Unit
         {
             if (m_CurrSp < m_MaxSp)
             {
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(2f);
                 ++m_CurrSp;
             }
             else if (m_CurrSp == m_MaxSp)

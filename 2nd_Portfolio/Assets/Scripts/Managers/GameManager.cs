@@ -109,7 +109,10 @@ public class GameManager : MonoBehaviour
             
             m_MapGenerateManager.AddLoadSceneEvent(m_MainSceneManager.LoadScene);
             m_MapGenerateManager.AddRoomPointEvent(m_MonsterSpawnPoint.SetRoomPoint);
-            m_MapGenerateManager.AddMonsterSummonEvent(m_MonsterManager.SummonRandomMonster);
+            //m_MapGenerateManager.AddMonsterSummonEvent(m_MonsterManager.SummonRandomMonster);
+            m_MapGenerateManager.AddRoomManagerSelectMonsterEvent(m_MonsterManager.SummonMonster);
+            m_MapGenerateManager.AddRoomManagerRandomMonsterEvent(m_MonsterManager.SummonRandomMonster);
+            m_MapGenerateManager.AddRemoveAllMonsterEvent(m_MonsterManager.RemoveAllMonster);
             m_MapGenerateManager.AddInitNodeEvent(m_MonsterManager.AStar.InitNode);
             m_MapGenerateManager.MapGenerateManagerAwake();
 

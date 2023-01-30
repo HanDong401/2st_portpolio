@@ -12,6 +12,6 @@ public class TestManager : MonoBehaviour
         monsterManager.MonsterManagerAwake();
         Vector2[] vectors = new Vector2[] { Vector2.zero, Vector2.right };
         monsterManager.SetSpawnPoint(vectors);
-        monsterManager.SummonRandomMonster();
+        //monsterManager.SummonRandomMonster();
     }
 }
