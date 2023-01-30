@@ -70,6 +70,10 @@ public class MapGenerateManager : MonoBehaviour
         //    m_MonsterSummonEvent?.Invoke();
         //}
     }
+    public Vector2 GetDoorPos()
+    {
+        return roomFirstDungeonGenerator.GetDoorPos();
+    }
     public Vector2 GetStartPos()
     {
         return roomFirstDungeonGenerator.GetStartPos();
