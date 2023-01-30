@@ -21,6 +21,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
+        //Debug.Log(GetDoorPos());
     }
 
     private void CreateRooms()
@@ -44,7 +45,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         HashSet<Vector2Int> UsingStartTilePos = new HashSet<Vector2Int>(propsTile);
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
-        List<Vector2Int> doorTilePos = new List<Vector2Int>(UsingTeleportTilePos);
         List<Vector2> roomCenterVector2 = new List<Vector2>();
         foreach (var room in roomsList)
         {
@@ -54,8 +54,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
             roomCenterVector2.Add(vec);
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
-        doorPos = doorTilePos[0];
-        doorTilePos.Clear();
         roomCentersPos = roomCenterVector2.ToArray();
         #region 积己 包访 内靛
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
@@ -105,7 +103,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     }
     public Vector2 GetDoorPos()
     {
-        return doorPos;
+        return props.GetDoorPos();
     }
     public void SetDungeonWidthHeightBossRoom()
     {
