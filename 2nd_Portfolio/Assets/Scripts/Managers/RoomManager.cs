@@ -27,6 +27,9 @@ public class RoomManager : MonoBehaviour
     private Coroutine m_CheckInRoomCoroutine = null;
     private Coroutine m_CheckCurrRoomCoroutine = null;
     private Vector2 m_TargetPos;
+    public delegate Vector2 RoomManagerVector2Event();
+    private RoomManagerVector2Event m_GetStartPosEvent = null;
+    private RoomManagerVector2Event m_GetDoorPosEvent = null;
     public delegate void SummonMonsterEvent(Vector2 _pos);
     private SummonMonsterEvent m_SummonRandomMonsterEvent = null;
     private SummonMonsterEvent m_SummonBossMonsterEvent = null;
@@ -42,7 +45,11 @@ public class RoomManager : MonoBehaviour
             return;
         }
         Vector2 StartPos = GameObject.FindGameObjectWithTag("START").transform.position;
+        Debug.Log("시작위치 파인드로 찾은거" + StartPos);
+        Debug.Log("시작위치 함수로 찾은거" + m_GetStartPosEvent());
         Vector2 DoorPos = GameObject.FindGameObjectWithTag("DOOR").transform.position;
+        Debug.Log("문위치 파인드로 찾은거" + DoorPos);
+        Debug.Log("문위치 함수로 찾은거" + m_GetDoorPosEvent());
         float minStartDis = float.MaxValue;
         float curStartDis = 0f;
         float minDoorDis = float.MaxValue;
@@ -149,6 +156,16 @@ public class RoomManager : MonoBehaviour
                 m_CurrRoom.mbIsActiveEvent = true;
             }
         }
+    }
+
+    public void AddGetStartPosEvent(RoomManagerVector2Event _callback)
+    {
+        m_GetStartPosEvent = _callback;
+    }
+
+    public void AddGetDoorPosEvent(RoomManagerVector2Event _callback)
+    {
+        m_GetDoorPosEvent = _callback;
     }
 
     public void AddSummonRandomMonsterEvent(SummonMonsterEvent _callback)

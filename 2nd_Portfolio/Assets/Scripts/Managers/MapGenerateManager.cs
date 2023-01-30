@@ -38,6 +38,8 @@ public class MapGenerateManager : MonoBehaviour
             roomFirstDungeonGenerator.AddRoomEvent(InitNode);
         if (m_RoomManager != null)
         {
+            m_RoomManager.AddGetStartPosEvent(GetStartPos);
+            m_RoomManager.AddGetDoorPosEvent(GetDoorPos);
             m_RoomManager.AddSummonRandomMonsterEvent(OnRoomManagerRandomMonster);
             m_RoomManager.AddSummonBossMonsterEvent(OnRoomManagerBossMonster);
             m_RoomManager.AddSummonSelectMonsterEvent(OnRoomManagerSelectMonster);

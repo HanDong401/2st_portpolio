@@ -44,6 +44,7 @@ public class Player : Unit
         PlayerStart();
     }
 
+
     IEnumerator SetInit()
     {
         while(true)
