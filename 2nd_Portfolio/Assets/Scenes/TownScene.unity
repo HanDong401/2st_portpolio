@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propsPosition: {x: 0, y: 0}
-  maxCount: 15
+  maxCount: 0
 --- !u!4 &262969473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4439540834869236, guid: 1c89c0b4216b99648946e0e71abe090c,
@@ -4137,8 +4137,7 @@ MonoBehaviour:
     type: 3}
   StartPrefab: {fileID: 5681473982766865501, guid: 6a602b6138741bd4d98deada141c6f43,
     type: 3}
-  TestChestItem: {fileID: 912924496725640852, guid: 7d9dc85bfce79c8499637311998b5f97,
-    type: 3}
+  ChestPrefab: {fileID: 0}
 --- !u!1001 &1419414595
 PrefabInstance:
   m_ObjectHideFlags: 0

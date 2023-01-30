@@ -83,6 +83,10 @@ public class MapGenerateManager : MonoBehaviour
         //}
         InitNode();
     }
+    public Vector2 GetDoorPos()
+    {
+        return roomFirstDungeonGenerator.GetDoorPos();
+    }
     public Vector2 GetStartPos()
     {
         return roomFirstDungeonGenerator.GetStartPos();
