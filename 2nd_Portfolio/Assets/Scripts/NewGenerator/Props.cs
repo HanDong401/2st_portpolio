@@ -9,6 +9,7 @@ public class Props : AbstractProps
     private HashSet<Vector2Int> propPos;
     [SerializeField] private int maxCount = 15;
     Vector2Int indexPosition = Vector2Int.zero;
+    Vector2Int originFarPosition = Vector2Int.zero;//원점과 거리비교해서 저장할 변수
     protected override void SetPropsPosition()
     {
 
@@ -58,7 +59,6 @@ public class Props : AbstractProps
 
         //2
         Vector2Int originZeroPosition = Vector2Int.zero;//원점 변수
-        Vector2Int originFarPosition = Vector2Int.zero;//원점과 거리비교해서 저장할 변수
         float distance = 0;
         float compareDistance = 0;
 
@@ -129,6 +129,11 @@ public class Props : AbstractProps
     {
         Vector2 startPos = indexPosition;
         return startPos;
+    }
+    public Vector2 GetDoorPos()
+    {
+        Vector2 doorPos = originFarPosition;
+        return doorPos;
     }
     public HashSet<Vector2Int> SetItemChestTile(
         HashSet<Vector2Int> _TeleportPos, HashSet<Vector2Int> _StartPos, HashSet<Vector2Int> _PlaceablePosition)
