@@ -14,14 +14,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     Vector2[] roomCentersPos;
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
-    [SerializeField]Gizmos gizmos = null;//test
+    [SerializeField]Gizmos gizmos = null;
 
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
-        //Debug.Log(GetDoorPos());
     }
-
     private void CreateRooms()
     {
         Debug.Log("크리에이트 룸 잘 들어옴");
@@ -47,7 +45,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         foreach (var room in roomsList)
         {
             //Debug.Log(room.center);
-            //roomCentersPos.Add(new Vector2(room.center.x, room.center.y));
             Vector2 vec = new Vector2(room.center.x, room.center.y);
             roomCenterVector2.Add(vec);
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
@@ -65,12 +62,11 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         propsTiles = props.SetPropRandomVector2Pos(propsTile);
         HashSet<Vector2Int> UsingChestTilePos = new HashSet<Vector2Int>(propsTiles);//chest에서 쓸거
         tileMapVisualizer.PaintPropsTile(propsTiles);
-
-        //여기다가 텔레포트위치, 층이동 등등 할 함수 호출
+        
         HashSet<Vector2Int> teleportTilePos = new HashSet<Vector2Int>();//텔레포트 위치 잡는 함수 호출
         teleportTilePos = props.SetTeleportTilePos(UsingTeleportTilePos, propsTile);
         HashSet<Vector2Int> forChestTiletoTeleport = new HashSet<Vector2Int>(teleportTilePos);//chest에서 쓸거
-                                                                                              //tileMapVisualizer.PaintTeleportTile(teleportTilePos);
+                                                                                              
         specialTileInstantiator.DeleteTeleport();
         specialTileInstantiator.InstatntiateTeleport(teleportTilePos);
 
@@ -87,7 +83,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         specialTileInstantiator.DeleteChestItem();
         specialTileInstantiator.InstatntiateChestItem(chestTiles);
         #endregion
-        //여기서 길찾기 델리게이트 호출
+        //길찾기 델리게이트 호출
         if (roomEvent != null)
             roomEvent();
     }
@@ -119,7 +115,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         minRoomHeight =_Height;
         minRoomWidth = _Width;
     }
-    
     public void AddRoomEvent(RoomEvent _callback)
     {
         roomEvent = _callback;

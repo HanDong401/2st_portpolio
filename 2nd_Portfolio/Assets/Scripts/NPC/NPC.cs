@@ -10,12 +10,18 @@ public class NPC : MonoBehaviour, Interaction
     [SerializeField] private int IndexNum=0;//0 = 튜토리얼, 1= 그냥 NPC
     [SerializeField] private JunWooTestDialogue JWDialogue=null;
     [SerializeField] private Image[] NPCImage=null;
-    bool flag_IsFirst = true;
+    [SerializeField] private GameObject ShopImage = null;
+
+    bool flag_IsFirst = true; 
     private void Start()
     {
         for (int i = 0; i < NPCImage.Length; i++)
         {
             NPCImage[i].enabled = false;
+        }
+        if(ShopImage!=null)
+        {
+            ShopImage.SetActive(false);
         }
     }
     public void InteractionExecute()
@@ -27,10 +33,14 @@ public class NPC : MonoBehaviour, Interaction
             flag_IsFirst = false;
         }
         JWDialogue.DialogueButtonClick();
+        //여기에서 불값 체크해서 대화가 끝났을 때 상점창이 켜지도록
+        if (ShopImage != null&&JWDialogue.returnBoolIsDialogueEnd()==true)
+        {
+            ShopImage.SetActive(true);
+        }
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //여기다가 박스콜라이더 안에 들어왔을 때 Press 'E' to Interact 대사 활성화되게 해줘야함
         JWDialogue.SetNPCIndexNumber(IndexNum);
         JWDialogue.Parse();
         for (int i = 0; i < NPCImage.Length; i++)
@@ -46,5 +56,9 @@ public class NPC : MonoBehaviour, Interaction
         }
         JWDialogue.SetDialoguenumberZero();
         JWDialogue.TextGoDisable();
+        if (ShopImage != null)
+        {
+            ShopImage.SetActive(false);
+        }
     }
 }
