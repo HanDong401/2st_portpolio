@@ -12,10 +12,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField] private bool randomWalkRooms = false;
 
     Vector2[] roomCentersPos;
-    Vector2 doorPos = Vector2.zero;
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
-    [SerializeField]private int DungeonLevel=0;
     [SerializeField]Gizmos gizmos = null;//test
 
     protected override void RunProceduralGeneration()
@@ -121,18 +119,7 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         minRoomHeight =_Height;
         minRoomWidth = _Width;
     }
-    //public void SetDungeonLevelZero()
-    //{
-    //    DungeonLevel = 0;
-    //}
-    //public void PlusDungeonLevel()
-    //{
-    //    DungeonLevel++;
-    //}
-    //public int ReturnDungeonLevel()
-    //{
-    //    return DungeonLevel;
-    //}
+    
     public void AddRoomEvent(RoomEvent _callback)
     {
         roomEvent = _callback;

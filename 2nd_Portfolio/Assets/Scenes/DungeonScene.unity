@@ -217,7 +217,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5907511561993860455}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5907511561993860456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e949c2b09d48f140a9272ecc3de18d0, type: 3}
@@ -7427,6 +7427,7 @@ MonoBehaviour:
     m_RoomCenterPos: {x: 0, y: 0}
     mbIsInRoom: 0
     mbIsClear: 0
+    mbIsActiveEvent: 0
     mbIsItStart: 0
     mbIsItDoor: 0
   AreaRange: 6
@@ -7604,6 +7605,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9c3ab9a4e5479049a8803453685d1c4, type: 3}
+--- !u!1 &5907511561993860456 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5907511561751061423, guid: a9c3ab9a4e5479049a8803453685d1c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5907511561993860455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5907511561993860457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907511561993860456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24793c8d80c519045b832f6b3687738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMapVisualizer: {fileID: 1094777757}
+  startPosition: {x: 0, y: 0}
+  props: {fileID: 254784978}
+  specialTileInstantiator: {fileID: 1365443517}
+  randomWalkParameters: {fileID: 11400000, guid: fd7a9e361c3eed84b8543ad5c1075d52,
+    type: 2}
+  corridorLength: 14
+  corridorCount: 5
+  roomPercent: 0.8
+  showRoomGizmo: 0
+  showCorridorsGizmo: 0
 --- !u!1001 &6784744693148546855
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,8 +11,6 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
     [SerializeField, Range(0.1f, 1)] private float roomPercent = 0.8f;
 
     private Dictionary<Vector2Int, HashSet<Vector2Int>> roomDictionary = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
-    private HashSet<Vector2Int> floorPos, corridorPos;
-
     private List<Color> roomColors =new List<Color>();
     [SerializeField] private bool showRoomGizmo = false, showCorridorsGizmo;
 
@@ -109,6 +107,5 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
             _potentialRoomPositions.Add(currentPosition);
             _floorPositions.UnionWith(corridor);
         }
-        corridorPos = new HashSet<Vector2Int>(floorPos);
     }
 }
