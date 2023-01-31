@@ -6,16 +6,24 @@ using UnityEngine.UI;
 public class Chest : MonoBehaviour, Interaction
 {
     [SerializeField] private Image[] NPCImage;
-    public delegate Item ChestEvent();
-    ChestEvent m_ChestEvent = null;
+    [SerializeField] private ParticleSystem m_ChestParticle = null;
+    public delegate void ChestEvent(Vector2 _pos, string _name);
+    private ChestEvent m_ChestEvent = null;
     Animator m_Anim = null;
     private bool mbIsOpen = false;
 
     public void Awake()
     {
-        this.m_Anim = GetComponent<Animator>();
+        m_Anim = this.GetComponent<Animator>();
+        m_ChestParticle = this.GetComponentInChildren<ParticleSystem>();
         SetImage();
     }
+
+    private void OnEnable()
+    {
+        m_ChestParticle.Play();    
+    }
+
     private void SetImage()
     {
         for (int i = 0; i < NPCImage.Length; i++)
@@ -56,9 +64,7 @@ public class Chest : MonoBehaviour, Interaction
             mbIsOpen = true;
             m_Anim.SetBool("IsOpen", mbIsOpen);
             this.GetComponent<Collider2D>().enabled = false;
-            Item popItem = m_ChestEvent();
-            popItem.SetPosition(this.transform.position);
-
+            //m_ChestEvent(this.transform.position);
             Destroy(this.gameObject, 2f);
         }
     }

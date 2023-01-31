@@ -402,5 +402,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
+        type: 3}
+      propertyPath: m_CoinPrefab
+      value: 
+      objectReference: {fileID: 5632707072766509321, guid: 6f2c2d46d49c0454b92e190158454537,
+        type: 3}
+    - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
+        type: 3}
+      propertyPath: m_ActiveChestPrefab
+      value: 
+      objectReference: {fileID: 2458446145262039156, guid: 6936620b16eaab143b1ab7423ec2a678,
+        type: 3}
+    - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
+        type: 3}
+      propertyPath: m_NormalChestPrefab
+      value: 
+      objectReference: {fileID: 2458446145262039156, guid: e34cc0debd15d514a845d5ed9c43c7c0,
+        type: 3}
+    - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
+        type: 3}
+      propertyPath: m_PassiveChestPrefab
+      value: 
+      objectReference: {fileID: 2458446145262039156, guid: 8054991f46fa70f45b186c9ec01a7c20,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45f9779f7ebeadb41a9b8d9d4e853519, type: 3}

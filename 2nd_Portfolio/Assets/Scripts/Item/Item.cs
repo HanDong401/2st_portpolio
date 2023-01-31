@@ -59,4 +59,12 @@ public class Item : MonoBehaviour, Interaction
     {
 
     }
+
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.CompareTag("Player"))
+        {
+            m_Player = coll.GetComponent<Player>();
+        }
+    }
 }

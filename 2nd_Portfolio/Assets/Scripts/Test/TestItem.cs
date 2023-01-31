@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class TestItem : MonoBehaviour
 {
-    [SerializeField] float m_Range = 0f;
-    [SerializeField] float m_Speed = 0f;
-    Coroutine m_Coroutine;
+    public DropItem coin = null;
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void Update()
     {
-        if (coll.CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            if (m_Coroutine == null)
-                m_Coroutine = StartCoroutine(UpdateCoroutine(coll));
+            StartCoroutine(DropCoin());
         }
     }
 
-    IEnumerator UpdateCoroutine(Collider2D coll)
+    IEnumerator DropCoin()
     {
-        while(true)
+        int dropCount = Random.Range(1, 10);
+
+        for (int i = 0; i < dropCount; ++i)
         {
-            transform.position = Vector2.Lerp(transform.position, coll.transform.position, m_Speed);
-            yield return null;
+            DropItem go = Instantiate(coin);
+
+            go.transform.position = this.transform.position;
+            go.DropObject();
+            yield return new WaitForSeconds(0.1f);
+            go.SetFollowing(true);
         }
     }
+
 }

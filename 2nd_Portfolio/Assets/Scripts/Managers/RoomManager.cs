@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,18 +9,46 @@ public class RoomNode
 {
     public Vector2 m_RoomCenterPos;
 
+    public delegate void SummonItemEvent(Vector2 _pos);
+    private SummonItemEvent m_RoomNodeSummonItemEvent = null;
+    public List<Monster> m_MonsterList = new List<Monster>();
     public bool mbIsInRoom = false;
     public bool mbIsClear = false;
-    public bool mbIsActiveEvent = false;
+    public bool mbIsSummonMonster = false;
     public bool mbIsItStart = false;
     public bool mbIsItDoor = false;
     public bool mbIsBossRoom = false;
+
+    public void AddRoomNodeSummonItemEvent(SummonItemEvent _callback)
+    {
+        m_RoomNodeSummonItemEvent = _callback;
+    }
+
+    public IEnumerator CheckMonsterDeath()
+    {
+        while(true)
+        {
+            if (m_MonsterList.Count.Equals(0) && mbIsClear.Equals(false))
+            {
+                if (m_RoomNodeSummonItemEvent != null)
+                    m_RoomNodeSummonItemEvent(m_RoomCenterPos);
+                mbIsClear = true;
+                yield break;
+            }
+
+            for (int i = 0; i < m_MonsterList.Count; ++i)
+            {
+                if (m_MonsterList[i] == null)
+                    m_MonsterList.RemoveAt(i);
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
 }
 
 [System.Serializable]
 public class RoomManager : MonoBehaviour
 {
-    //[SerializeField] private RoomNode[] m_Rooms;
     [SerializeField] private List<RoomNode> m_Rooms = new List<RoomNode>();
     [SerializeField] private RoomNode m_CurrRoom;
     [SerializeField] private float AreaRange = 3f;
@@ -30,7 +59,7 @@ public class RoomManager : MonoBehaviour
     public delegate Vector2 RoomManagerVector2Event();
     private RoomManagerVector2Event m_GetStartPosEvent = null;
     private RoomManagerVector2Event m_GetDoorPosEvent = null;
-    public delegate void SummonMonsterEvent(Vector2 _pos);
+    public delegate Monster SummonMonsterEvent(Vector2 _pos);
     private SummonMonsterEvent m_SummonRandomMonsterEvent = null;
     private SummonMonsterEvent m_SummonBossMonsterEvent = null;
     public delegate void SummonSelectMonsterEvent(string _name, Vector2 _pos);
@@ -44,12 +73,8 @@ public class RoomManager : MonoBehaviour
             Debug.Log("중앙 위치 Null");
             return;
         }
-        Vector2 StartPos = GameObject.FindGameObjectWithTag("START").transform.position;
-        Debug.Log("시작위치 파인드로 찾은거" + StartPos);
-        Debug.Log("시작위치 함수로 찾은거" + m_GetStartPosEvent());
-        Vector2 DoorPos = GameObject.FindGameObjectWithTag("DOOR").transform.position;
-        Debug.Log("문위치 파인드로 찾은거" + DoorPos);
-        Debug.Log("문위치 함수로 찾은거" + m_GetDoorPosEvent());
+        Vector2 StartPos = m_GetStartPosEvent();
+        Vector2 DoorPos = m_GetDoorPosEvent();
         float minStartDis = float.MaxValue;
         float curStartDis = 0f;
         float minDoorDis = float.MaxValue;
@@ -60,6 +85,7 @@ public class RoomManager : MonoBehaviour
         {
             m_Rooms.Add(new RoomNode());
             m_Rooms[i].m_RoomCenterPos = (_rooms[i] - new Vector2(0.5f, 0.5f));
+            m_Rooms[i].AddRoomNodeSummonItemEvent(RoomManagerPopChest);
             curStartDis = Vector2.Distance(m_Rooms[i].m_RoomCenterPos, StartPos);
             if (minStartDis > curStartDis)
             {
@@ -87,11 +113,6 @@ public class RoomManager : MonoBehaviour
             StopCoroutine(m_CheckInRoomCoroutine);
 
         m_CheckInRoomCoroutine = StartCoroutine(CheckInRoom());
-    }
-
-    public void CheckStartRoom()
-    {
-
     }
 
     IEnumerator CheckInRoom()
@@ -141,21 +162,27 @@ public class RoomManager : MonoBehaviour
 
             if (m_CurrRoom.mbIsInRoom.Equals(true))
             {
-                if (m_CurrRoom.mbIsBossRoom.Equals(true) && m_CurrRoom.mbIsActiveEvent.Equals(false))
+                if (m_CurrRoom.mbIsBossRoom.Equals(true) && m_CurrRoom.mbIsSummonMonster.Equals(false))
                 {
                     SummonBossMonster(m_CurrRoom.m_RoomCenterPos);
-                    m_CurrRoom.mbIsActiveEvent = true;
+                    m_CurrRoom.mbIsSummonMonster = true;
                     continue;
                 }
 
-                if (m_CurrRoom.mbIsActiveEvent.Equals(true) || m_CurrRoom.mbIsItStart.Equals(true) || m_CurrRoom.mbIsItDoor.Equals(true) || m_CurrRoom.mbIsClear.Equals(true))
+                if (m_CurrRoom.mbIsSummonMonster.Equals(true) || m_CurrRoom.mbIsItStart.Equals(true) || m_CurrRoom.mbIsItDoor.Equals(true) || m_CurrRoom.mbIsClear.Equals(true))
                     continue;
 
                 // 방입장 이밴트 실행
-                SummonRandomMonster(m_CurrRoom.m_RoomCenterPos);
-                m_CurrRoom.mbIsActiveEvent = true;
+                SummonRandomMonster();
+                m_CurrRoom.mbIsSummonMonster = true;
+                StartCoroutine(m_CurrRoom.CheckMonsterDeath());
             }
         }
+    }
+
+    public void RoomManagerPopChest(Vector2 _pos)
+    {
+        Debug.Log(_pos);
     }
 
     public void AddGetStartPosEvent(RoomManagerVector2Event _callback)
@@ -178,7 +205,7 @@ public class RoomManager : MonoBehaviour
         m_SummonSelectMonsterEvent = _callback;
     }
 
-    public void SummonRandomMonster(Vector2 _pos)
+    public void SummonRandomMonster()
     {
         if (m_SummonRandomMonsterEvent != null)
         {
@@ -186,9 +213,11 @@ public class RoomManager : MonoBehaviour
 
             for (int i = 0; i < randomNum; ++i)
             {
-                Vector2 randomPos = Random.insideUnitCircle * 1f + _pos;
+                Vector2 randomPos = Random.insideUnitCircle * 1f + m_CurrRoom.m_RoomCenterPos;
 
-                m_SummonRandomMonsterEvent(randomPos);
+                Monster monster = m_SummonRandomMonsterEvent(randomPos);
+                monster.SetSummonRoom(m_CurrRoom);
+                m_CurrRoom.m_MonsterList.Add(monster);
             }
         }
     }

@@ -103,6 +103,7 @@ public abstract class Monster : Unit
     public MonsterSummonEvent m_MonsterSummonEvent = null;
     public delegate void RemoveMonsterListEvent(Monster _monster);
     public RemoveMonsterListEvent m_RemoveMonster = null;
+    public RoomNode m_SummonRoom = null;
     private void Awake()
     {
         InitMonster();
@@ -193,6 +194,11 @@ public abstract class Monster : Unit
     public Vector2 GetTargetPosition()
     {
         return Target.GetPosition();
+    }
+
+    public void SetSummonRoom(RoomNode _room)
+    {
+        m_SummonRoom = _room;
     }
 
     public void OnDamaged(int _damage)

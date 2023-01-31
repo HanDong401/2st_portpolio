@@ -69,6 +69,18 @@ public class Player : Unit
         mbIsCanMove = true;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Collider2D coll = Physics2D.OverlapCircle(transform.position, 1f);
+
+            if (coll != null)
+            {
+                Debug.Log(coll.name + coll.transform.position);
+            }
+        }
+    }
     private void FixedUpdate()
     {
         if (mbIsCanMove.Equals(true))

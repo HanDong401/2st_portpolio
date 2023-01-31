@@ -10,7 +10,7 @@ public class Coin : MonoBehaviour
         if (coll.gameObject.CompareTag("Player"))
         {
             // 플레이어의 소지 골드를 증가시키는 함수 실행
-            Destroy(this.gameObject);
+            Destroy(this.gameObject.transform.parent.gameObject);
         }
     }
 }

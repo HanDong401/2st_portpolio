@@ -11,7 +11,7 @@ public class MapGenerateManager : MonoBehaviour
     private MapGenerateEvent m_RemoveAllMonsterEvent = null;
     public delegate void RoomPointEvent(Vector2Int[] _pos);
     private RoomPointEvent m_RoomPointEvent = null;
-    public delegate void RoomManagerRandomMonsterEvent(Vector2 _pos);
+    public delegate Monster RoomManagerRandomMonsterEvent(Vector2 _pos);
     private RoomManagerRandomMonsterEvent m_RoomManageRandomMonsterEvent = null;
     public delegate Monster RoomManagerSelectMonsterEvent(string _kind, Vector2 _pos);
     private RoomManagerSelectMonsterEvent m_RoomManagerSelectMonsterEvent = null;
@@ -83,6 +83,12 @@ public class MapGenerateManager : MonoBehaviour
         //    m_RoomPointEvent(GetRoomCenterPos());
         //    m_MonsterSummonEvent?.Invoke();
         //}
+        StartCoroutine(InitNodeDelay());
+    }
+
+    IEnumerator InitNodeDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
         InitNode();
     }
     public Vector2 GetDoorPos()
@@ -140,18 +146,20 @@ public class MapGenerateManager : MonoBehaviour
         m_RoomManagerSelectMonsterEvent = _callback;
     }
 
-    public void OnRoomManagerRandomMonster(Vector2 _pos)
+    public Monster OnRoomManagerRandomMonster(Vector2 _pos)
     {
         if (DungeonLevel < 4 && m_RoomManageRandomMonsterEvent != null)
-            m_RoomManageRandomMonsterEvent(_pos);
+            return m_RoomManageRandomMonsterEvent(_pos);
+        return null;
     }
 
-    public void OnRoomManagerBossMonster(Vector2 _pos)
+    public Monster OnRoomManagerBossMonster(Vector2 _pos)
     {
         if (DungeonLevel.Equals(4) && m_RoomManagerSelectMonsterEvent != null)
         {
-            m_RoomManagerSelectMonsterEvent("Golem1", _pos);
+            return m_RoomManagerSelectMonsterEvent("Golem1", _pos);
         }
+        return null;
     }
 
     public void OnRoomManagerSelectMonster(string _name, Vector2 _pos)

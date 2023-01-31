@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-    Vector2 m_StartPoint;
+    private Vector2 m_StartPoint;
 
     public void DropObject(Rigidbody2D _rigid, float _power = 1f)
     {

@@ -61,7 +61,7 @@ public class MonsterManager : MonoBehaviour
         return monster;
     }
 
-    public void SummonRandomMonster(Vector2 _pos)
+    public Monster SummonRandomMonster(Vector2 _pos)
     {
         Monster monster = Instantiate(RandomSelectMonster());
         monster.AddMonsterEvent(AStar.PathFinding);
@@ -70,6 +70,7 @@ public class MonsterManager : MonoBehaviour
         m_MonsterList.Add(monster);
         monster.transform.SetParent(this.transform, false);
         monster.transform.position = _pos;
+        return monster;
     }
 
     private Monster SelectMonster(string _monster)

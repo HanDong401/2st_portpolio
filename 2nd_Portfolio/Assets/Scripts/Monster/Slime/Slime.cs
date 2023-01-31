@@ -69,6 +69,7 @@ public class Slime : Monster
     {
         Anim.SetTrigger("IsAbility");
         Monster monster = m_MonsterSummonEvent("MiniSlime", transform.position);
+        monster.m_SummonRoom.m_MonsterList.Add(monster);
         monster.InitMonster();
         Rigidbody2D rigid = monster.GetComponent<Rigidbody2D>();
         monster.GetComponent<Drop>().DropObject(rigid, 8f);

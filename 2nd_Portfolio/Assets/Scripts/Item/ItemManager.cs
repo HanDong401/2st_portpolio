@@ -4,13 +4,18 @@ using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
 using static Chest;
+using MoreMountains.TopDownEngine;
 
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] private List<Item> m_Items;
     [SerializeField] private List<Item> m_ActiveItem;
     [SerializeField] private List<Item> m_PassiveItem;
-    [SerializeField] Chest m_ChestPrefab = null;
+    [SerializeField] private Chest m_NormalChestPrefab = null;
+    [SerializeField] private Chest m_PassiveChestPrefab = null;
+    [SerializeField] private Chest m_ActiveChestPrefab = null;
+    [SerializeField] private DropItem m_CoinPrefab = null;
+    [SerializeField] private DropItem m_HpUpPrefab = null;
     [SerializeField] private Inventory m_Inventory = null;
     private Coroutine m_ItemCoroutine = null;
     public void ItemManagerAwake()
@@ -39,6 +44,21 @@ public class ItemManager : MonoBehaviour
                 m_PassiveItem.Add(m_Items[index]);
             ++index;
             yield return null;
+        }
+    }
+
+    IEnumerator DropCoin()
+    {
+        int dropCount = Random.Range(1, 10);
+
+        for (int i = 0; i < dropCount; ++i)
+        {
+            DropItem go = Instantiate(m_CoinPrefab);
+
+            go.transform.position = this.transform.position;
+            go.DropObject();
+            yield return new WaitForSeconds(0.1f);
+            go.SetFollowing(true);
         }
     }
 
@@ -125,20 +145,20 @@ public class ItemManager : MonoBehaviour
 
     public void PopChest(Vector2 _spawnPoint, string _kind = "All")
     {
-        Chest chest = Instantiate(m_ChestPrefab);
+        Chest chest = Instantiate(m_NormalChestPrefab);
         chest.transform.position = _spawnPoint;
 
-        switch (_kind)
-        {
-            case "Active":
-                chest.AddChestEvent(RandomPopActiveItem);
-                break;
-            case "Passive":
-                chest.AddChestEvent(RandomPopPassiveItem);
-                break;
-            default:
-                chest.AddChestEvent(RandomPopItem);
-                break;
-        }
+        //switch (_kind)
+        //{
+        //    case "Active":
+        //        chest.AddChestEvent(RandomPopActiveItem);
+        //        break;
+        //    case "Passive":
+        //        chest.AddChestEvent(RandomPopPassiveItem);
+        //        break;
+        //    default:
+        //        chest.AddChestEvent(RandomPopItem);
+        //        break;
+        //}
     }
 }

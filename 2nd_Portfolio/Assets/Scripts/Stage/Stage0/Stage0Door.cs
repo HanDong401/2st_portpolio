@@ -12,6 +12,6 @@ public class Stage0Door : Door
     protected override void SubExecute()
     {
         if (m_DoorEvent != null)
-            m_DoorEvent("Stage1");
+            m_DoorEvent("DungeonScene");
     }
 }
