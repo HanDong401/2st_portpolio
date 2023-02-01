@@ -36,9 +36,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
 
         tileMapVisualizer.PaintFloorTiles(floorPositions);
         WallGenerator.CreateWalls(floorPositions, tileMapVisualizer);
-
     }
-
     private void CreateRoomsAtDeadEnd(List<Vector2Int> _deadEnds, HashSet<Vector2Int> _roomFloors)
     {
         foreach (var position in _deadEnds)
@@ -50,7 +48,6 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
             }
         }
     }
-
     private List<Vector2Int> FindAllDeadEnds(HashSet<Vector2Int> _floorPositions)
     {
         List<Vector2Int> deadEnds = new List<Vector2Int>();
@@ -67,7 +64,6 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
         }
         return deadEnds;
     }
-
     private HashSet<Vector2Int> CreateRooms(HashSet<Vector2Int> _potentialRoomPositions)
     {
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
@@ -84,7 +80,6 @@ public class CorridorFirstDungeonGenerator : SimpleRandomDungeonGenerator
         }
         return roomPositions;
     }
-
     private void ClearRoomData()
     {
         roomDictionary.Clear();
