@@ -21,6 +21,7 @@ public class MonsterAttack1State : MonsterBaseState
 
     public override void ExitState()
     {
+        if (m_Monster == null || m_Monster.gameObject.activeSelf == false) return;
         if (m_Monster.Collider.enabled == false)
             m_Monster.Collider.enabled = true;
     }

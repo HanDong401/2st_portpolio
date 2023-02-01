@@ -106,14 +106,16 @@ public class GameManager : MonoBehaviour
         if (m_MapGenerateManager != null)
         {
             m_MapGenerateManager.AddMapGenerateEvent(SetPlayerPosition);
-            
+
             m_MapGenerateManager.AddLoadSceneEvent(m_MainSceneManager.LoadScene);
             m_MapGenerateManager.AddRoomPointEvent(m_MonsterSpawnPoint.SetRoomPoint);
-            //m_MapGenerateManager.AddMonsterSummonEvent(m_MonsterManager.SummonRandomMonster);
             m_MapGenerateManager.AddRoomManagerSelectMonsterEvent(m_MonsterManager.SummonMonster);
             m_MapGenerateManager.AddRoomManagerRandomMonsterEvent(m_MonsterManager.SummonRandomMonster);
             m_MapGenerateManager.AddRemoveAllMonsterEvent(m_MonsterManager.RemoveAllMonster);
+            m_MapGenerateManager.AddRemoveAllDropItemEvent(m_ItemManager.RemoveAllDropItem);
             m_MapGenerateManager.AddInitNodeEvent(m_MonsterManager.AStar.InitNode);
+            m_MapGenerateManager.AddRoomManagerChestEvent(m_ItemManager.RandomPopChest);
+            m_MapGenerateManager.AddInitDoorEvent(InitDoor);
             m_MapGenerateManager.MapGenerateManagerAwake();
 
             m_Player.transform.position = m_MapGenerateManager.GetStartPos() + (Vector2.up * 3f);
@@ -142,6 +144,9 @@ public class GameManager : MonoBehaviour
             if (m_UIManager != null)
             {
                 m_UIManager.ActiveMainUI(true);
+                m_UIManager.AddInitPlayerEvent(m_Player.InitPlayer);
+                m_UIManager.InitPlayerEvent();
+                m_Player.AddGameOverUIEvent(m_UIManager.ActiveGameOver);
                 StartCoroutine(UpdateUIManager_MainUI());
             }
             if (m_Inventory != null)
@@ -163,7 +168,7 @@ public class GameManager : MonoBehaviour
                 m_ItemManager.SetInventory(m_Inventory);
             RemoveGameManagerEvent(InitItemManager);
         }
-    }    
+    }
 
 
     #endregion
@@ -185,29 +190,13 @@ public class GameManager : MonoBehaviour
         SetGameManager();
         if (m_MainSceneManager != null)
         {
-            switch(_scene.name)
+            switch (_scene.name)
             {
                 case "StartScene":
                     m_MainSceneManager.LoadScene("MainMenuScene");
                     break;
-                case "MainMenuScene":
-                    break;
                 case "InitScene_MainMenuToTown":
                     m_MainSceneManager.LoadScene("TownScene2");
-                    break;
-                case "TownScene":
-                    break;
-                case "DungeonScene":
-                    break;
-                case "Stage0":
-                    break;
-                case "Stage1":
-                    break;
-                case "Stage2":
-                    break;
-                case "Stage3":
-                    break;
-                case "BossStage":
                     break;
             }
             //if (_scene.name.Equals("TownScene"))
@@ -229,6 +218,8 @@ public class GameManager : MonoBehaviour
             AddGameManagerEvent(InitInputManager);
         if (m_UIManager == null)
             AddGameManagerEvent(InitUIManager);
+        if (m_ItemManager == null)
+            AddGameManagerEvent(InitItemManager);
         if (m_MonsterManager == null)
             AddGameManagerEvent(InitMonsterManager);
         if (m_MonsterSpawnPoint == null)
@@ -239,8 +230,6 @@ public class GameManager : MonoBehaviour
             AddGameManagerEvent(InitInventory);
         if (m_Player == null)
             AddGameManagerEvent(InitPlayer);
-        if (m_ItemManager == null)
-            AddGameManagerEvent(InitItemManager);
     }
 
     private void SetGameManager()
@@ -249,13 +238,20 @@ public class GameManager : MonoBehaviour
             m_UIManager.UIManagerStart();
         if (m_MonsterManager != null)
             m_MonsterManager.MonsterManagerStart();
+        InitDoor();
+    }
+
+    private void InitDoor()
+    {
+        m_Door = null;
         if (m_Door == null)
         {
             m_Door = GameObject.FindObjectOfType<Door>();
             if (m_Door != null)
             {
-                m_Door.DoorAwake();
                 m_Door.AddDoorEvent(m_UIManager.OnLoadSceneEvent);
+                m_Door.AddMonsterListEvent(m_MonsterManager.GetMonsterListCount);
+                m_Door.DoorAwake();
             }
         }
     }
@@ -293,9 +289,9 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         //유니티 에디터 사용중일시
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
         //빌드 시
-        //Application.Quit();
+        Application.Quit();
     }
 
     IEnumerator UpdateUIManager_MainUI()
@@ -311,6 +307,10 @@ public class GameManager : MonoBehaviour
     {
         while(true)
         {
+            if (m_MapGenerateManager == null)
+            {
+                yield break;
+            }
             m_MapGenerateManager.SetRoomManagerTargetPos(m_Player.GetPosition());
             yield return null;
         }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1444569179073516333}
   - component: {fileID: 3505417779121286628}
   - component: {fileID: -4761501815468199404}
+  - component: {fileID: 2941160324497168355}
   m_Layer: 0
   m_Name: Door
   m_TagString: DOOR
@@ -125,11 +126,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d12edb2f494db4c9212e6368da9275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapGenerateManager: {fileID: 5163170849864537214, guid: eb8663e940070b04498b358b4adc5a62,
-    type: 3}
   NPCImage:
   - {fileID: 665535180077520797}
   - {fileID: 665535180130618741}
+  mbIsDoorOpen: 0
+  mapGenerateManager: {fileID: 0}
+--- !u!95 &2941160324497168355
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444569179073516335}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 45cf6e11e9ff4054c9226a9a86df78ee, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1668559464460984154
 PrefabInstance:
   m_ObjectHideFlags: 0

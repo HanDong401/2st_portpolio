@@ -64,7 +64,8 @@ public class MonsterRunState : MonsterBaseState
 
     public override void ExitState()
     {
-        m_Monster.Anim.SetBool("IsRun", false);
+        if (m_Monster == null || m_Monster.gameObject.activeSelf == false) return;
+            m_Monster.Anim.SetBool("IsRun", false);
     }
 
     public override void CheckState()

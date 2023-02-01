@@ -9,8 +9,10 @@ public class UIManager : MonoBehaviour
     public delegate void UIManagerEvent();
     private UIManagerSceneEvent m_SceneLoadEvent = null;
     private UIManagerEvent m_GameQuitEvent = null;
+    private UIManagerEvent m_InitPlayerEvent = null;
     [SerializeField] private MainUI m_Main = null;
     [SerializeField] private Option m_Option = null;
+    [SerializeField] private GameOver m_GameOver = null;
     [SerializeField] private Inventory m_Inventory = null;
     [SerializeField] private MainMenuButton m_MainMenuButton = null;
     [SerializeField] private Image m_Fade = null;
@@ -26,29 +28,32 @@ public class UIManager : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         
-        if (m_Main == null)
+        if (m_Main != null)
         {
-            m_Main = this.GetComponentInChildren<MainUI>();
-            if (m_Main != null)
-            {
-                m_Main.MainUIAwake();
-                StartCoroutine(SetMainUI());
-                ActiveMainUI(false);
-            }
+            m_Main.MainUIAwake();
+            StartCoroutine(SetMainUI());
+            ActiveMainUI(false);
         }
-        if (m_Option == null)
+        if (m_Option != null)
         {
-            m_Option = this.GetComponentInChildren<Option>();
-            if (m_Option != null)
-            {
-                m_Option.AddBgmEvent(null);
-                m_Option.AddEffectEvent(null);
-                m_Option.AddGameQuitYesEvent(OnGameQuitEvent);
-                m_Option.AddLoadSceneEvent(OnLoadSceneEvent);
-                m_Option.OptionAwake();
-                ActiveOption();
-            }
+            m_Option.AddBgmEvent(null);
+            m_Option.AddEffectEvent(null);
+            m_Option.AddGameQuitYesEvent(OnGameQuitEvent);
+            m_Option.AddLoadSceneEvent(OnLoadSceneEvent);
+            m_Option.OptionAwake();
+            ActiveOption();
         }
+        if (m_GameOver != null)
+        {
+            m_GameOver.AddSceneLoadEvent(OnLoadSceneEvent);
+            ActiveGameOver(false);
+        }
+    }
+
+    public void InitPlayerEvent()
+    {
+        m_GameOver.AddInitPlayerEvent(OnInitPlayerEvent);
+        m_GameOver.SetToTownButtonEvent();
     }
 
     public void UIManagerStart()
@@ -75,6 +80,11 @@ public class UIManager : MonoBehaviour
     private void OnGameQuitEvent()
     {
         m_GameQuitEvent?.Invoke();
+    }
+
+    private void OnInitPlayerEvent()
+    {
+        m_InitPlayerEvent?.Invoke();
     }
 
     private void OnBgmEvent()
@@ -121,6 +131,11 @@ public class UIManager : MonoBehaviour
         m_GameQuitEvent = _callback;
     }
 
+    public void AddInitPlayerEvent(UIManagerEvent _callback)
+    {
+        m_InitPlayerEvent = _callback;
+    }
+
     public void ActiveMainUI(bool _bool)
     {
         m_Main.gameObject.SetActive(_bool);
@@ -132,6 +147,11 @@ public class UIManager : MonoBehaviour
             m_Option.gameObject.SetActive(false);
         else
             m_Option.gameObject.SetActive(true);
+    }
+
+    public void ActiveGameOver(bool _bool)
+    {
+        m_GameOver.gameObject.SetActive(_bool);
     }
 
     public void ActiveInventory(bool _bool)

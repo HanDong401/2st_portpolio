@@ -6,6 +6,11 @@ public class ActiveItem : Item, ActionCommand
 {
     [SerializeField] protected Animator m_Anim = null;
 
+    public void ActionExecute()
+    {
+        Action();
+    }
+
     protected void InitActiveItem()
     {
         m_Anim = m_Player.GetAnim();
@@ -25,11 +30,6 @@ public class ActiveItem : Item, ActionCommand
     private void SetAnim()
     {
         this.m_Anim = m_Player.GetAnim();
-    }
-
-    public void ActionExecute()
-    {
-        Action();
     }
 
     protected virtual void InteractionItem()

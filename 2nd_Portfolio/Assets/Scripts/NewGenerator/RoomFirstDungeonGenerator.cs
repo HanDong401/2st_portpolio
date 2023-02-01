@@ -14,7 +14,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
     Vector2[] roomCentersPos;
     public delegate void RoomEvent();
     private RoomEvent roomEvent = null;
-    [SerializeField]Gizmos gizmos = null;//test
 
     protected override void RunProceduralGeneration()
     {
@@ -84,8 +83,8 @@ public class RoomFirstDungeonGenerator : SimpleRandomDungeonGenerator
         HashSet<Vector2Int> chestTiles = new HashSet<Vector2Int>();
         chestTiles = props.SetItemChestTile(forChestTiletoTeleport, startTilePos, UsingChestTilePos);
         //tileMapVisualizer.PaintChestTile(chestTiles);//테스트 때문에 일단 주석처리
-        specialTileInstantiator.DeleteChestItem();
-        specialTileInstantiator.InstatntiateChestItem(chestTiles);
+        //specialTileInstantiator.DeleteChestItem();
+        //specialTileInstantiator.InstatntiateChestItem(chestTiles);
         #endregion
         //여기서 길찾기 델리게이트 호출
         //roomEvent?.Invoke();

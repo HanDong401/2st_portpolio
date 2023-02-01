@@ -104,13 +104,14 @@ public abstract class Monster : Unit
     public delegate void RemoveMonsterListEvent(Monster _monster);
     public RemoveMonsterListEvent m_RemoveMonster = null;
     public RoomNode m_SummonRoom = null;
-    private void Awake()
+    public void MonsterAwake()
     {
         InitMonster();
         SubAwake();
+        MonsterStart();
     }
 
-    private void Start()
+    private void MonsterStart()
     {
         StartCoroutine(RunUpdateCoroutine());
     }

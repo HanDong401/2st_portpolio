@@ -6,7 +6,7 @@ public class Stage0Door : Door
 {
     protected override void SubAwake()
     {
-        DoorOpen();
+        //DoorOpen();
     }
 
     protected override void SubExecute()

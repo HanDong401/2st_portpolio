@@ -12,6 +12,8 @@ public class Player : Unit
 {
     public delegate void InteracEvent(Interaction _interac);
     private InteracEvent m_InteracEvent = null;
+    public delegate void GameOverUIEvent(bool _bool);
+    private GameOverUIEvent m_GameOverUIEvent = null;
     private PlayerMove m_PlayerMove = null;
     private PlayerAction m_PlayerAction = null;
     private PlayerEffect m_PlayerEffect = null;
@@ -24,9 +26,11 @@ public class Player : Unit
     private bool mbIsCanMove = false;
     private Coroutine m_PlayerUpdateCoroutine = null;
     private Coroutine m_PlayerMoveCoroutine = null;
+    private Coroutine m_CheckPlayerDieCoroutine = null;
     [SerializeField] private int m_CurrSp { get; set; }
     [SerializeField] private int m_MaxSp { get; set; }
     [SerializeField] private CameraSet m_Camera = null;
+    private int m_Coin = 0;
     //private PlayerBaseState m_CurrState = null;
 
     public void PlayerAwake()
@@ -41,7 +45,7 @@ public class Player : Unit
         m_PlayerRigid = this.GetComponent<Rigidbody2D>();
         m_PlayerColl = this.GetComponent<Collider2D>();
         StartCoroutine(SetInit());
-        PlayerStart();
+        InitPlayer();
     }
 
 
@@ -59,28 +63,21 @@ public class Player : Unit
             yield return null;
         }
     }
-    private void PlayerStart()
+    public void InitPlayer()
     {
         SetMaxHp(100);
         SetCurrHp(m_MaxHp);
         SetMaxSp(3);
         SetCurrSp(m_MaxSp);
+        if (m_PlayerUpdateCoroutine != null)
+            StopCoroutine(m_PlayerUpdateCoroutine);
         m_PlayerUpdateCoroutine = StartCoroutine(PlayerUpdate());
+        if (m_CheckPlayerDieCoroutine != null)
+            StopCoroutine(m_CheckPlayerDieCoroutine);
+        m_CheckPlayerDieCoroutine = StartCoroutine(CheckPlayerDie());
         mbIsCanMove = true;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Collider2D coll = Physics2D.OverlapCircle(transform.position, 1f);
-
-            if (coll != null)
-            {
-                Debug.Log(coll.name + coll.transform.position);
-            }
-        }
-    }
     private void FixedUpdate()
     {
         if (mbIsCanMove.Equals(true))
@@ -137,6 +134,11 @@ public class Player : Unit
         this.m_InteracEvent = _callback;
     }
 
+    public void AddGameOverUIEvent(GameOverUIEvent _callback)
+    {
+        this.m_GameOverUIEvent = _callback;
+    }
+
     private void GetInteraction(Interaction _interac)
     {
         if (m_InteracEvent != null)
@@ -182,6 +184,12 @@ public class Player : Unit
         return m_PlayerAnim;
     }
 
+    public void SetCoin(int _coin)
+    {
+        m_Coin += _coin;
+        Debug.Log(m_Coin);
+    }
+
     public void SetInventory(Inventory _inven)
     {
         m_Inventory = _inven;
@@ -198,6 +206,7 @@ public class Player : Unit
         if (m_PlayerMove.GetIsDodge().Equals(true)) return;
         if (m_PlayerMoveCoroutine != null)
             StopCoroutine(m_PlayerMoveCoroutine);
+        m_PlayerAnim.SetTrigger("IsHit");
         Vector2 moveDir = ((Vector2)transform.position - _dir).normalized;
         m_PlayerRigid.velocity = Vector2.zero;
         m_PlayerRigid.AddForce(moveDir * _damage, ForceMode2D.Impulse);
@@ -305,5 +314,26 @@ public class Player : Unit
         //    m_PlayerMove.UpdateVelocity();
         //    yield return null;
         //}
+    }
+
+    IEnumerator CheckPlayerDie()
+    {
+        while(true)
+        {
+            if (GetCurrHp() <= 0)
+            {
+                m_PlayerAnim.SetBool("IsDie", true);
+                m_PlayerAnim.SetTrigger("IsDieTrigger");
+                Time.timeScale = 0f;
+                yield return new WaitForSecondsRealtime(1.5f);
+                m_GameOverUIEvent?.Invoke(true);
+                // 게임을 일시정지 후
+                // 정산창 UI를 표시한 후
+                // 마을로 돌아가기 버튼을 누르면 씬전환 후
+                // 플레이어의 스테이터스를 초기화시켜주기
+                yield break;
+            }
+            yield return null;
+        }
     }
 }

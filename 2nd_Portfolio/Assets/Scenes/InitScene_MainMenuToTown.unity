@@ -328,6 +328,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3037530354450649408, guid: e0623d178859ed846ad68b8784da331e,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8542098674759175893, guid: e0623d178859ed846ad68b8784da331e,
         type: 3}
       propertyPath: m_MaxHp
@@ -407,6 +412,12 @@ PrefabInstance:
       propertyPath: m_CoinPrefab
       value: 
       objectReference: {fileID: 5632707072766509321, guid: 6f2c2d46d49c0454b92e190158454537,
+        type: 3}
+    - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
+        type: 3}
+      propertyPath: m_HeartPrefab
+      value: 
+      objectReference: {fileID: 7245286028743500458, guid: 16509f446ae6ef247a2fd1b4b2a13c29,
         type: 3}
     - target: {fileID: 601207209842446166, guid: 45f9779f7ebeadb41a9b8d9d4e853519,
         type: 3}

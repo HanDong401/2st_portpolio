@@ -12,6 +12,18 @@ public class MainSceneManager : MonoBehaviour
 
     public void LoadScene(string _name)
     {
+        Time.timeScale = 0f;
         SceneManager.LoadScene(_name);
+        float time = 0f;
+
+        while(true)
+        {
+            time += Time.unscaledDeltaTime;
+            if (time > 1f)
+            {
+                Time.timeScale = 1f;
+                return;
+            }
+        }
     }
 }

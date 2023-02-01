@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ItemManager: {fileID: 0}
-  m_Door: {fileID: 0}
   m_ChestPos: {x: 4.5, y: 5}
 --- !u!4 &178712097
 Transform:

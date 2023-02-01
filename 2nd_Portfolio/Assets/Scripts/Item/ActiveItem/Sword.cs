@@ -7,8 +7,7 @@ public class Sword : ActiveItem
     [SerializeField] private Vector3 m_ControlPointVec = Vector3.zero;
     [SerializeField] private Vector3 m_SizeVec = Vector3.zero;
     [SerializeField] private int m_Damage = 10;
-    private Vector3 m_PointVec;
-    private Vector2 m_TargetPos;
+    [SerializeField] private Vector3 m_PointVec;
     private Coroutine m_DelayCoroutine = null;
     private int m_SwordAttackCount = 0;
     private Collider2D m_HitColl = null;
@@ -20,7 +19,6 @@ public class Sword : ActiveItem
 
     private void InitSword()
     {
-        m_TargetPos = m_Player.GetPosition();
         StartCoroutine(SetPointVec());
         StartCoroutine(SetControlPointVec());
     }
@@ -76,7 +74,7 @@ public class Sword : ActiveItem
     {
         while(true)
         {
-            m_PointVec = new Vector3(m_TargetPos.x, m_TargetPos.y, 0) + m_ControlPointVec;
+            m_PointVec = (Vector3)m_Player.GetPosition() + m_ControlPointVec;
             yield return null;
         }
     }

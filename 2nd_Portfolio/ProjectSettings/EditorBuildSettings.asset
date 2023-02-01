@@ -21,9 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage0.unity
     guid: ccc8c56376add1944a268b3064e647a8
   - enabled: 1
-    path: Assets/Scenes/Stage1.unity
-    guid: f64df4fd09908ca4badefad96f054873
-  - enabled: 1
     path: Assets/Scenes/DungeonScene.unity
     guid: bf4b1232b22c6aa40af11e8ba4b4695d
   - enabled: 1

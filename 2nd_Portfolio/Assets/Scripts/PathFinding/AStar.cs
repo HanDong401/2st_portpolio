@@ -58,11 +58,6 @@ public class AStar
                 }
 
                 m_NodePos[i, j] = new Node(isWall, i, j);
-                if (m_NodePos[i, j].mbIsWall == true)
-                {
-                    Debug.Log("벽 노드의 위치 " + m_NodePos[i, j].x + ", " + m_NodePos[i, j].y);
-                    Debug.Log(m_NodePos[i, j].mbIsWall);
-                }
             }
         }
     }

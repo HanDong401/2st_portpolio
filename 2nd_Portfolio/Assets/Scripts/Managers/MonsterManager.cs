@@ -52,6 +52,7 @@ public class MonsterManager : MonoBehaviour
     public Monster SummonMonster(string _monster, Vector2 _pos)
     {
         Monster monster = Instantiate(SelectMonster(_monster));
+        monster.MonsterAwake();
         monster.AddMonsterEvent(AStar.PathFinding);
         monster.AddRemoveMonsterEvent(RemoveMonster);
         monster.AddMonsterSummonEvent(SummonMonster);
@@ -64,6 +65,7 @@ public class MonsterManager : MonoBehaviour
     public Monster SummonRandomMonster(Vector2 _pos)
     {
         Monster monster = Instantiate(RandomSelectMonster());
+        monster.MonsterAwake();
         monster.AddMonsterEvent(AStar.PathFinding);
         monster.AddRemoveMonsterEvent(RemoveMonster);
         monster.AddMonsterSummonEvent(SummonMonster);

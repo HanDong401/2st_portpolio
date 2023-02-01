@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bat : Monster
 {
-    private Coroutine delay = null;
     public override void SubAwake()
     {
         

@@ -11,7 +11,6 @@ public class InputManager : MonoBehaviour
 {
     public delegate void MoveEvent(Vector2 _inputDir);
     public delegate void InputEvent();
-    private MoveEvent m_OnMoveEvent = null;
     private MoveEvent m_OnInputEvent = null;
     private InputEvent m_OnDodgeEvent = null;
     private InputEvent m_OnDashEvent = null;

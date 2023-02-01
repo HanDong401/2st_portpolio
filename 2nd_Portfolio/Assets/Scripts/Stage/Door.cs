@@ -7,7 +7,10 @@ public class Door : MonoBehaviour, Interaction
 {
     public delegate void DoorEvent(string _name);
     protected DoorEvent m_DoorEvent = null;
+    public delegate int MonsterListEvent();
+    protected MonsterListEvent m_MonsterListEvent = null;
     protected Animator m_Anim = null;
+    protected Coroutine m_CheckDoorOpenCoroutine = null;
     [SerializeField] protected Image[] NPCImage = null;
     [SerializeField] protected bool mbIsDoorOpen = false;
 
@@ -19,6 +22,9 @@ public class Door : MonoBehaviour, Interaction
             NPCImage[i].enabled = false;
         }
         SubAwake();
+        if (m_CheckDoorOpenCoroutine != null)
+            StopCoroutine(m_CheckDoorOpenCoroutine);
+        m_CheckDoorOpenCoroutine = StartCoroutine(CheckDoorOpen());
     }
 
     protected virtual void SubAwake()
@@ -43,6 +49,13 @@ public class Door : MonoBehaviour, Interaction
         m_Anim.SetBool("IsOpen", mbIsDoorOpen);
     }
 
+    public void DoorClose()
+    {
+        if (m_Anim == null) return;
+        mbIsDoorOpen = false;
+        m_Anim.SetBool("IsOpen", mbIsDoorOpen);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         for (int i = 0; i < NPCImage.Length; i++)
@@ -61,5 +74,26 @@ public class Door : MonoBehaviour, Interaction
     public void AddDoorEvent(DoorEvent _callback)
     {
         m_DoorEvent = _callback;
+    }
+
+    public void AddMonsterListEvent(MonsterListEvent _callback)
+    {
+        m_MonsterListEvent = _callback;
+    }
+
+    IEnumerator CheckDoorOpen()
+    {
+        while(true)
+        {
+            if (m_MonsterListEvent().Equals(0))
+            {
+                DoorOpen();
+            }
+            else
+            {
+                DoorClose();
+            }
+            yield return null;
+        }
     }
 }

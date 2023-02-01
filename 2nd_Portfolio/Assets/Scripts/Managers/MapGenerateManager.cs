@@ -9,12 +9,16 @@ public class MapGenerateManager : MonoBehaviour
     private MapGenerateEvent m_MonsterSummonEvent = null;
     private MapGenerateEvent m_InitNodeEvent = null;
     private MapGenerateEvent m_RemoveAllMonsterEvent = null;
+    private MapGenerateEvent m_RemoveAllDropItemEvent = null;
+    private MapGenerateEvent m_InitDoorEvent = null;
     public delegate void RoomPointEvent(Vector2Int[] _pos);
     private RoomPointEvent m_RoomPointEvent = null;
     public delegate Monster RoomManagerRandomMonsterEvent(Vector2 _pos);
     private RoomManagerRandomMonsterEvent m_RoomManageRandomMonsterEvent = null;
     public delegate Monster RoomManagerSelectMonsterEvent(string _kind, Vector2 _pos);
     private RoomManagerSelectMonsterEvent m_RoomManagerSelectMonsterEvent = null;
+    public delegate void RoomManagerChestEvent(Vector2 _pos);
+    private RoomManagerChestEvent m_RoomManagerChestEvent = null;
     public delegate void LoadSceneEvent(string _sceneName);
     private LoadSceneEvent m_LoadsceneEvent = null;
     [SerializeField] RoomFirstDungeonGenerator roomFirstDungeonGenerator = null;
@@ -43,11 +47,13 @@ public class MapGenerateManager : MonoBehaviour
             m_RoomManager.AddSummonRandomMonsterEvent(OnRoomManagerRandomMonster);
             m_RoomManager.AddSummonBossMonsterEvent(OnRoomManagerBossMonster);
             m_RoomManager.AddSummonSelectMonsterEvent(OnRoomManagerSelectMonster);
+            m_RoomManager.AddRoomManagerSummonChestEvent(OnRoomManagerChestEvent);
         }
     }
     public void DungeonGenerate()
     {
         m_RemoveAllMonsterEvent?.Invoke();
+        m_RemoveAllDropItemEvent?.Invoke();
         MapTileVisualizer.Clear();
         //여기에 플레이어 위치 스타트 위치로 가는 함수 호출
         if(DungeonLevel < 3)
@@ -75,6 +81,7 @@ public class MapGenerateManager : MonoBehaviour
             return;
         }
         roomFirstDungeonGenerator.GenerateDungeon();
+        m_InitDoorEvent?.Invoke();
         m_MapGenerateEvent?.Invoke();
         m_RoomManager.SetRooms(roomFirstDungeonGenerator.GetRoomCentersPos());
         //m_RoomPointEvent(null);
@@ -121,9 +128,19 @@ public class MapGenerateManager : MonoBehaviour
         m_RemoveAllMonsterEvent = _callback;
     }
 
+    public void AddRemoveAllDropItemEvent(MapGenerateEvent _callback)
+    {
+        m_RemoveAllDropItemEvent = _callback;
+    }
+
     public void AddInitNodeEvent(MapGenerateEvent _callback)
     {
         m_InitNodeEvent = _callback;
+    }
+
+    public void AddInitDoorEvent(MapGenerateEvent _callback)
+    {
+        m_InitDoorEvent = _callback;
     }
 
     public void AddLoadSceneEvent(LoadSceneEvent _callback)
@@ -146,25 +163,37 @@ public class MapGenerateManager : MonoBehaviour
         m_RoomManagerSelectMonsterEvent = _callback;
     }
 
+    public void AddRoomManagerChestEvent(RoomManagerChestEvent _callback)
+    {
+        Debug.Log("AddRoomManagerChestEvent");
+        m_RoomManagerChestEvent = _callback;
+    }
+
     public Monster OnRoomManagerRandomMonster(Vector2 _pos)
     {
-        if (DungeonLevel < 4 && m_RoomManageRandomMonsterEvent != null)
-            return m_RoomManageRandomMonsterEvent(_pos);
+        if (DungeonLevel < 4)
+            return m_RoomManageRandomMonsterEvent?.Invoke(_pos);
         return null;
     }
 
     public Monster OnRoomManagerBossMonster(Vector2 _pos)
     {
-        if (DungeonLevel.Equals(4) && m_RoomManagerSelectMonsterEvent != null)
+        if (DungeonLevel.Equals(4))
         {
-            return m_RoomManagerSelectMonsterEvent("Golem1", _pos);
+            return m_RoomManagerSelectMonsterEvent?.Invoke("Golem1", _pos);
         }
         return null;
     }
 
     public void OnRoomManagerSelectMonster(string _name, Vector2 _pos)
     {
-        m_RoomManagerSelectMonsterEvent(_name, _pos);
+        m_RoomManagerSelectMonsterEvent?.Invoke(_name, _pos);
+    }
+
+    public void OnRoomManagerChestEvent(Vector2 _pos)
+    {
+        Debug.Log("OnRoomManagerChestEvent");
+        m_RoomManagerChestEvent?.Invoke(_pos);
     }
 
     public void SetRoomManagerTargetPos(Vector2 _targetPos)
